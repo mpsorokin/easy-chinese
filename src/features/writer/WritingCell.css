@@ -1,0 +1,58 @@
+/* The writer and grid share the measured content box. */
+.write-page .cell {
+  position: relative;
+  isolation: isolate;
+  width: calc(100% - 6px);
+  aspect-ratio: 1.365;
+  min-height: 220px;
+  align-self: center;
+  overflow: hidden;
+  border: 2px solid #d3321d;
+  border-radius: clamp(12px, 3.2cqi, 19px);
+  outline: 3px solid #fffaf6;
+  background:
+    url('../home/art/plum-blossom.webp') no-repeat right bottom / 25% auto,
+    url('../lesson/art/dialogue-hills.webp') no-repeat center bottom / 100% auto,
+    #fff9f5;
+  box-shadow: 0 5px 15px rgb(118 56 35 / 23%);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.cell canvas.grid,
+.writer-host {
+  position: absolute;
+  inset: 0;
+}
+
+.cell canvas.grid {
+  pointer-events: none;
+}
+
+.writer-host svg {
+  display: block;
+}
+
+.cell.shake {
+  animation: shake 0.32s;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell.shake {
+    animation: none;
+  }
+}

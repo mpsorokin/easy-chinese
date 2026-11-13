@@ -1,0 +1,17 @@
+/* Segmented control. */
+.seg {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.seg button {
+  border: 0;
+  background: transparent;
+  padding: 7px 12px;
+  font-size: 13px;
+}
+.seg button.on {
+  background: var(--ink);
+  color: #fff;
+}

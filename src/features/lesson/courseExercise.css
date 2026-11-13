@@ -1,0 +1,293 @@
+body:has(.course-exercise) {
+  background: #fdf3ec;
+}
+
+.course-exercise {
+  --exercise-ink: #302019;
+  --exercise-brown: #795647;
+  --exercise-red: #a81810;
+  --exercise-shadow:
+    0 12px 22px -9px rgb(112 64 43 / 25%), 0 2px 5px rgb(112 64 43 / 8%);
+  position: relative;
+  isolation: isolate;
+  container-type: inline-size;
+  max-width: 560px;
+  min-height: 100svh;
+  margin-inline: auto;
+  padding: 0 clamp(13px, 4.15vw, 23px) 100px;
+  overflow-x: clip;
+  color: var(--exercise-ink);
+}
+
+.course-exercise::after {
+  position: absolute;
+  z-index: -1;
+  inset: auto 0 0;
+  height: clamp(95px, 28cqi, 170px);
+  background: var(--dialogue-hills) center bottom / 100% 100% no-repeat;
+  pointer-events: none;
+  content: '';
+}
+
+.course-exercise-header {
+  position: relative;
+  isolation: isolate;
+  min-height: clamp(124px, 38.3cqi, 197px);
+  padding-inline: clamp(4px, 1.5cqi, 8px);
+}
+
+.course-exercise-header::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0 -4.6%;
+  background: url('./art/reference-hero.webp') top right / 69% auto no-repeat;
+  pointer-events: none;
+  content: '';
+}
+
+.course-exercise-back {
+  display: flex;
+  width: fit-content;
+  min-height: 44px;
+  align-items: center;
+  gap: clamp(5px, 1.8cqi, 10px);
+  margin: -3px 0 -2px -6px;
+  color: #68281a;
+  font-size: clamp(14px, 3.5cqi, 18px);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.course-exercise-back img {
+  width: clamp(19px, 5.2cqi, 26px);
+  transform: scaleX(-1);
+  filter: invert(18%) sepia(38%) saturate(4034%) hue-rotate(350deg)
+    brightness(77%) contrast(91%);
+}
+
+.course-exercise-header h1 {
+  margin: clamp(14px, 5.4cqi, 28px) 0 0;
+  font-size: clamp(26px, 7.2cqi, 42px);
+  font-weight: 780;
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+}
+
+.course-exercise-subtitle {
+  margin: 10px 0 0;
+  color: var(--exercise-red);
+  font-size: clamp(16px, 4.6cqi, 23px);
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.course-dialogue,
+.course-exercise-toggle {
+  border: 1px solid #fffaf7;
+  background-color: #fff9f4;
+  box-shadow: var(--exercise-shadow);
+}
+
+.course-dialogue {
+  padding: 0 clamp(11px, 4.65cqi, 24px) clamp(42px, 12.5cqi, 67px);
+  border-radius: clamp(18px, 6cqi, 32px);
+  background-image: var(--dialogue-blossoms);
+  background-position: right bottom;
+  background-size: 63% auto;
+  background-repeat: no-repeat;
+}
+
+.course-dialogue-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 3.4cqi, 18px);
+  padding-block: clamp(18px, 5.65cqi, 30px);
+}
+
+.course-dialogue-row + .course-dialogue-row {
+  border-top: 1px solid #eedfd5;
+}
+
+.course-dialogue-audio {
+  position: relative;
+  display: grid;
+  width: clamp(44px, 9cqi, 49px);
+  aspect-ratio: 1;
+  flex: none;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 29%;
+  background: #ffded1;
+}
+
+.course-dialogue-audio::after {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  left: calc(100% + clamp(4px, 1.55cqi, 8px));
+  width: 1px;
+  background: #f3c6b4;
+  pointer-events: none;
+  content: '';
+}
+
+.course-dialogue-audio img {
+  width: 60%;
+  filter: invert(13%) sepia(65%) saturate(4650%) hue-rotate(355deg)
+    brightness(84%) contrast(108%);
+}
+
+.course-dialogue-copy {
+  min-width: 0;
+}
+
+.course-dialogue-audio + .course-dialogue-copy {
+  padding-left: clamp(4px, 1cqi, 7px);
+}
+
+.course-dialogue-zh {
+  margin: 0;
+  font-size: clamp(24px, calc(11.1cqi - 4px), 50px);
+  font-weight: 700;
+  line-height: 1.2;
+  line-break: strict;
+}
+
+.course-dialogue-zh ruby {
+  ruby-position: over;
+  ruby-align: center;
+}
+
+.course-dialogue-zh rt {
+  position: relative;
+  bottom: 0.3em;
+  color: var(--exercise-red);
+  font-size: max(12px, 0.36em);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.course-dialogue-en {
+  margin: clamp(4px, 1.2cqi, 7px) 0 0;
+  color: var(--exercise-brown);
+  font-size: clamp(13px, 3.5cqi, 18px);
+  line-height: 1.4;
+}
+
+/* Keep the characters and toggle in place when switching to reading practice. */
+.course-dialogue[data-shown='false'] rt,
+.course-dialogue[data-shown='false'] .course-dialogue-en {
+  visibility: hidden;
+}
+
+.course-exercise-toggle {
+  display: flex;
+  width: 100%;
+  min-height: clamp(46px, 12.8cqi, 64px);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(9px, 3.8cqi, 19px);
+  margin-top: clamp(14px, 4.6cqi, 24px);
+  padding: 8px 12px;
+  border-radius: clamp(16px, 4.9cqi, 28px);
+  color: #662f20;
+  font-size: clamp(13px, 3.6cqi, 18px);
+  font-weight: 600;
+}
+
+.course-exercise-toggle img {
+  width: clamp(20px, 5.6cqi, 29px);
+  filter: invert(38%) sepia(18%) saturate(890%) hue-rotate(331deg)
+    brightness(97%) contrast(88%);
+}
+
+.course-exercise-back:focus-visible,
+.course-dialogue-audio:focus-visible,
+.course-exercise-toggle:focus-visible {
+  outline: 2px solid var(--exercise-red);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .course-exercise-back:hover {
+    text-decoration: underline;
+  }
+
+  .course-dialogue-audio:hover {
+    background-color: #ffcbb8;
+  }
+
+  .course-exercise-toggle:hover {
+    border-color: #efc9b8;
+    background-color: #fff3e9;
+  }
+}
+
+.course-dialogue-audio:active,
+.course-exercise-toggle:active {
+  background-color: #fbe4d8;
+}
+
+/* Whole-lesson run: progress bar under the back link, "next" button at the bottom. */
+.course-run-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.course-run-bar {
+  flex: 1;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #f0dfd3;
+}
+
+.course-run-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--exercise-red);
+  transition: width 0.3s ease;
+}
+
+.course-run-count {
+  color: var(--exercise-brown);
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.course-run-next {
+  display: flex;
+  min-height: clamp(48px, 13cqi, 60px);
+  align-items: center;
+  justify-content: center;
+  margin-top: clamp(12px, 3.6cqi, 18px);
+  border-radius: clamp(16px, 4.9cqi, 28px);
+  background: var(--exercise-red);
+  box-shadow: var(--exercise-shadow);
+  color: #fffaf4;
+  font-size: clamp(15px, 4cqi, 18px);
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.course-run-next:focus-visible {
+  outline: 2px solid var(--exercise-red);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .course-run-next:hover {
+    background: #8e140d;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .course-run-bar span {
+    transition: none;
+  }
+}

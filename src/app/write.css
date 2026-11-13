@@ -1,0 +1,301 @@
+body:has(.write-page) {
+  background: #fcf1ea;
+}
+
+.write-page {
+  --paper: #fcf1ea;
+  --card: #fff9f5;
+  --ink: #481e12;
+  --muted: #855441;
+  --line: #ecd7cb;
+  --accent: #b72212;
+  --accent-soft: #fce1d6;
+  --write-shadow:
+    0 4px 10px rgb(118 56 35 / 10%), 0 1px 2px rgb(118 56 35 / 8%);
+  --write-surface: linear-gradient(160deg, #fffcf9, #fcf1e9);
+  --write-pad: clamp(14px, 4.75vw, 26px);
+  position: relative;
+  isolation: isolate;
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  max-width: 560px;
+  min-height: 100svh;
+  margin-inline: auto;
+  padding: 0 var(--write-pad) 16px;
+  color: var(--ink);
+}
+
+.write-page::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 auto;
+  height: clamp(83px, 23cqi, 125px);
+  background: url('../features/lesson/art/level/hero.webp') no-repeat right
+    top / 66% auto;
+  pointer-events: none;
+  content: '';
+}
+
+.write-icon {
+  width: 1.16em;
+  height: 1.16em;
+  display: inline-block;
+  flex: none;
+}
+
+.write-context {
+  display: grid;
+  align-content: start;
+  min-height: clamp(69px, 18.4cqi, 101px);
+  gap: 1px;
+}
+
+.write-back {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(8px, 2.3cqi, 14px);
+  width: fit-content;
+  min-height: 42px;
+  color: inherit;
+  font-size: clamp(15px, 3.1cqi, 18px);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.write-back .write-icon {
+  width: 1.35em;
+  height: 1.35em;
+}
+
+.write-progress {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px 8px;
+  width: fit-content;
+  font-size: clamp(11px, 2.6cqi, 15px);
+  font-weight: 550;
+}
+
+.write-level {
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 750;
+  box-shadow: 0 2px 5px rgb(118 56 35 / 8%);
+}
+
+.write-level + span::before {
+  content: '·';
+  margin-right: 5px;
+}
+
+.write-exit,
+.write-home {
+  border: 0;
+  padding: 3px 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.write-exit {
+  margin-left: 3px;
+}
+
+.write-home {
+  align-self: center;
+  margin-top: 8px;
+}
+
+.write-header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(5px, 2.2cqi, 13px);
+  margin-inline: clamp(-8px, -1.55cqi, -4px);
+  margin-bottom: clamp(13px, 3.25cqi, 19px);
+}
+
+.write-nav,
+.write-audio {
+  border: 1px solid var(--line);
+  background: var(--write-surface);
+  box-shadow: var(--write-shadow);
+}
+
+.write-nav {
+  display: grid;
+  width: clamp(30px, 7.5cqi, 42px);
+  aspect-ratio: 1;
+  place-items: center;
+  padding: 0;
+  border-radius: clamp(9px, 2.6cqi, 15px);
+  font-size: 19px;
+}
+
+.write-prev .write-icon {
+  transform: rotate(180deg);
+}
+
+.write-character {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(5px, 2.9cqi, 17px);
+  min-height: clamp(65px, 16cqi, 91px);
+  padding: clamp(6px, 2cqi, 12px) clamp(8px, 2.8cqi, 16px);
+  border: 1px solid var(--line);
+  border-radius: clamp(13px, 3.4cqi, 20px);
+  background:
+    url('../features/lesson/art/reference-bamboo.webp') no-repeat right top /
+      auto 108%,
+    url('../features/lesson/art/dialogue-hills.webp') no-repeat right bottom /
+      60% auto,
+    var(--write-surface);
+  box-shadow: var(--write-shadow);
+}
+
+.write-glyph {
+  padding-right: clamp(7px, 2.5cqi, 14px);
+  border-right: 1px solid #ecc1ae;
+  font:
+    500 clamp(35px, 11cqi, 60px) / 1.02 'KaiTi',
+    'Kaiti SC',
+    'STKaiti',
+    'Noto Serif CJK SC',
+    serif;
+}
+
+.write-reading {
+  display: flex;
+  align-items: center;
+  gap: clamp(2px, 1.45cqi, 8px);
+  color: var(--accent);
+  font-size: clamp(15px, 4.5cqi, 27px);
+  font-weight: 720;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.write-audio {
+  display: grid;
+  width: clamp(24px, 5.9cqi, 33px);
+  aspect-ratio: 1;
+  flex: none;
+  place-items: center;
+  padding: 0;
+  border-radius: 50%;
+  font-size: clamp(13px, 3.25cqi, 19px);
+}
+
+.write-meaning {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: clamp(11px, 3cqi, 16px);
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.write-choice {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+  align-self: end;
+}
+
+.write-stars {
+  color: var(--warn);
+  font-size: 10px;
+}
+
+.write-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  min-height: 24px;
+  margin-bottom: clamp(3px, 1cqi, 6px);
+  color: var(--muted);
+  font-size: clamp(12px, 2.7cqi, 16px);
+}
+
+.write-section-head h2 {
+  display: flex;
+  align-items: center;
+  gap: clamp(5px, 1.8cqi, 10px);
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(14px, 3.1cqi, 18px);
+  font-weight: 700;
+}
+
+.write-section-head h2 .write-icon,
+.write-page .status .write-icon,
+.write-page .controls .write-icon,
+.write-page .settings .write-icon-settings {
+  color: var(--accent);
+}
+
+.write-page :is(button, a, summary):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.write-page .status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(5px, 1.5cqi, 9px);
+  min-height: clamp(33px, 6.3cqi, 42px);
+  margin-top: clamp(12px, 3.1cqi, 18px);
+  padding: 6px 9px;
+  border: 0;
+  border-radius: clamp(10px, 2.5cqi, 14px);
+  background: #fbe3d7;
+  font-size: clamp(11px, 2.55cqi, 15px);
+  line-height: 1.25;
+}
+
+.write-page .status.ok {
+  background: var(--good-soft);
+}
+
+.write-page .status.ok .write-icon {
+  color: var(--good);
+}
+
+.write-page .status.err {
+  background: #f9d8cd;
+}
+
+@media (max-width: 340px) {
+  .write-character {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .write-glyph {
+    grid-row: span 2;
+  }
+
+  .write-choice {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    justify-self: end;
+  }
+}
+
+@media (hover: hover) {
+  .write-page :is(button, summary):hover {
+    border-color: var(--accent);
+  }
+
+  .write-page .write-back:hover {
+    text-decoration: underline;
+  }
+}

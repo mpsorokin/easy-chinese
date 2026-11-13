@@ -1,0 +1,316 @@
+/* HSK page: character grid, lessons, selection tray and the print dialog. */
+.hsk-page {
+  max-width: 760px;
+  padding-bottom: 0;
+}
+.hsk-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.hsk-back {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 15px;
+}
+.hsk-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.hsk-title h1 {
+  margin: 0;
+  font-size: 30px;
+}
+.hsk-title span {
+  color: var(--muted);
+  font-size: 14px;
+}
+.hsk-tabs .seg button {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 16px;
+}
+.hsk-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+.hsk-search {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+  font: inherit;
+  font-size: 16px; /* no zoom-in on iOS */
+  color: var(--ink);
+}
+.hsk-letter {
+  margin: 8px 2px 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+.hsk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 8px;
+}
+.hsk-card {
+  position: relative;
+  min-width: 0;
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 14px;
+  padding: 10px 6px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.hsk-card.on {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.hsk-c {
+  font-size: 34px;
+  line-height: 1.1;
+}
+.hsk-py {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 14px;
+}
+.hsk-en {
+  max-width: 100%;
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hsk-stars {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  color: var(--warn);
+  font-size: 10px;
+}
+.hsk-addall {
+  margin-bottom: 8px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 14px;
+}
+.hsk-lessons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+.hsk-lesson {
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 14px;
+  padding: 10px 12px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 8px;
+  text-align: left;
+}
+.hsk-lesson.on {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.hsk-lesson-chars {
+  grid-column: 1 / -1;
+  font-size: 20px;
+  letter-spacing: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hsk-lesson-count {
+  grid-row: 1;
+  grid-column: 2;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* selection tray */
+.hsk-tray {
+  position: sticky;
+  bottom: 0;
+  margin: 8px -14px 0;
+  padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -6px 20px rgba(31, 26, 23, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.hsk-tray-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hsk-chips {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.hsk-chips::-webkit-scrollbar {
+  display: none;
+}
+.hsk-chip {
+  flex: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 2px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  border-radius: 10px;
+  padding: 4px 6px 4px 10px;
+  font-size: 22px;
+  line-height: 1.1;
+}
+.hsk-chip span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.hsk-empty {
+  color: var(--muted);
+  font-size: 14px;
+}
+.hsk-count {
+  flex: none;
+  color: var(--muted);
+  font-size: 14px;
+}
+.hsk-del,
+.hsk-clear {
+  flex: none;
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 10px;
+  height: 36px;
+  padding: 0 10px;
+}
+.hsk-clear {
+  border: 0;
+  color: var(--accent);
+}
+.hsk-del:disabled,
+.hsk-clear:disabled,
+.hsk-tray .btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.hsk-tray-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.hsk-tray-actions > :only-child {
+  grid-column: 1 / -1;
+}
+.hsk-error {
+  color: var(--accent);
+  font-size: 14px;
+}
+
+/* print dialog (bottom sheet) */
+.print-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(31, 26, 23, 0.35);
+}
+.print-dialog-panel {
+  width: 100%;
+  max-width: 520px;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 20px 20px 0 0;
+  background: var(--card);
+}
+.print-dialog-top {
+  padding: 14px 16px 12px;
+  background: var(--paper);
+}
+.print-dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.print-dialog-head b {
+  font-size: 17px;
+}
+.print-dialog-close {
+  border: 0;
+  background: transparent;
+  font-size: 24px;
+  color: var(--muted);
+  width: 40px;
+  height: 40px;
+}
+.print-dialog-meta {
+  margin: 4px 0 6px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.print-dialog-chars {
+  font-size: 28px;
+  line-height: 1.3;
+  word-break: break-all;
+}
+.print-dialog-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px calc(20px + env(safe-area-inset-bottom));
+}
+.print-dialog-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.print-dialog-row .seg button {
+  min-width: 40px;
+  padding: 9px 12px;
+  font-size: 15px;
+}
+.print-dialog-go {
+  width: 100%;
+  margin-top: 4px;
+}
+.print-dialog-msg {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+.print-dialog-msg.hsk-error {
+  color: var(--accent);
+}
+.print-dialog-go:disabled {
+  opacity: 0.6;
+  cursor: default;
+}

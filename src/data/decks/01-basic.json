@@ -1,0 +1,79 @@
+[
+  {
+    "name": "Numbers",
+    "items": [
+      { "c": "一", "py": "yī", "en": "one" },
+      { "c": "二", "py": "èr", "en": "two" },
+      { "c": "三", "py": "sān", "en": "three" },
+      { "c": "四", "py": "sì", "en": "four" },
+      { "c": "五", "py": "wǔ", "en": "five" },
+      { "c": "六", "py": "liù", "en": "six" },
+      { "c": "七", "py": "qī", "en": "seven" },
+      { "c": "八", "py": "bā", "en": "eight" },
+      { "c": "九", "py": "jiǔ", "en": "nine" },
+      { "c": "十", "py": "shí", "en": "ten" }
+    ]
+  },
+  {
+    "name": "Nature",
+    "items": [
+      { "c": "日", "py": "rì", "en": "sun, day" },
+      { "c": "月", "py": "yuè", "en": "moon, month" },
+      { "c": "山", "py": "shān", "en": "mountain" },
+      { "c": "水", "py": "shuǐ", "en": "water" },
+      { "c": "火", "py": "huǒ", "en": "fire" },
+      { "c": "木", "py": "mù", "en": "tree, wood" },
+      { "c": "土", "py": "tǔ", "en": "earth, soil" },
+      { "c": "石", "py": "shí", "en": "stone" },
+      { "c": "田", "py": "tián", "en": "field" },
+      { "c": "雨", "py": "yǔ", "en": "rain" },
+      { "c": "天", "py": "tiān", "en": "sky" },
+      { "c": "云", "py": "yún", "en": "cloud" }
+    ]
+  },
+  {
+    "name": "People",
+    "items": [
+      { "c": "人", "py": "rén", "en": "person" },
+      { "c": "口", "py": "kǒu", "en": "mouth" },
+      { "c": "目", "py": "mù", "en": "eye" },
+      { "c": "耳", "py": "ěr", "en": "ear" },
+      { "c": "手", "py": "shǒu", "en": "hand" },
+      { "c": "心", "py": "xīn", "en": "heart" },
+      { "c": "女", "py": "nǚ", "en": "woman" },
+      { "c": "子", "py": "zǐ", "en": "child" },
+      { "c": "力", "py": "lì", "en": "strength" },
+      { "c": "王", "py": "wáng", "en": "king" }
+    ]
+  },
+  {
+    "name": "Basics",
+    "items": [
+      { "c": "大", "py": "dà", "en": "big" },
+      { "c": "小", "py": "xiǎo", "en": "small" },
+      { "c": "中", "py": "zhōng", "en": "middle" },
+      { "c": "上", "py": "shàng", "en": "up, on" },
+      { "c": "下", "py": "xià", "en": "down, under" },
+      { "c": "左", "py": "zuǒ", "en": "left" },
+      { "c": "右", "py": "yòu", "en": "right" },
+      { "c": "门", "py": "mén", "en": "door" },
+      { "c": "不", "py": "bù", "en": "not, no" },
+      { "c": "了", "py": "le", "en": "completion particle" }
+    ]
+  },
+  {
+    "name": "First words",
+    "items": [
+      { "c": "我", "py": "wǒ", "en": "I, me" },
+      { "c": "你", "py": "nǐ", "en": "you" },
+      { "c": "他", "py": "tā", "en": "he" },
+      { "c": "好", "py": "hǎo", "en": "good" },
+      { "c": "是", "py": "shì", "en": "to be" },
+      { "c": "爱", "py": "ài", "en": "love" },
+      { "c": "学", "py": "xué", "en": "to study" },
+      { "c": "生", "py": "shēng", "en": "life, to be born" },
+      { "c": "国", "py": "guó", "en": "country" },
+      { "c": "茶", "py": "chá", "en": "tea" }
+    ]
+  }
+]
