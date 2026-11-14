@@ -5,6 +5,7 @@ import { lesson1 } from './lessons/lesson1.ts';
 import { lesson2 } from './lessons/lesson2.ts';
 import { lesson3 } from './lessons/lesson3.ts';
 import { lesson4 } from './lessons/lesson4.ts';
+import { lesson5 } from './lessons/lesson5.ts';
 
 // Exercises that show a dialogue.
 const DIALOGUE_EXERCISES = [
@@ -66,6 +67,7 @@ export const COURSE_LESSONS: readonly CourseLesson[] = [
   lesson2,
   lesson3,
   lesson4,
+  lesson5,
 ];
 
 export const isDialogueExercise = (x: unknown): x is DialogueExercise =>

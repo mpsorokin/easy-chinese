@@ -125,132 +125,6 @@ body:has(.course-lesson) {
   list-style: none;
 }
 
-.course-lesson-exercises [data-exercise='exercise1'],
-.course-lesson-exercises [data-exercise='exercise16'] {
-  --exercise-art: url('./art/level/people.webp');
-}
-
-.course-lesson-exercises [data-exercise='exercise2'],
-.course-lesson-exercises [data-exercise='exercise17'] {
-  --exercise-art: url('./art/level/introductions.webp');
-}
-
-.course-lesson-exercises [data-exercise='exercise3'],
-.course-lesson-exercises [data-exercise='exercise11'] {
-  --exercise-art: url('./art/level/politeness.webp');
-}
-
-.course-lesson-exercises [data-exercise='exercise4'],
-.course-lesson-exercises [data-exercise='exercise8'],
-.course-lesson-exercises [data-exercise='exercise12'] {
-  --exercise-art: url('./art/reference-bamboo.webp');
-}
-
-.course-lesson-exercises [data-exercise='exercise5'],
-.course-lesson-exercises [data-exercise='exercise7'] {
-  --exercise-art: url('./art/level/family.webp');
-}
-
-.course-lesson-exercises [data-exercise='exercise6'] {
-  --exercise-art: url('./art/level/quantity.webp');
-}
-
-.course-lesson-exercises [data-exercise='exercise9'],
-.course-lesson-exercises [data-exercise='exercise10'] {
-  --exercise-art: url('../home/art/misty-pavilion.webp');
-}
-
-.course-lesson-exercises [data-exercise='exercise13'] {
-  --exercise-art: url('./art/level/dates.webp');
-}
-
-.course-lesson-exercises [data-exercise='exercise14'],
-.course-lesson-exercises [data-exercise='exercise15'] {
-  --exercise-art: url('./art/level/feelings.webp');
-}
-
-.course-lesson-exercises [data-exercise='words'] {
-  --exercise-art: url('../home/art/plum-blossom.webp');
-}
-
-/* Exercise numbers repeat across lessons; these illustrations follow lesson 3's topics. */
-.course-lesson[data-lesson='3'] {
-  & [data-exercise='exercise1'],
-  & [data-exercise='exercise9'],
-  & [data-exercise='exercise13'] {
-    --exercise-art: url('./art/level/where.webp');
-  }
-
-  & [data-exercise='exercise2'],
-  & [data-exercise='exercise7'],
-  & [data-exercise='exercise10'],
-  & [data-exercise='exercise12'] {
-    --exercise-art: url('./art/level/people.webp');
-  }
-
-  & [data-exercise='exercise3'] {
-    --exercise-art: url('./art/level/function-words.webp');
-  }
-
-  & [data-exercise='exercise4'] {
-    --exercise-art: url('./art/lesson-3/school-gate.webp');
-  }
-
-  & [data-exercise='exercise5'],
-  & [data-exercise='exercise8'] {
-    --exercise-art: url('./art/level/school.webp');
-  }
-
-  & [data-exercise='exercise6'],
-  & [data-exercise='exercise11'] {
-    --exercise-art: url('./art/level/speaking.webp');
-  }
-
-  & [data-exercise='exercise14'],
-  & [data-exercise='exercise15'] {
-    --exercise-art: url('./art/lesson-3/globe.webp');
-  }
-
-  & [data-exercise='exercise16'] {
-    --exercise-art: url('./art/lesson-3/thai-temple.webp');
-  }
-
-  & [data-exercise='exercise17'],
-  & [data-exercise='exercise18'] {
-    --exercise-art: url('./art/lesson-3/telephone.webp');
-  }
-
-  & [data-exercise='exercise19'] {
-    --exercise-art: url('./art/lesson-3/sisters.webp');
-  }
-
-  & [data-exercise='exercise20'],
-  & [data-exercise='exercise23'] {
-    --exercise-art: url('./art/lesson-3/briefcase.webp');
-  }
-
-  & [data-exercise='exercise21'],
-  & [data-exercise='exercise22'] {
-    --exercise-art: url('./art/lesson-3/desk-clock.webp');
-  }
-
-  & [data-exercise='exercise24'] {
-    --exercise-art: url('./art/level/activities.webp');
-  }
-
-  & [data-exercise='exercise25'] {
-    --exercise-art: url('./art/level/feelings.webp');
-  }
-
-  & [data-exercise='exercise26'] {
-    --exercise-art: url('./art/lesson-3/classmates.webp');
-  }
-
-  & [data-exercise='exercise27'] {
-    --exercise-art: url('./art/lesson-3/letter.webp');
-  }
-}
-
 .course-lesson-card {
   position: relative;
   isolation: isolate;
@@ -268,18 +142,34 @@ body:has(.course-lesson) {
   text-decoration: none;
 }
 
-.course-lesson-card::before {
+.course-lesson-art {
   position: absolute;
   z-index: -1;
   inset: 0 0 0 auto;
   width: 45%;
+  overflow: hidden;
   border-radius: inherit;
-  background: var(--exercise-art, url('./art/level/hills.webp')) right 16px
-    center / auto 110% no-repeat;
   mask-image: linear-gradient(90deg, transparent 5%, #000 53%);
   opacity: 0.5;
   pointer-events: none;
-  content: '';
+}
+
+.course-lesson-art img {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  height: 110%;
+  max-width: none;
+  transform: translateY(-50%);
+}
+
+.course-lesson-art:empty {
+  background: url('./art/reference-bamboo.webp') right 16px center / auto 110%
+    no-repeat;
+}
+
+[data-exercise='words'] .course-lesson-art:empty {
+  background-image: url('./art/level/school.webp');
 }
 
 .course-lesson-card.is-ready {

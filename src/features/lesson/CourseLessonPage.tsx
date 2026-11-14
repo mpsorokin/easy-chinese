@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router';
 import { levelData } from '../../data/hsk.ts';
 import {
@@ -12,6 +13,7 @@ import { courseLessonKey, lessonResults } from '../progress/progress.ts';
 import { useProgress } from '../progress/useProgress.ts';
 import LessonExerciseCards from './LessonExerciseCards.tsx';
 import { t } from '../../shared/i18n/en.ts';
+import { courseExerciseArt } from './courseExerciseArt.ts';
 import {
   courseExercisePath,
   courseQuizPath,
@@ -24,6 +26,18 @@ import chevronIcon from './icons/chevron.svg';
 import lockIcon from './icons/lock.svg';
 import volumeIcon from './icons/volume.svg';
 import './courseLesson.css';
+
+function CourseCardArt({ src }: { src: string | undefined }) {
+  const [failed, setFailed] = useState(false);
+
+  return (
+    <span className="course-lesson-art" aria-hidden="true">
+      {src && !failed && (
+        <img src={src} alt="" onError={() => setFailed(true)} />
+      )}
+    </span>
+  );
+}
 
 export default function CourseLessonPage() {
   const params = useParams();
@@ -56,7 +70,7 @@ export default function CourseLessonPage() {
   ).length;
 
   return (
-    <main className="course-lesson" data-lesson={lesson.id}>
+    <main className="course-lesson">
       <header className="course-lesson-header">
         <Link className="course-lesson-back" to={levelLessonsPath(level.id)}>
           <img src={chevronIcon} alt="" />
@@ -97,11 +111,13 @@ export default function CourseLessonPage() {
         <ol className="course-lesson-exercises" role="list">
           {lesson.exercises.map((exercise) => {
             const ready = isExerciseReady(lesson, exercise);
+            const art = courseExerciseArt[lesson.id]?.[exercise];
             const cardClass = ready
               ? 'course-lesson-card is-ready'
               : 'course-lesson-card';
             const content = (
               <>
+                <CourseCardArt key={art} src={art} />
                 <span className="course-lesson-tile" aria-hidden="true">
                   <img
                     src={exercise === 'words' ? bookIcon : volumeIcon}
