@@ -7,37 +7,8 @@ import { lesson3 } from './lessons/lesson3.ts';
 import { lesson4 } from './lessons/lesson4.ts';
 import { lesson5 } from './lessons/lesson5.ts';
 
-// Exercises that show a dialogue.
-const DIALOGUE_EXERCISES = [
-  'exercise1',
-  'exercise2',
-  'exercise3',
-  'exercise4',
-  'exercise5',
-  'exercise6',
-  'exercise7',
-  'exercise8',
-  'exercise9',
-  'exercise10',
-  'exercise11',
-  'exercise12',
-  'exercise13',
-  'exercise14',
-  'exercise15',
-  'exercise16',
-  'exercise17',
-  'exercise18',
-  'exercise19',
-  'exercise20',
-  'exercise21',
-  'exercise22',
-  'exercise23',
-  'exercise24',
-  'exercise25',
-  'exercise26',
-  'exercise27',
-] as const;
-export type DialogueExercise = (typeof DIALOGUE_EXERCISES)[number];
+// Exercises that show a dialogue: exercise1, exercise2, ... with no upper limit.
+export type DialogueExercise = `exercise${number}`;
 
 export type CourseExercise = DialogueExercise | 'words';
 
@@ -71,7 +42,11 @@ export const COURSE_LESSONS: readonly CourseLesson[] = [
 ];
 
 export const isDialogueExercise = (x: unknown): x is DialogueExercise =>
-  (DIALOGUE_EXERCISES as readonly unknown[]).includes(x);
+  typeof x === 'string' && /^exercise[1-9]\d*$/.test(x);
+
+// The number of a dialogue exercise: 12 for "exercise12".
+export const exerciseNumber = (ex: DialogueExercise) =>
+  Number(ex.slice('exercise'.length));
 
 // Exercises shown as a list of lines: the dialogues and the vocabulary.
 export type LinesExercise = DialogueExercise | 'words';

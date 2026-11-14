@@ -48,9 +48,9 @@ export default function CourseExerciseView({
           {backLabel}
         </Link>
         {progress}
-        <h1>{t.courseExercises[exercise]}</h1>
+        <h1>{t.courseExercises(exercise)}</h1>
         <p className="course-exercise-subtitle" lang="zh-Hans">
-          {t.courseExerciseChinese[exercise]}
+          {t.courseExerciseChinese(exercise)}
         </p>
       </header>
 

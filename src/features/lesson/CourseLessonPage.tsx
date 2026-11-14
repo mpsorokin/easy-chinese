@@ -126,7 +126,7 @@ export default function CourseLessonPage() {
                 </span>
                 <span className="course-lesson-copy">
                   <span className="course-lesson-card-title">
-                    {t.courseExercises[exercise]}
+                    {t.courseExercises(exercise)}
                   </span>
                   <span className="course-lesson-description">
                     {lesson.descriptions?.[exercise] ??

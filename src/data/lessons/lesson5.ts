@@ -737,11 +737,7 @@ export const lesson5: CourseLesson = {
         en: 'Tong Le, are you getting off work?',
       },
       {
-        segments: [
-          { t: '下', py: 'xià' },
-          { t: '班', py: 'bān' },
-          { t: '。' },
-        ],
+        segments: [{ t: '下', py: 'xià' }, { t: '班', py: 'bān' }, { t: '。' }],
         en: 'Getting off work.',
       },
       {

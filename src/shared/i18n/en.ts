@@ -2,6 +2,22 @@
 import type { CharEntry } from '../../domain/types.ts';
 import { plural } from '../lib/plural.ts';
 import type { Grade } from '../../domain/grading.ts';
+import {
+  exerciseNumber,
+  type CourseExercise,
+} from '../../data/courseLessons.ts';
+
+// A number written in Chinese characters, up to 99: 1 → 一, 12 → 十二, 27 → 二十七.
+const CN_DIGITS = '零一二三四五六七八九';
+const chineseNumber = (n: number): string => {
+  if (n < 10) return CN_DIGITS[n];
+  if (n >= 100) return String(n);
+  const tens = Math.floor(n / 10);
+  const ones = n % 10;
+  return (
+    (tens > 1 ? CN_DIGITS[tens] : '') + '十' + (ones ? CN_DIGITS[ones] : '')
+  );
+};
 
 const count = (n: number, one: string, many?: string) =>
   `${n} ${plural(n, one, many)}`;
@@ -57,68 +73,12 @@ export const t = {
   stepOfTotal: (i: number, n: number) => `${i} / ${n}`,
   lessonProgressLabel: 'Lesson progress',
   // Exercise cards of a lesson in the "Lessons" tab (features/lesson/lessonNav.ts).
-  courseExercises: {
-    exercise1: 'Exercise 1',
-    exercise2: 'Exercise 2',
-    exercise3: 'Exercise 3',
-    exercise4: 'Exercise 4',
-    exercise5: 'Exercise 5',
-    exercise6: 'Exercise 6',
-    exercise7: 'Exercise 7',
-    exercise8: 'Exercise 8',
-    exercise9: 'Exercise 9',
-    exercise10: 'Exercise 10',
-    exercise11: 'Exercise 11',
-    exercise12: 'Exercise 12',
-    exercise13: 'Exercise 13',
-    exercise14: 'Exercise 14',
-    exercise15: 'Exercise 15',
-    exercise16: 'Exercise 16',
-    exercise17: 'Exercise 17',
-    exercise18: 'Exercise 18',
-    exercise19: 'Exercise 19',
-    exercise20: 'Exercise 20',
-    exercise21: 'Exercise 21',
-    exercise22: 'Exercise 22',
-    exercise23: 'Exercise 23',
-    exercise24: 'Exercise 24',
-    exercise25: 'Exercise 25',
-    exercise26: 'Exercise 26',
-    exercise27: 'Exercise 27',
-    words: 'Words',
-  },
+  courseExercises: (ex: CourseExercise) =>
+    ex === 'words' ? 'Words' : `Exercise ${exerciseNumber(ex)}`,
   // Chinese subtitle of a dialogue exercise.
-  courseExerciseChinese: {
-    exercise1: '练习一',
-    exercise2: '练习二',
-    exercise3: '练习三',
-    exercise4: '练习四',
-    exercise5: '练习五',
-    exercise6: '练习六',
-    exercise7: '练习七',
-    exercise8: '练习八',
-    exercise9: '练习九',
-    exercise10: '练习十',
-    exercise11: '练习十一',
-    exercise12: '练习十二',
-    exercise13: '练习十三',
-    exercise14: '练习十四',
-    exercise15: '练习十五',
-    exercise16: '练习十六',
-    exercise17: '练习十七',
-    exercise18: '练习十八',
-    exercise19: '练习十九',
-    exercise20: '练习二十',
-    exercise21: '练习二十一',
-    exercise22: '练习二十二',
-    exercise23: '练习二十三',
-    exercise24: '练习二十四',
-    exercise25: '练习二十五',
-    exercise26: '练习二十六',
-    exercise27: '练习二十七',
-    words: '生词',
-  },
-  courseExerciseDescriptions: {
+  courseExerciseChinese: (ex: CourseExercise) =>
+    ex === 'words' ? '生词' : `练习${chineseNumber(exerciseNumber(ex))}`,
+  courseExerciseDescriptions: <Partial<Record<CourseExercise, string>>>{
     exercise1: 'Practice the new material',
     exercise2: 'Practice more greetings',
     exercise3: 'Say thank you',
