@@ -1,16 +1,14 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
-import type { CharacterJson } from 'hanzi-writer';
 import { hskSelectionKey, hskStore } from './hskStore.ts';
 import {
   HSK_MAX,
   byLetter,
   normalizeHskChars,
   searchHsk,
-  wordsWith,
 } from '../../data/hsk.ts';
 import type { LevelData } from '../../data/hsk.ts';
-import { loadCharData } from '../../data/charData.ts';
+import { PRINT_PRESETS } from '../../data/presets.ts';
 import type { HskChar } from '../../domain/types.ts';
 import type { BestGrades } from '../../domain/grading.ts';
 import { useProgress } from '../progress/useProgress.ts';
@@ -18,8 +16,8 @@ import { usePersistentState } from '../../shared/hooks/usePersistentState.ts';
 import { t } from '../../shared/i18n/en.ts';
 import SelectionTray from './SelectionTray.tsx';
 import PrintDialog from './PrintDialog.tsx';
-import type { PrintState } from './PrintDialog.tsx';
-import { normalizePrintOptions, worksheetFileName } from './printOptions.ts';
+import PresetCard from './PresetCard.tsx';
+import { useWorksheetPrint } from './useWorksheetPrint.ts';
 import { selectionWritePath } from '../lesson/lessonNav.ts';
 import './hsk.css';
 
@@ -78,53 +76,21 @@ export default function HskChars({
     );
   };
 
-  const [printState, setPrintState] = useState<PrintState>({ status: 'idle' });
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [printOptions, setPrintOptions] = usePersistentState(
-    hskStore,
-    'printOptions',
-    normalizePrintOptions,
-  );
-  const openDialog = () => {
-    setPrintState({ status: 'idle' });
-    setDialogOpen(true);
-  };
-  // Builds the worksheet PDF and saves it as a file; the dialog stays open with the result.
-  const print = async () => {
-    setPrintState({ status: 'loading' });
-    try {
-      const [data, pdf, save, text] = await Promise.all([
-        Promise.all<CharacterJson>(selection.map(loadCharData)),
-        import('./worksheetPdf.ts'),
-        import('./savePdf.ts'),
-        import('./textImage.ts'),
-      ]);
-      const rows = selection.flatMap((c, i) => {
-        const entry = level.chars.find((e) => e.c === c);
-        const d = data[i];
-        return entry && d
-          ? [{ entry, words: wordsWith(c, level), strokes: d.strokes }]
-          : [];
-      });
-      const { bytes, pages } = await pdf.buildWorksheetPdf(
-        rows,
-        printOptions,
-        text.textImage,
-        level.id,
-      );
-      save.savePdf(bytes, worksheetFileName(selection, level.id));
-      setPrintState({ status: 'done', pages });
-    } catch (e) {
-      console.error(e);
-      setPrintState({ status: 'error' });
-    }
-  };
+  const printer = useWorksheetPrint(level);
 
   return (
     <>
       <p className="hsk-hint">
         {writingOnly ? t.hintWritingChars(HSK_MAX) : t.hintChars(HSK_MAX)}
       </p>
+      {!writingOnly &&
+        PRINT_PRESETS.map((p) => (
+          <PresetCard
+            key={p.id}
+            preset={p}
+            onPrint={() => printer.open(p.chars, p.level)}
+          />
+        ))}
       <input
         className="hsk-search"
         type="search"
@@ -175,17 +141,17 @@ export default function HskChars({
         onRemoveLast={() => setSelection((sel) => sel.slice(0, -1))}
         onClear={() => setSelection([])}
         onWrite={write}
-        onPrint={writingOnly ? undefined : openDialog}
+        onPrint={writingOnly ? undefined : () => printer.open(selection)}
       />
 
-      {dialogOpen && selection.length > 0 && (
+      {printer.job && printer.job.chars.length > 0 && (
         <PrintDialog
-          selection={selection}
-          options={printOptions}
-          printState={printState}
-          onChange={setPrintOptions}
-          onPrint={() => void print()}
-          onClose={() => setDialogOpen(false)}
+          selection={printer.job.chars}
+          options={printer.printOptions}
+          printState={printer.printState}
+          onChange={printer.setPrintOptions}
+          onPrint={() => void printer.print()}
+          onClose={printer.close}
         />
       )}
     </>

@@ -1,6 +1,7 @@
 // Writes one stroke-data file per character to public/hanzi/<codepoint-hex>.json
 // from the hanzi-writer-data package, for every character in the decks in src/data/decks/
-// and in the HSK character lists (src/data/hsk/<level>/chars.json).
+// in the HSK character lists (src/data/hsk/<level>/chars.json) and in the print-preset extras
+// (src/data/presets/extra-chars.json).
 // The app fetches these files on demand (see src/data/charData.ts).
 // Usage: npm run data
 import fs from 'node:fs';
@@ -13,6 +14,7 @@ const require = createRequire(import.meta.url);
 const dataDir = path.dirname(require.resolve('hanzi-writer-data/package.json'));
 const DECKS_DIR = 'src/data/decks';
 const HSK_DIR = 'src/data/hsk';
+const PRESET_EXTRAS = 'src/data/presets/extra-chars.json';
 const OUT_DIR = 'public/hanzi';
 
 // A deck entry's `c` becomes part of a file path below, so it must be exactly one
@@ -61,10 +63,17 @@ function readHsk(): string[] {
     });
 }
 
+function readPresetExtras(): string[] {
+  const list: unknown = JSON.parse(fs.readFileSync(PRESET_EXTRAS, 'utf8'));
+  if (!Array.isArray(list)) throw new Error(`${PRESET_EXTRAS}: not an array`);
+  return (list as unknown[]).map((it) => checkChar(PRESET_EXTRAS, it));
+}
+
 // Decks and the HSK lists overlap; each character is written once.
 const chars = new Set([
   ...groups.flatMap((g) => g.items.map((it) => it.c)),
   ...readHsk(),
+  ...readPresetExtras(),
 ]);
 
 // Start clean so removed characters don't leave stale files behind.

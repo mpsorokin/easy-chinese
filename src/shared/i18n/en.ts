@@ -253,6 +253,11 @@ export const t = {
   printDone: (pages: number) => `Done: ${count(pages, 'page')}`,
   printError: 'Could not create the PDF. Check the connection and try again.',
   emptyTray: 'Nothing chosen yet',
+  presetTitle: (level: string) => `HSK ${level.replace('-', '–')} basics`,
+  presetKicker: 'Ready-made worksheet',
+  presetMeta: (n: number) =>
+    `${count(n, 'character')} · stroke order · practice grid`,
+  presetPrint: 'Print',
 };
 
 export const stars = (n: number, max = 3) =>
