@@ -5,7 +5,7 @@
 - Topic detail: `C:/Users/alex_/AppData/Local/Temp/hsk-level-topic-detail.jpg`
 - Reference detail: `C:/Users/alex_/AppData/Local/Temp/hsk-level-reference-detail.png`
 - State: Topics selected, Me and you marked Up next. The browser data has one completed exercise in Numbers.
-- Comparison: The 941 × 1672 px reference was viewed at about 50% scale. The browser used a 470 × 836 CSS-pixel viewport at DPR 1, with 455 CSS pixels of content width. Its screenshot is 455 × 809 px. Layout was also checked at 360 CSS pixels and at the default desktop size.    
+- Comparison: The 941 × 1672 px reference was viewed at about 50% scale. The browser used a 470 × 836 CSS-pixel viewport at DPR 1, with 455 CSS pixels of content width. Its screenshot is 455 × 809 px. Layout was also checked at 360 CSS pixels and at the default desktop size.
 ## Findings
 
 - Full view: The landscape, three tabs, spacing and vertical order of topic cards match the reference. The mobile layout fits without horizontal scrolling at both tested widths.
