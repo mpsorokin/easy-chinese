@@ -56,7 +56,7 @@ export default function CourseLessonPage() {
   ).length;
 
   return (
-    <main className="course-lesson">
+    <main className="course-lesson" data-lesson={lesson.id}>
       <header className="course-lesson-header">
         <Link className="course-lesson-back" to={levelLessonsPath(level.id)}>
           <img src={chevronIcon} alt="" />

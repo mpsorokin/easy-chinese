@@ -173,6 +173,84 @@ body:has(.course-lesson) {
   --exercise-art: url('../home/art/plum-blossom.webp');
 }
 
+/* Exercise numbers repeat across lessons; these illustrations follow lesson 3's topics. */
+.course-lesson[data-lesson='3'] {
+  & [data-exercise='exercise1'],
+  & [data-exercise='exercise9'],
+  & [data-exercise='exercise13'] {
+    --exercise-art: url('./art/level/where.webp');
+  }
+
+  & [data-exercise='exercise2'],
+  & [data-exercise='exercise7'],
+  & [data-exercise='exercise10'],
+  & [data-exercise='exercise12'] {
+    --exercise-art: url('./art/level/people.webp');
+  }
+
+  & [data-exercise='exercise3'] {
+    --exercise-art: url('./art/level/function-words.webp');
+  }
+
+  & [data-exercise='exercise4'] {
+    --exercise-art: url('./art/lesson-3/school-gate.webp');
+  }
+
+  & [data-exercise='exercise5'],
+  & [data-exercise='exercise8'] {
+    --exercise-art: url('./art/level/school.webp');
+  }
+
+  & [data-exercise='exercise6'],
+  & [data-exercise='exercise11'] {
+    --exercise-art: url('./art/level/speaking.webp');
+  }
+
+  & [data-exercise='exercise14'],
+  & [data-exercise='exercise15'] {
+    --exercise-art: url('./art/lesson-3/globe.webp');
+  }
+
+  & [data-exercise='exercise16'] {
+    --exercise-art: url('./art/lesson-3/thai-temple.webp');
+  }
+
+  & [data-exercise='exercise17'],
+  & [data-exercise='exercise18'] {
+    --exercise-art: url('./art/lesson-3/telephone.webp');
+  }
+
+  & [data-exercise='exercise19'] {
+    --exercise-art: url('./art/lesson-3/sisters.webp');
+  }
+
+  & [data-exercise='exercise20'],
+  & [data-exercise='exercise23'] {
+    --exercise-art: url('./art/lesson-3/briefcase.webp');
+  }
+
+  & [data-exercise='exercise21'],
+  & [data-exercise='exercise22'] {
+    --exercise-art: url('./art/lesson-3/desk-clock.webp');
+  }
+
+  & [data-exercise='exercise24'] {
+    --exercise-art: url('./art/level/activities.webp');
+  }
+
+  & [data-exercise='exercise25'] {
+    --exercise-art: url('./art/level/feelings.webp');
+  }
+
+  & [data-exercise='exercise26'] {
+    --exercise-art: url('./art/lesson-3/classmates.webp');
+  }
+
+  & [data-exercise='exercise27'] {
+    --exercise-art: url('./art/lesson-3/letter.webp');
+  }
+}
+
 .course-lesson-card {
   position: relative;
   isolation: isolate;
