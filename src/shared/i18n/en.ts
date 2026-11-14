@@ -75,6 +75,8 @@ export const t = {
     exercise15: 'Exercise 15',
     exercise16: 'Exercise 16',
     exercise17: 'Exercise 17',
+    exercise18: 'Exercise 18',
+    exercise19: 'Exercise 19',
     words: 'Words',
   },
   // Chinese subtitle of a dialogue exercise.
@@ -96,6 +98,8 @@ export const t = {
     exercise15: '练习十五',
     exercise16: '练习十六',
     exercise17: '练习十七',
+    exercise18: '练习十八',
+    exercise19: '练习十九',
     words: '生词',
   },
   courseExerciseDescriptions: {
@@ -116,6 +120,8 @@ export const t = {
     exercise15: 'Happy and not happy',
     exercise16: 'Do you know him?',
     exercise17: 'Also with 也',
+    exercise18: 'Phone calls with 喂',
+    exercise19: 'Family: older sister',
     words: 'Learn new vocabulary',
   },
   courseExercisesAvailable: (available: number, total: number) =>
