@@ -10,12 +10,14 @@ import {
 // A number written in Chinese characters, up to 99: 1 → 一, 12 → 十二, 27 → 二十七.
 const CN_DIGITS = '零一二三四五六七八九';
 const chineseNumber = (n: number): string => {
-  if (n < 10) return CN_DIGITS[n];
+  if (n < 10) return CN_DIGITS.charAt(n);
   if (n >= 100) return String(n);
   const tens = Math.floor(n / 10);
   const ones = n % 10;
   return (
-    (tens > 1 ? CN_DIGITS[tens] : '') + '十' + (ones ? CN_DIGITS[ones] : '')
+    (tens > 1 ? CN_DIGITS.charAt(tens) : '') +
+    '十' +
+    (ones ? CN_DIGITS.charAt(ones) : '')
   );
 };
 
