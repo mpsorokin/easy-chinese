@@ -28,11 +28,23 @@ describe('charData', () => {
     fetchMock = vi.fn(() => Promise.resolve(response(DATA)));
     vi.stubGlobal('fetch', fetchMock);
   });
-  afterEach(() => vi.unstubAllGlobals());
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
+  });
 
   it('names files by code point', () => {
     expect(charFile('人')).toBe('4eba.json');
     expect(charUrl('人')).toBe('/hanzi/4eba.json');
+  });
+
+  it('joins GitHub Pages base paths correctly, with or without the trailing slash', () => {
+    vi.stubEnv('BASE_URL', '/easy-chinese');
+    expect(charUrl('一')).toBe('/easy-chinese/hanzi/4e00.json');
+    vi.stubEnv('BASE_URL', '/easy-chinese/');
+    expect(charUrl('一')).toBe('/easy-chinese/hanzi/4e00.json');
+    vi.stubEnv('BASE_URL', '/');
+    expect(charUrl('一')).toBe('/hanzi/4e00.json');
   });
 
   it('loads data and caches it for sync access', async () => {

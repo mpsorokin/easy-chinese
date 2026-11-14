@@ -32,7 +32,15 @@ jobs:
       - name: Build for GitHub Pages
         env:
           PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
-        run: npm run build -- --base "${PAGES_BASE_PATH:-/}"
+        run: |
+          # configure-pages returns "/easy-chinese" (no trailing slash).
+          # Vite preserves that exact base in import.meta.env.BASE_URL.
+          base_path="${PAGES_BASE_PATH:-/}"
+          base_path="${base_path%/}/"
+          npm run build -- --base "$base_path"
+          # Fail deployment if the stroke files needed by the copybook are absent.
+          test -f dist/hanzi/4e00.json
+          test -f dist/hanzi/4eba.json
       - name: Add the browser router fallback
         run: cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v5

@@ -7,7 +7,7 @@ const pending = new Map<string, Promise<CharacterJson>>();
 const loaded = new Map<string, CharacterJson>();
 
 export const charUrl = (c: string) =>
-  `${import.meta.env.BASE_URL}hanzi/${charFile(c)}`;
+  `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hanzi/${charFile(c)}`;
 
 // Resolved data or undefined; lets cached characters render without a loading frame.
 export const getCachedCharData = (c: string) => loaded.get(c);
