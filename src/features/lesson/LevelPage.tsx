@@ -37,7 +37,7 @@ import {
   normalizeLessonKey,
   statusOf,
 } from './lessonNav.ts';
-import '../hsk/hsk.css';
+import '../../shared/ui/page.css';
 import './level.css';
 
 type Tab = 'lessons' | 'topics' | 'chars';

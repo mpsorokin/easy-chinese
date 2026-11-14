@@ -15,7 +15,7 @@ import {
   levelPath,
   topicWritePath,
 } from './lessonNav.ts';
-import '../hsk/hsk.css';
+import '../../shared/ui/page.css';
 import './lesson.css';
 
 // One lesson: its characters and words, and the four exercises with their best results.

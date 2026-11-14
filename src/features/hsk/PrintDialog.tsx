@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import Seg from '../../shared/ui/Seg.tsx';
 import { t } from '../../shared/i18n/en.ts';
 import { PRINT_ROWS } from './printOptions.ts';
@@ -14,8 +15,11 @@ export type PrintState =
   { status: 'idle' | 'loading' | 'error' } | { status: 'done'; pages: number };
 
 // Bottom sheet shown before printing: chosen characters, rows per character and grid type.
+// A native modal <dialog>: Esc closes it, focus stays inside, the page behind is inert;
+// a click on the backdrop (outside the panel) closes it too.
 export default function PrintDialog({
   selection,
+  meta,
   options,
   printState,
   onChange,
@@ -23,22 +27,30 @@ export default function PrintDialog({
   onClose,
 }: {
   selection: string[];
+  meta: string;
   options: PrintOptions;
   printState: PrintState;
   onChange: (options: PrintOptions) => void;
   onPrint: () => void;
   onClose: () => void;
 }) {
+  const ref = useRef<HTMLDialogElement>(null);
+  // Open as a modal on mount; unmounting removes it (no close() here: under StrictMode the
+  // effect re-runs, and close() would fire a 'close' event that unmounts the dialog).
+  useEffect(() => {
+    const dialog = ref.current;
+    if (dialog && !dialog.open) dialog.showModal();
+  }, []);
+
   return (
-    <div
+    <dialog
+      ref={ref}
       className="print-dialog"
+      aria-label={t.printTitle}
+      onClose={onClose}
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div
-        className="print-dialog-panel"
-        role="dialog"
-        aria-label={t.printTitle}
-      >
+      <div className="print-dialog-panel">
         <div className="print-dialog-top">
           <div className="print-dialog-head">
             <b>{t.printTitle}</b>
@@ -50,7 +62,7 @@ export default function PrintDialog({
               ×
             </button>
           </div>
-          <p className="print-dialog-meta">{t.printMeta(selection.length)}</p>
+          <p className="print-dialog-meta">{meta}</p>
           <div className="print-dialog-chars">{selection.join('')}</div>
         </div>
         <div className="print-dialog-body">
@@ -89,6 +101,6 @@ export default function PrintDialog({
           )}
         </div>
       </div>
-    </div>
+    </dialog>
   );
 }

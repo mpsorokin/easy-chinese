@@ -83,7 +83,7 @@ body:has(.course-lesson) {
   gap: 6px;
   padding: 0 12px;
   border: 1px solid #ead3c3;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: #fffaf4;
   color: var(--lesson-red);
   font-size: 13px;
@@ -264,7 +264,7 @@ body:has(.course-lesson) {
   align-items: center;
   justify-content: center;
   min-height: 30px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: #fff6ec;
 }
 
@@ -396,10 +396,10 @@ body:has(.course-lesson) {
   align-items: center;
   justify-content: center;
   padding: 0 clamp(28px, 7cqi, 44px);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: var(--lesson-red);
   box-shadow: 0 8px 18px -8px rgb(168 57 38 / 55%);
-  color: #fffaf4;
+  color: var(--on-accent);
   font-size: 16px;
   font-weight: 750;
   text-decoration: none;

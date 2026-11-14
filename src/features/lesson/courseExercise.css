@@ -101,7 +101,8 @@ body:has(.course-exercise) {
   display: flex;
   align-items: center;
   gap: clamp(8px, 3.4cqi, 18px);
-  padding-block: clamp(18px, 5.65cqi, 30px);
+  padding-top: clamp(18px, 5.65cqi, 30px);
+  padding-bottom: clamp(12px, 4.2cqi, 22px);
 }
 
 .course-dialogue-row + .course-dialogue-row {
@@ -147,16 +148,23 @@ body:has(.course-exercise) {
 }
 
 .course-dialogue-zh {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: clamp(8px, 2.2cqi, 14px) 0;
   margin: 0;
   font-size: clamp(24px, calc(11.1cqi - 4px), 50px);
   font-weight: 700;
   line-height: 1.2;
-  line-break: strict;
 }
 
 .course-dialogue-zh ruby {
   ruby-position: over;
   ruby-align: center;
+}
+
+.course-dialogue-zh > span {
+  white-space: pre;
 }
 
 .course-dialogue-zh rt {
@@ -241,7 +249,7 @@ body:has(.course-exercise) {
   flex: 1;
   height: 8px;
   overflow: hidden;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: #f0dfd3;
 }
 
@@ -269,7 +277,7 @@ body:has(.course-exercise) {
   border-radius: clamp(16px, 4.9cqi, 28px);
   background: var(--exercise-red);
   box-shadow: var(--exercise-shadow);
-  color: #fffaf4;
+  color: var(--on-accent);
   font-size: clamp(15px, 4cqi, 18px);
   font-weight: 750;
   text-decoration: none;

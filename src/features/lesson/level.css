@@ -253,7 +253,7 @@ body:has(.hsk-level) {
 .hsk-level .lesson-badge {
   flex: none;
   padding: 3px clamp(5px, 1.35cqi, 10px);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: #fbd4c7;
   color: #8c2413;
   font-size: clamp(8px, 1.95cqi, 14px);
@@ -299,7 +299,7 @@ body:has(.hsk-level) {
 .hsk-level .lesson-progress > span {
   flex: 1;
   height: clamp(4px, 1.12cqi, 8px);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: var(--topic-track);
 }
 

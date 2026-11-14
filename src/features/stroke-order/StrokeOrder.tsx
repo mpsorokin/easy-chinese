@@ -4,7 +4,7 @@ import CanvasCell from '../../shared/ui/CanvasCell.tsx';
 import { toCharSpace, fillStrokes } from '../../shared/lib/draw.ts';
 import { COLORS } from '../../shared/theme.ts';
 import { t } from '../../shared/i18n/en.ts';
-import WriteIcon from '../copybook/WriteIcon.tsx';
+import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 import './StrokeOrder.css';
 
 const CELL = 64;

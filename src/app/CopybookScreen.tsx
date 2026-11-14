@@ -33,7 +33,7 @@ import { usePersistentState } from '../shared/hooks/usePersistentState.ts';
 import { useCharData } from '../data/useCharData.ts';
 import { useCopybook } from '../features/copybook/useCopybook.ts';
 import { t } from '../shared/i18n/en.ts';
-import WriteIcon from '../features/copybook/WriteIcon.tsx';
+import WriteIcon from '../shared/ui/WriteIcon.tsx';
 import {
   courseLessonPath,
   lessonPath,

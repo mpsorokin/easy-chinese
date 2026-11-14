@@ -88,7 +88,9 @@ export default function HskChars({
           <PresetCard
             key={p.id}
             preset={p}
-            onPrint={() => printer.open(p.chars, p.level)}
+            onPrint={() =>
+              printer.open(p.chars, p.level, t.presetPrintMeta(p.chars.length))
+            }
           />
         ))}
       <input
@@ -147,6 +149,7 @@ export default function HskChars({
       {printer.job && printer.job.chars.length > 0 && (
         <PrintDialog
           selection={printer.job.chars}
+          meta={printer.job.meta}
           options={printer.printOptions}
           printState={printer.printState}
           onChange={printer.setPrintOptions}

@@ -1,5 +1,5 @@
 import type { PrintPreset } from '../../data/presets.ts';
-import { PrinterIcon } from '../home/HomeArt.tsx';
+import { PrinterIcon } from '../../shared/ui/icons.tsx';
 import { t } from '../../shared/i18n/en.ts';
 
 // Ready-made character set: a worksheet-style preview cell, title, size, a preview of its

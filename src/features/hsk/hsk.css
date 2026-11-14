@@ -1,38 +1,4 @@
-/* HSK page: character grid, lessons, selection tray and the print dialog. */
-.hsk-page {
-  max-width: 760px;
-  padding-bottom: 0;
-}
-.hsk-screen {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.hsk-back {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 15px;
-}
-.hsk-title {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.hsk-title h1 {
-  margin: 0;
-  font-size: 30px;
-}
-.hsk-title span {
-  color: var(--muted);
-  font-size: 14px;
-}
-.hsk-tabs .seg button {
-  flex: 1;
-  padding: 10px 12px;
-  font-size: 16px;
-}
+/* HSK "All characters" tab: character grid, ready-made sets, selection tray and the print dialog. */
 .hsk-hint {
   margin: 0;
   color: var(--muted);
@@ -43,7 +9,7 @@
   height: 46px;
   padding: 0 14px;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
   background: var(--card);
   font: inherit;
   font-size: 16px; /* no zoom-in on iOS */
@@ -67,7 +33,7 @@
   min-width: 0;
   border: 1px solid var(--line);
   background: var(--card);
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
   padding: 10px 6px 8px;
   display: flex;
   flex-direction: column;
@@ -107,44 +73,10 @@
   margin-bottom: 8px;
   border: 1px solid var(--line);
   background: var(--card);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   padding: 7px 14px;
   font-size: 14px;
 }
-.hsk-lessons {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 8px;
-}
-.hsk-lesson {
-  border: 1px solid var(--line);
-  background: var(--card);
-  border-radius: 14px;
-  padding: 10px 12px;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 4px 8px;
-  text-align: left;
-}
-.hsk-lesson.on {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-}
-.hsk-lesson-chars {
-  grid-column: 1 / -1;
-  font-size: 20px;
-  letter-spacing: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.hsk-lesson-count {
-  grid-row: 1;
-  grid-column: 2;
-  color: var(--muted);
-  font-size: 13px;
-}
-
 /* selection tray */
 .hsk-tray {
   position: sticky;
@@ -235,21 +167,24 @@
 
 /* print dialog (bottom sheet) */
 .print-dialog {
-  position: fixed;
-  inset: 0;
-  z-index: 20;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  background: rgba(31, 26, 23, 0.35);
-}
-.print-dialog-panel {
+  /* modal <dialog> pinned to the bottom of the screen as a sheet */
   width: 100%;
   max-width: 520px;
   max-height: 85vh;
-  overflow-y: auto;
+  margin: auto auto 0;
+  padding: 0;
+  border: 0;
   border-radius: 20px 20px 0 0;
   background: var(--card);
+  color: var(--ink);
+  overflow: hidden;
+}
+.print-dialog::backdrop {
+  background: rgba(31, 26, 23, 0.35);
+}
+.print-dialog-panel {
+  max-height: 85vh;
+  overflow-y: auto;
 }
 .print-dialog-top {
   padding: 14px 16px 12px;
@@ -400,14 +335,14 @@
   height: 44px;
   padding: 0 18px 0 14px;
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font: inherit;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 12px -4px rgba(194, 65, 45, 0.6);
+  box-shadow: var(--shadow-accent);
   transition:
     transform 0.12s ease,
     box-shadow 0.12s ease,
@@ -418,8 +353,8 @@
   height: 20px;
 }
 .hsk-preset-print:hover {
-  background: #a93624;
-  box-shadow: 0 6px 16px -4px rgba(194, 65, 45, 0.7);
+  background: var(--accent-strong);
+  box-shadow: var(--shadow-accent-lift);
 }
 .hsk-preset-print:active {
   transform: scale(0.96);

@@ -2,7 +2,7 @@ import { SETTING_OPTIONS } from './settings.ts';
 import type { Settings } from './settings.ts';
 import Seg from '../../shared/ui/Seg.tsx';
 import { t } from '../../shared/i18n/en.ts';
-import WriteIcon from '../copybook/WriteIcon.tsx';
+import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 import './SettingsPanel.css';
 
 // [value, label] pairs; indexing t.options by the value type keeps labels complete.

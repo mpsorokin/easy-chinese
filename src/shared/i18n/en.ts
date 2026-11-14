@@ -15,7 +15,6 @@ export const t = {
   // HSK practice set (chosen on the HSK page)
   characterOf: (i: number, n: number) => `Character ${i} of ${n}`,
   practiceExit: 'Exit set',
-  home: '‹ Home',
   homeLabel: 'Home',
 
   // Home
@@ -141,7 +140,6 @@ export const t = {
   quizUndo: '⌫',
   quizUndoLabel: 'Undo',
   quizListen: 'Listen',
-  quizCheck: 'Check',
   quizDone: (grade: Grade) =>
     grade === 3 ? 'Excellent!' : grade === 2 ? 'Good job!' : 'Worth repeating',
   quizScore: (right: number, total: number) =>
@@ -258,6 +256,7 @@ export const t = {
   presetMeta: (n: number) =>
     `${count(n, 'character')} · stroke order · practice grid`,
   presetPrint: 'Print',
+  presetPrintMeta: (n: number) => `${count(n, 'character')}, in list order`,
 };
 
 export const stars = (n: number, max = 3) =>

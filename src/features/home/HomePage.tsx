@@ -17,7 +17,7 @@ import {
   normalizeLessonKey,
   statusOf,
 } from '../lesson/lessonNav.ts';
-import { PencilIcon, PrinterIcon } from './HomeArt.tsx';
+import { PencilIcon, PrinterIcon } from '../../shared/ui/icons.tsx';
 import bambooWash from './art/bamboo-wash.webp';
 import mistyPavilion from './art/misty-pavilion.webp';
 import plumBlossom from './art/plum-blossom.webp';

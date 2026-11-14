@@ -97,7 +97,7 @@ body:has(.quiz-page) {
 .quiz-top .meter {
   flex: 1;
   height: clamp(6px, 1.5vw, 9px);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: #e8ccba;
 }
 
@@ -260,7 +260,7 @@ body:has(.quiz-page) {
 .quiz-tile {
   width: clamp(44px, 13vw, 60px);
   aspect-ratio: 1;
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
 }
 
 .quiz-undo {
@@ -279,7 +279,7 @@ body:has(.quiz-page) {
 .quiz-feedback {
   display: grid;
   gap: 2px;
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
   text-align: center;
   font-size: clamp(14px, 3.4vw, 17px);
   overflow-wrap: anywhere;
@@ -332,7 +332,7 @@ body:has(.quiz-page) {
   padding: 4px 12px;
   list-style: none;
   border: 1px solid var(--quiz-edge);
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
   background: #fff9f2;
   overflow-wrap: anywhere;
 }
@@ -355,7 +355,7 @@ body:has(.quiz-page) {
   border-color: var(--quiz-accent);
   background: var(--quiz-accent);
   box-shadow: 0 4px 9px rgb(141 77 33 / 15%);
-  color: #fffaf4;
+  color: var(--on-accent);
 }
 
 @media (hover: hover) {

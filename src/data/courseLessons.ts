@@ -3,7 +3,7 @@ import { hskEntry } from './hsk.ts';
 import type { HskChar, HskWord } from '../domain/types.ts';
 
 // Exercises that show a dialogue.
-export const DIALOGUE_EXERCISES = [
+const DIALOGUE_EXERCISES = [
   'exercise1',
   'exercise2',
   'exercise3',

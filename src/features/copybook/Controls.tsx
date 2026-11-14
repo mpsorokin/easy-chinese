@@ -1,5 +1,5 @@
 import { t } from '../../shared/i18n/en.ts';
-import WriteIcon from './WriteIcon.tsx';
+import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 import './copybook.css';
 
 export default function Controls({

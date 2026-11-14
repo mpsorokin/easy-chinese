@@ -126,7 +126,7 @@ body:has(.lesson-page) {
   width: clamp(36px, 7.3cqi, 62px);
   height: clamp(4px, 0.7cqi, 6px);
   margin-top: 8px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: var(--lesson-red);
   content: '';
 }
@@ -169,7 +169,7 @@ body:has(.lesson-page) {
   flex: 1;
   min-width: 32px;
   height: clamp(6px, 1.2cqi, 10px);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: #ecdccd;
 }
 
@@ -418,7 +418,7 @@ body:has(.lesson-page) {
 .lesson-nav .btn {
   height: clamp(44px, 7.25cqi, 61px);
   border-color: #e7c7af;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: linear-gradient(160deg, #fffaf3, #f9ebdc);
   box-shadow: var(--lesson-shadow);
   font-size: clamp(15px, 2.85cqi, 24px);
@@ -427,12 +427,12 @@ body:has(.lesson-page) {
 
 .lesson-nav .lesson-next {
   border-color: #b83924;
-  background: linear-gradient(160deg, #c44630, #a9301f);
-  color: #fffaf4;
+  background: linear-gradient(160deg, #c44630, var(--accent-strong));
+  color: var(--on-accent);
 }
 
 .lesson-nav .lesson-next:hover {
-  background: #a9301f;
+  background: var(--accent-strong);
 }
 
 .lesson-back:focus-visible,

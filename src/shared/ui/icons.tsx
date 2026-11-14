@@ -25,10 +25,3 @@ export const PrinterIcon = () => (
     <path d="M7 14h10v6H7z" />
   </svg>
 );
-
-export const BookIcon = () => (
-  <svg {...iconProps} width={20} height={20}>
-    <path d="M12 6c-2-1.5-5-2-8-1.5V19c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V4.5C17 4 14 4.5 12 6z" />
-    <path d="M12 6v14.5" />
-  </svg>
-);

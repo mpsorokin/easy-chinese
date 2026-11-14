@@ -4,13 +4,14 @@ import { hskStore } from './hskStore.ts';
 import { wordsWith } from '../../data/hsk.ts';
 import type { LevelData } from '../../data/hsk.ts';
 import { presetEntry } from '../../data/presets.ts';
+import { t } from '../../shared/i18n/en.ts';
 import { loadCharData } from '../../data/charData.ts';
 import { usePersistentState } from '../../shared/hooks/usePersistentState.ts';
 import { normalizePrintOptions, worksheetFileName } from './printOptions.ts';
 import type { PrintState } from './PrintDialog.tsx';
 
 // What the print dialog is open for: the characters and the level label used in the PDF.
-type PrintJob = { chars: string[]; level: string };
+type PrintJob = { chars: string[]; level: string; meta: string };
 
 // Print dialog state shared by the selection tray and the ready-made sets: which characters
 // are being printed, the persisted worksheet options and the build/save status.
@@ -23,9 +24,14 @@ export function useWorksheetPrint(level: LevelData) {
     normalizePrintOptions,
   );
 
-  const open = (chars: string[], label = level.id) => {
+  // label: level shown in the PDF; meta: the line under the dialog title.
+  const open = (
+    chars: string[],
+    label = level.id,
+    meta = t.printMeta(chars.length),
+  ) => {
     setPrintState({ status: 'idle' });
-    setJob({ chars, level: label });
+    setJob({ chars, level: label, meta });
   };
   const close = () => setJob(null);
 
@@ -41,7 +47,7 @@ export function useWorksheetPrint(level: LevelData) {
         import('./textImage.ts'),
       ]);
       const rows = job.chars.flatMap((c, i) => {
-        const entry = level.chars.find((e) => e.c === c) ?? presetEntry(c);
+        const entry = presetEntry(c);
         const d = data[i];
         return entry && d
           ? [{ entry, words: wordsWith(c, level), strokes: d.strokes }]
