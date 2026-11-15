@@ -222,6 +222,8 @@ export const t = {
   search: 'Paste characters 我爱你 · or search hao, good',
   addAll: (n: number) => `+ Add all ${n}`,
   nothingFound: 'Nothing found',
+  notInLevel: (chars: string, level: string) =>
+    `Not in HSK ${level}, skipped: ${chars}`,
   selected: (n: number, max: number) => `${n} / ${max}`,
   removeLast: 'Remove last',
   remove: (c: string) => `Remove ${c}`,

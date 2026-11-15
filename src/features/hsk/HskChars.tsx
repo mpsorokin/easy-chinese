@@ -6,6 +6,7 @@ import {
   byLetter,
   normalizeHskChars,
   searchHsk,
+  unknownChars,
 } from '../../data/hsk.ts';
 import type { LevelData } from '../../data/hsk.ts';
 import { PRINT_PRESETS } from '../../data/presets.ts';
@@ -61,6 +62,10 @@ export default function HskChars({
 
   const results = useMemo(() => searchHsk(query, level), [query, level]);
   const pasteMode = HAN.test(query);
+  const skipped = useMemo(
+    () => (pasteMode ? unknownChars(query, level) : []),
+    [pasteMode, query, level],
+  );
 
   // The chosen characters go into the copybook's URL; it starts at the first one.
   const write = () => {
@@ -106,6 +111,9 @@ export default function HskChars({
           if (HAN.test(text)) addAll(searchHsk(text, level).map((x) => x.c));
         }}
       />
+      {skipped.length > 0 && (
+        <p className="hsk-hint">{t.notInLevel(skipped.join(' '), level.id)}</p>
+      )}
       {results.length === 0 ? (
         <p className="hsk-hint">{t.nothingFound}</p>
       ) : pasteMode ? (

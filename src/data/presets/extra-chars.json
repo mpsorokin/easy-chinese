@@ -3,5 +3,7 @@
   { "c": "地", "py": "dì", "en": "earth, ground" },
   { "c": "过", "py": "guò", "en": "pass, cross" },
   { "c": "为", "py": "wèi", "en": "for, because of" },
-  { "c": "长", "py": "cháng", "en": "long" }
+  { "c": "长", "py": "cháng", "en": "long" },
+  { "c": "法", "py": "fǎ", "en": "law; method; France (法国)" },
+  { "c": "英", "py": "yīng", "en": "hero; England (英国), English (英语)" }
 ]

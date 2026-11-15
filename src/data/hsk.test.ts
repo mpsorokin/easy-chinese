@@ -13,6 +13,7 @@ import {
   normalizeHskChars,
   searchHsk,
   toneless,
+  unknownChars,
   wordsWith,
 } from './hsk.ts';
 import { charFile } from '../domain/charFile.ts';
@@ -147,6 +148,21 @@ describe('searchHsk', () => {
 
   it('matches English meanings', () => {
     expect(searchHsk('good').map((e) => e.c)).toContain('好');
+  });
+});
+
+describe('pasted characters outside HSK 1', () => {
+  const pasted =
+    '请问超市哪您老师谁猫候真起关系能事高兴认识法朋友里漂亮英想忙太喜欢钱校零本呢妹狗孩都贵块号星期休息找课班明玩做饭面条些菜吃新电脑看买喝听';
+
+  it('selects the course extras (法, 英) too', () => {
+    expect(searchHsk(pasted)).toHaveLength(68);
+    expect(normalizeHskChars(['法', '英'], HSK1_LEVEL)).toEqual(['法', '英']);
+    expect(unknownChars(pasted)).toEqual([]);
+  });
+
+  it('lists the characters that cannot be selected', () => {
+    expect(unknownChars('你龙好a龙')).toEqual(['龙']);
   });
 });
 

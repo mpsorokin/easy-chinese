@@ -1,5 +1,5 @@
 import type { CharGroup } from '../domain/types.ts';
-import { hskEntry } from './hsk.ts';
+import { extraEntry, hskEntry } from './hsk.ts';
 
 // Every JSON file in ./decks is a deck: an array of groups (picker tabs).
 // Decks are concatenated in file-name order, hence the numeric prefixes.
@@ -38,7 +38,9 @@ const DEFAULT_CHAR = '人';
 // unknown values fall back to DEFAULT_CHAR.
 export const normalizeLastChar = (raw: unknown): string =>
   typeof raw === 'string' &&
-  (ALL.some((x) => x.c === raw) || hskEntry(raw) !== undefined)
+  (ALL.some((x) => x.c === raw) ||
+    hskEntry(raw) !== undefined ||
+    extraEntry(raw) !== undefined)
     ? raw
     : DEFAULT_CHAR;
 

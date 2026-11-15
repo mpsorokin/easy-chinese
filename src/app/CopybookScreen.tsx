@@ -22,6 +22,7 @@ import {
   lessonChars,
   levelData,
   normalizeHskChars,
+  selectableEntry,
 } from '../data/hsk.ts';
 import { courseLesson, coursePart } from '../data/courseLessons.ts';
 import type { CharEntry, HskChar } from '../domain/types.ts';
@@ -86,12 +87,11 @@ export default function CopybookScreen() {
     const backTo = levelCharsPath(level.id, mode);
     const chars = normalizeHskChars([...chosen], level);
     if (!chars.length) return <Navigate to={backTo} replace />;
-    const byChar = new Map(level.chars.map((e) => [e.c, e]));
     return (
       <Copybook
         set={{
           id: `s${level.id}:${chars.join('')}`,
-          list: entries(chars.flatMap((c) => byChar.get(c) ?? [])),
+          list: entries(chars.flatMap((c) => selectableEntry(c, level) ?? [])),
           lastKey: `last:s${level.id}`,
           back: { to: backTo, label: mode ? t.freeWrite : t.tabAllChars },
           level: level.id,

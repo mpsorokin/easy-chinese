@@ -2,8 +2,7 @@
 // Characters missing from the loaded HSK levels get their entry from presets/extra-chars.json;
 // scripts/build-data.ts generates stroke data for those too.
 import type { HskChar } from '../domain/types.ts';
-import { hskEntry } from './hsk.ts';
-import extraChars from './presets/extra-chars.json';
+import { EXTRA_CHARS, extraEntry, hskEntry } from './hsk.ts';
 
 export type PrintPreset = {
   id: string;
@@ -11,7 +10,7 @@ export type PrintPreset = {
   chars: string[];
 };
 
-export const PRESET_EXTRA_CHARS: HskChar[] = extraChars;
+export const PRESET_EXTRA_CHARS: HskChar[] = EXTRA_CHARS;
 
 export const PRINT_PRESETS: PrintPreset[] = [
   {
@@ -23,8 +22,6 @@ export const PRINT_PRESETS: PrintPreset[] = [
   },
 ];
 
-const extraByChar = new Map(PRESET_EXTRA_CHARS.map((e) => [e.c, e]));
-
 // Entry for a printable character: HSK level data first, then the preset extras.
 export const presetEntry = (c: string): HskChar | undefined =>
-  hskEntry(c) ?? extraByChar.get(c);
+  hskEntry(c) ?? extraEntry(c);

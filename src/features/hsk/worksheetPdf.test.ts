@@ -50,6 +50,18 @@ describe('buildWorksheetPdf', () => {
     ).toBe(2);
   });
 
+  it('fits four characters with two practice rows on one page', async () => {
+    expect((await pageCount('男八爸吧', { rows: 2, grid: 'mi' })).pages).toBe(
+      1,
+    );
+    expect(
+      (await pageCount('男八爸吧白百班', { rows: 2, grid: 'mi' })).pages,
+    ).toBe(2);
+    expect(
+      (await pageCount('再见明天下', { rows: 1, grid: 'tian' })).pages,
+    ).toBe(1);
+  });
+
   it('moves a block that does not fit to the next page', async () => {
     expect((await pageCount('再见明', { rows: 6, grid: 'mi' })).pages).toBe(2);
   });

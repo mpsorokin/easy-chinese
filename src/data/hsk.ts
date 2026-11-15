@@ -4,6 +4,7 @@ import type { CharEntry, HskChar, HskWord, Lesson } from '../domain/types.ts';
 import hsk1Chars from './hsk/1/chars.json';
 import hsk1Words from './hsk/1/words.json';
 import hsk1Lessons from './hsk/1/lessons.json';
+import extraChars from './presets/extra-chars.json';
 
 // Everything the app knows about one level.
 export type LevelData = {
@@ -44,7 +45,7 @@ export const levelData = (id: string | undefined) =>
 export const HSK1 = HSK1_LEVEL.chars;
 
 // Most characters that can be chosen at once (Write / Print PDF).
-export const HSK_MAX = 50;
+export const HSK_MAX = 100;
 
 const byChar = new Map(
   HSK_LEVELS.slice()
@@ -54,6 +55,16 @@ const byChar = new Map(
     ),
 );
 export const hskEntry = (c: string) => byChar.get(c);
+
+// Characters outside the loaded HSK levels that can still be picked and printed
+// (they occur in the course, e.g. 法国, 英国); stroke data comes from scripts/build-data.ts.
+export const EXTRA_CHARS: HskChar[] = extraChars;
+const extraByChar = new Map(EXTRA_CHARS.map((e) => [e.c, e]));
+export const extraEntry = (c: string) => extraByChar.get(c);
+
+// Entry a character can be selected with on a level's page: the level's own, else an extra.
+export const selectableEntry = (c: string, level: LevelData) =>
+  level.chars.find((e) => e.c === c) ?? extraByChar.get(c);
 
 // Copybook entry for an HSK character: same fields as a deck entry.
 export const hskCharEntry = (e: HskChar): CharEntry => ({
@@ -108,15 +119,15 @@ export function byLetter(list: HskChar[]) {
 
 const HAN = /\p{Script=Han}/u;
 
-// Query with Chinese characters: the HSK ones among them, in typed order (paste mode).
+// Query with Chinese characters: the selectable ones among them (level characters and
+// extras), in typed order (paste mode).
 // Otherwise: pinyin prefix (with or without tones) or a substring of the meaning.
 export function searchHsk(query: string, level = HSK1_LEVEL): HskChar[] {
   const q = query.trim().toLowerCase();
   if (!q) return level.chars;
   if (HAN.test(q)) {
-    const entries = new Map(level.chars.map((e) => [e.c, e]));
     const chars = [...new Set(Array.from(q))];
-    return chars.flatMap((c) => entries.get(c) ?? []);
+    return chars.flatMap((c) => selectableEntry(c, level) ?? []);
   }
   const plain = toneless(q).replace(/\s+/g, '');
   return level.chars.filter(
@@ -127,7 +138,13 @@ export function searchHsk(query: string, level = HSK1_LEVEL): HskChar[] {
   );
 }
 
-// Stored character list: known HSK characters only, no duplicates, at most HSK_MAX.
+// Chinese characters in a pasted query that cannot be selected on this level, in typed order.
+export const unknownChars = (query: string, level = HSK1_LEVEL): string[] =>
+  [...new Set(Array.from(query))].filter(
+    (c) => HAN.test(c) && !selectableEntry(c, level),
+  );
+
+// Stored character list: known HSK characters and extras only, no duplicates, at most HSK_MAX.
 export const normalizeHskChars = (raw: unknown, level?: LevelData): string[] =>
   Array.isArray(raw)
     ? [
@@ -135,7 +152,9 @@ export const normalizeHskChars = (raw: unknown, level?: LevelData): string[] =>
           raw.filter(
             (c): c is string =>
               typeof c === 'string' &&
-              (level ? level.chars.some((e) => e.c === c) : byChar.has(c)),
+              (level
+                ? selectableEntry(c, level) !== undefined
+                : byChar.has(c) || extraByChar.has(c)),
           ),
         ),
       ].slice(0, HSK_MAX)

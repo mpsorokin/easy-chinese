@@ -5,7 +5,8 @@
 // (`renderText`, system fonts, so tone marks and Chinese words work) and embedded as
 // images; numbers use the built-in Helvetica, so no font is embedded.
 // Layout follows the original single-file worksheet: three characters with three
-// practice rows fit one page.
+// practice rows fit one page. With one or two practice rows the spacing tightens
+// (cells keep their size), so five or four characters fit a page.
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import type { PDFFont, PDFImage, PDFPage, RGB } from 'pdf-lib';
 import type { GridKind, HskChar } from '../../domain/types.ts';
@@ -47,9 +48,30 @@ const CELL = (CW - GAP * (COLS - 1)) / COLS;
 const SB = 36; // stroke-order cell
 const SGAP = 4;
 const SCOLS = Math.floor((CW + SGAP) / (SB + SGAP));
-const HEAD = 42; // model cell in the header
-const LBL = 13; // "STROKE ORDER" label
-const BGAP = 16; // between character blocks
+// Vertical spacing of a character block.
+type Spacing = {
+  head: number; // model cell in the header
+  headGap: number; // header -> stroke-order label
+  lbl: number; // "STROKE ORDER" label
+  stripGap: number; // stroke order -> practice rows
+  blockGap: number; // between character blocks
+};
+const REGULAR: Spacing = {
+  head: 42,
+  headGap: 8,
+  lbl: 13,
+  stripGap: 6,
+  blockGap: 16,
+};
+// 4 x 2 rows: 4 * 183.4 + 3 * 10 = 763.5 <= 779.9 available (strokes on one strip row).
+const COMPACT: Spacing = {
+  head: 38,
+  headGap: 6,
+  lbl: 11,
+  stripGap: 5,
+  blockGap: 10,
+};
+const spacingFor = (rows: number) => (rows <= 2 ? COMPACT : REGULAR);
 const GLYPH_PAD = 0.085; // glyph inset, share of the cell size
 
 const C = {
@@ -72,12 +94,12 @@ const flipY = (d: string) => {
   );
 };
 
-const blockHeight = (strokes: number, rows: number) =>
-  HEAD +
-  8 +
-  LBL +
+const blockHeight = (strokes: number, rows: number, s: Spacing) =>
+  s.head +
+  s.headGap +
+  s.lbl +
   Math.ceil(strokes / SCOLS) * (SB + SGAP) +
-  6 +
+  s.stripGap +
   rows * (CELL + GAP) -
   GAP;
 
@@ -117,10 +139,11 @@ export async function buildWorksheetPdf(
     },
   ]);
 
+  const spacing = spacingFor(options.rows);
   let page = pdf.addPage([PW, PH]);
   let top = MT;
   for (const row of rows) {
-    const height = blockHeight(row.strokes.length, options.rows);
+    const height = blockHeight(row.strokes.length, options.rows, spacing);
     if (top > MT && top + height > PH - MB) {
       page = pdf.addPage([PW, PH]);
       top = MT;
@@ -145,8 +168,13 @@ export async function buildWorksheetPdf(
       ],
       'right',
     );
-    drawBlock(page, row, options, top, { header, tag, label, helvetica });
-    top += height + BGAP;
+    drawBlock(page, row, options, spacing, top, {
+      header,
+      tag,
+      label,
+      helvetica,
+    });
+    top += height + spacing.blockGap;
   }
 
   // Page numbers "p / N" at the bottom right.
@@ -171,6 +199,7 @@ function drawBlock(
   page: PDFPage,
   { strokes }: WorksheetRow,
   { rows, grid }: PrintOptions,
+  s: Spacing,
   top: number,
   r: {
     header: PlacedImage;
@@ -190,15 +219,15 @@ function drawBlock(
 
   // Header: model, text block centered on it, stroke-count tag on the right.
   let t = top;
-  drawCell(page, grid, ML, t, HEAD);
-  drawGlyph(page, strokes, () => C.ink, ML, t, HEAD);
-  placeImage(r.header, ML + HEAD + 10, t + HEAD / 2 - r.header.height / 2);
-  placeImage(r.tag, PW - MR - r.tag.width, t + HEAD / 2 - r.tag.height / 2);
-  t += HEAD + 8;
+  drawCell(page, grid, ML, t, s.head);
+  drawGlyph(page, strokes, () => C.ink, ML, t, s.head);
+  placeImage(r.header, ML + s.head + 10, t + s.head / 2 - r.header.height / 2);
+  placeImage(r.tag, PW - MR - r.tag.width, t + s.head / 2 - r.tag.height / 2);
+  t += s.head + s.headGap;
 
   // Stroke order: earlier strokes in beige, the current one in red, number in the corner.
   placeImage(r.label, ML, t);
-  t += LBL;
+  t += s.lbl;
   for (let i = 0; i < n; i++) {
     const x = ML + (i % SCOLS) * (SB + SGAP);
     const tt = t + Math.floor(i / SCOLS) * (SB + SGAP);
@@ -219,7 +248,7 @@ function drawBlock(
       color: C.num,
     });
   }
-  t += Math.ceil(n / SCOLS) * (SB + SGAP) + 6;
+  t += Math.ceil(n / SCOLS) * (SB + SGAP) + s.stripGap;
 
   // Practice rows; the first starts with three dark and two light traced copies.
   for (let row = 0; row < rows; row++) {
