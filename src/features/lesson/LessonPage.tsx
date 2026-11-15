@@ -64,7 +64,7 @@ export default function LessonPage() {
       : void navigate(exercisePath(level.id, lesson.id, ex));
 
   return (
-    <main className="app lesson-page">
+    <main className="app page-frame lesson-page">
       <header className="lesson-head">
         <div className="theme-toolbar">
           <Link className="hsk-back lesson-back" to={levelPath(level.id)}>

@@ -1,9 +1,5 @@
 /* Topic lesson page. */
 
-body:has(.lesson-page) {
-  background: #fbf1e5;
-}
-
 .lesson-page {
   --lesson-ink: #301a11;
   --lesson-brown: #704730;
@@ -11,13 +7,12 @@ body:has(.lesson-page) {
   --lesson-line: #ead7c3;
   --lesson-surface: #fff9ef;
   --lesson-shadow: 0 5px 12px rgb(110 57 24 / 13%);
+  --page-mobile-gutter: clamp(14px, 5.5vw, 52px);
   position: relative;
   isolation: isolate;
-  width: 100%;
-  max-width: 940px;
   min-height: 100svh;
   gap: clamp(17px, 2.35vw, 22px);
-  padding: 0 clamp(14px, 5.5vw, 52px) clamp(38px, 7.7vw, 72px);
+  padding-block: 0 clamp(38px, 7.7vw, 72px);
   color: var(--lesson-ink);
   container-type: inline-size;
 }
@@ -45,7 +40,7 @@ body:has(.lesson-page) {
   position: absolute;
   z-index: -1;
   top: 0;
-  right: calc(-1 * clamp(14px, 5.5vw, 52px));
+  right: calc(-1 * var(--page-gutter));
   width: min(100%, 690px);
   height: clamp(136px, 23cqi, 195px);
   background:
@@ -471,10 +466,6 @@ body:has(.lesson-page) {
   .lesson-ex-tile {
     width: 26px;
   }
-}
-
-[data-theme='dark'] body:has(.lesson-page) {
-  background: var(--paper);
 }
 
 [data-theme='dark'] .lesson-page {

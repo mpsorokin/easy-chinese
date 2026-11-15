@@ -1,8 +1,4 @@
-/* Page frame shared by the level and topic pages: width, back link, title and tabs. */
-.hsk-page {
-  max-width: 760px;
-  padding-bottom: 0;
-}
+/* Shared heading, back link and tabs for level and topic pages. */
 .hsk-screen {
   display: flex;
   flex-direction: column;

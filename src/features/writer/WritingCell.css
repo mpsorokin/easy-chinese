@@ -3,6 +3,7 @@
   position: relative;
   isolation: isolate;
   width: calc(100% - 6px);
+  max-width: 502px;
   aspect-ratio: 1.365;
   min-height: 220px;
   align-self: center;

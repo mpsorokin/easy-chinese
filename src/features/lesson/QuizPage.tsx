@@ -28,7 +28,7 @@ export default function QuizPage({
   if (questions.length === 0) return <Navigate to={back} replace />;
 
   return (
-    <main className="app quiz-page">
+    <main className="app page-frame quiz-page">
       <header className="quiz-head">
         <Link className="quiz-close" to={back} aria-label={t.quizToLesson}>
           {t.quizExit}

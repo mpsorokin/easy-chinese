@@ -1,19 +1,10 @@
-body:has(.hsk-level) {
-  background: #fcefe7;
-  scrollbar-color: #c89780 #fcefe7;
-  scrollbar-width: thin;
-}
-
 .hsk-level {
   --level-ink: #2b1410;
   --level-brown: #784431;
   --level-red: #aa2511;
   --level-focus: #b83924;
-  --level-gutter: clamp(11px, 2.9vw, 22px);
-  width: 100%;
-  max-width: 760px;
   min-height: 100svh;
-  padding: 0 var(--level-gutter) 28px;
+  padding-top: 0;
   color: var(--level-ink);
   container-type: inline-size;
 }
@@ -323,11 +314,6 @@ body:has(.hsk-level) {
     opacity: 0.72;
     mask-image: linear-gradient(to right, transparent, #000 55%);
   }
-}
-
-[data-theme='dark'] body:has(.hsk-level) {
-  background: var(--paper);
-  scrollbar-color: var(--line-strong) var(--paper);
 }
 
 [data-theme='dark'] .hsk-level {

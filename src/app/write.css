@@ -1,7 +1,3 @@
-body:has(.write-page) {
-  background: #fcf1ea;
-}
-
 .write-page {
   --paper: #fcf1ea;
   --card: #fff9f5;
@@ -13,16 +9,14 @@ body:has(.write-page) {
   --write-shadow:
     0 4px 10px rgb(118 56 35 / 10%), 0 1px 2px rgb(118 56 35 / 8%);
   --write-surface: linear-gradient(160deg, #fffcf9, #fcf1e9);
-  --write-pad: clamp(14px, 4.75vw, 26px);
+  --page-mobile-gutter: clamp(14px, 4.75vw, 26px);
   position: relative;
   isolation: isolate;
   container-type: inline-size;
   display: flex;
   flex-direction: column;
-  max-width: 560px;
   min-height: 100svh;
-  margin-inline: auto;
-  padding: 0 var(--write-pad) 16px;
+  padding-bottom: 16px;
   color: var(--ink);
 }
 
@@ -298,10 +292,6 @@ body:has(.write-page) {
   .write-page .write-back:hover {
     text-decoration: underline;
   }
-}
-
-[data-theme='dark'] body:has(.write-page) {
-  background: var(--paper);
 }
 
 /* The writing page supplies its own paper colors in the light theme. */

@@ -42,7 +42,7 @@ export default function CourseExerciseView({
   const playable = canSpeak();
 
   return (
-    <main className="course-exercise" style={dialogueArt}>
+    <main className="page-frame course-exercise" style={dialogueArt}>
       <header className="course-exercise-header">
         <div className="theme-toolbar">
           <Link className="course-exercise-back" to={backTo}>

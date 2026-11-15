@@ -40,7 +40,3 @@ export const writingColors: Record<ColorScheme, WritingColors> = {
 };
 
 export const rgba = (rgb: string, a: number) => `rgba(${rgb},${a})`;
-
-export const LAYOUT = {
-  maxWidth: 520, // app column width in CSS px; cell sizes are derived from it
-};

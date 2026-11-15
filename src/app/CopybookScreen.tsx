@@ -254,7 +254,7 @@ function CopybookPage({ set }: { set: CopybookSet }) {
   const go = (i: number) => show(wrapAt(list, i).c);
 
   return (
-    <main className="write-page">
+    <main className="page-frame write-page">
       <div className="write-context">
         <div className="theme-toolbar">
           <Link className="write-back" to={back.to}>

@@ -1,6 +1,8 @@
 /* Global tokens, reset and shared building blocks (.label, .status, .btn). */
 :root {
   color-scheme: light;
+  --page-width: 760px;
+  --page-background: #fcefe7;
   --paper: #f7f2e8;
   --card: #fffdf8;
   --ink: #1f1a17;
@@ -25,10 +27,12 @@
   --backdrop: rgb(31 26 23 / 35%);
   --shadow-accent: 0 4px 12px rgb(194 65 45 / 25%);
   --shadow-accent-lift: 0 6px 16px rgb(194 65 45 / 28%);
+  --shadow-card: 0 4px 14px rgb(110 57 24 / 8%);
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
+  --page-background: var(--paper);
   --paper: #181615;
   --card: #231f1d;
   --surface-raised: #2e2724;
@@ -69,7 +73,7 @@
 html,
 body {
   margin: 0;
-  background: var(--paper);
+  background: var(--page-background);
   color: var(--ink);
   font-family:
     system-ui,
@@ -151,10 +155,28 @@ button {
     transition: transform 160ms ease;
   }
 }
+.page-frame {
+  --page-gutter: 22px;
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+@media (width < 760px) {
+  .page-frame {
+    --page-gutter: var(--page-mobile-gutter, clamp(11px, 2.9vw, 22px));
+  }
+}
+
+@media (width >= 760px) {
+  html {
+    scrollbar-gutter: stable both-edges;
+  }
+}
+
 .app {
-  /* max-width is set inline from LAYOUT.maxWidth (shared/theme.ts) */
-  margin: 0 auto;
-  padding: 12px 14px 28px;
+  padding-block: 12px 28px;
   display: flex;
   flex-direction: column;
   gap: 12px;

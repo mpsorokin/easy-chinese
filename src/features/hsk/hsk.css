@@ -81,9 +81,8 @@
 .hsk-tray {
   position: sticky;
   bottom: 0;
-  margin: 8px calc(-1 * var(--level-gutter, 14px)) 0;
-  padding: 12px var(--level-gutter, 14px)
-    calc(12px + env(safe-area-inset-bottom));
+  margin: 8px calc(-1 * var(--page-gutter)) 0;
+  padding: 12px var(--page-gutter) calc(12px + env(safe-area-inset-bottom));
   background: var(--card);
   border: 1px solid var(--line);
   border-bottom: 0;

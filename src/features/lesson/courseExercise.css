@@ -1,20 +1,15 @@
-body:has(.course-exercise) {
-  background: #fdf3ec;
-}
-
 .course-exercise {
   --exercise-ink: #302019;
   --exercise-brown: #795647;
   --exercise-red: #a81810;
   --exercise-shadow:
     0 12px 22px -9px rgb(112 64 43 / 25%), 0 2px 5px rgb(112 64 43 / 8%);
+  --page-mobile-gutter: clamp(13px, 4.15vw, 23px);
   position: relative;
   isolation: isolate;
   container-type: inline-size;
-  max-width: 560px;
   min-height: 100svh;
-  margin-inline: auto;
-  padding: 0 clamp(13px, 4.15vw, 23px) 100px;
+  padding-bottom: 100px;
   overflow-x: clip;
   color: var(--exercise-ink);
 }
@@ -294,10 +289,6 @@ body:has(.course-exercise) {
   .course-run-bar span {
     transition: none;
   }
-}
-
-[data-theme='dark'] body:has(.course-exercise) {
-  background: var(--paper);
 }
 
 [data-theme='dark'] .course-exercise {

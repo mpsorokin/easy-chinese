@@ -59,7 +59,7 @@ export default function CourseLessonPage() {
   ).length;
 
   return (
-    <main className="course-lesson">
+    <main className="page-frame course-lesson">
       <header className="course-lesson-header">
         <div className="theme-toolbar">
           <Link className="course-lesson-back" to={levelLessonsPath(level.id)}>

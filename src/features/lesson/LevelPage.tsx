@@ -96,7 +96,7 @@ export default function LevelPage() {
   const done = lessonsDone(level, progress);
 
   return (
-    <main className="app hsk-page hsk-level">
+    <main className="app page-frame hsk-level">
       <div className="hsk-screen">
         <header className="level-header">
           <div className="theme-toolbar">

@@ -5,7 +5,6 @@ import { lessonStore } from '../lesson/lessonStore.ts';
 import { HSK_LEVELS, HSK1_LEVEL } from '../../data/hsk.ts';
 import { useProgress } from '../progress/useProgress.ts';
 import { usePersistentState } from '../../shared/hooks/usePersistentState.ts';
-import { LAYOUT } from '../../shared/theme.ts';
 import Meter from '../../shared/ui/Meter.tsx';
 import { t } from '../../shared/i18n/en.ts';
 import {
@@ -21,7 +20,6 @@ import { PencilIcon, PrinterIcon } from '../../shared/ui/icons.tsx';
 import ThemeControl from '../settings/ThemeControl.tsx';
 import bambooWash from './art/bamboo-wash.webp';
 import mistyPavilion from './art/misty-pavilion.webp';
-import plumBlossom from './art/plum-blossom.webp';
 import './home.css';
 
 const HERO_CHARS = 4;
@@ -57,10 +55,9 @@ export default function HomePage() {
   const upcoming = HSK_LEVELS.filter((l) => !l.data);
 
   return (
-    <div className="app home" style={{ maxWidth: LAYOUT.maxWidth }}>
-      <img className="home-plum" src={plumBlossom} alt="" decoding="async" />
+    <main className="app page-frame home">
       <header className="home-head">
-        <span className="home-logo" aria-hidden>
+        <span className="home-logo" lang="zh-Hans" aria-hidden>
           汉字
         </span>
         <h1>{t.appTitle}</h1>
@@ -68,34 +65,38 @@ export default function HomePage() {
       </header>
 
       {lesson && status && (
-        <section className="home-hero">
+        <section className="home-hero" aria-labelledby="home-current-title">
           <img
             className="home-hills"
             src={mistyPavilion}
             alt=""
             decoding="async"
           />
-          <h2 className="home-rule-label">{t.currentLesson}</h2>
-          <p className="home-hero-title">
-            HSK {level.id} · {t.lessonN(lesson.id)}
-          </p>
-          <p className="home-hero-sub">“{lesson.title}”</p>
-          <div className="home-hero-chars" lang="zh">
+          <div className="home-hero-copy">
+            <p className="home-kicker">{t.currentLesson}</p>
+            <h2 id="home-current-title">{lesson.title}</h2>
+            <p className="home-hero-meta">
+              HSK {level.id} · {t.lessonN(lesson.id)}
+            </p>
+          </div>
+          <div className="home-hero-chars" lang="zh-Hans">
             {lesson.chars.slice(0, HERO_CHARS).map((c) => (
               <span key={c}>{c}</span>
             ))}
           </div>
-          <div className="home-progress">
-            <span className="home-progress-row">
-              <span>{t.lessonsProgress(done, total)}</span>
-              <span>{t.percent(percent)}</span>
-            </span>
-            <Meter value={done} max={total} />
+          <div className="home-hero-actions">
+            <div className="home-progress">
+              <span className="home-progress-row">
+                <span>{t.lessonsProgress(done, total)}</span>
+                <span>{t.percent(percent)}</span>
+              </span>
+              <Meter value={done} max={total} />
+            </div>
+            <Link className="home-cta" to={lessonPath(level.id, lesson.id)}>
+              {status.started ? t.continueLabel : t.startLabel}
+              <span aria-hidden>→</span>
+            </Link>
           </div>
-          <Link className="home-cta" to={lessonPath(level.id, lesson.id)}>
-            {status.started ? t.continueLabel : t.startLabel}
-            <span aria-hidden>→</span>
-          </Link>
         </section>
       )}
 
@@ -106,7 +107,9 @@ export default function HomePage() {
           aria-haspopup="dialog"
           onClick={() => chooseLevel('write')}
         >
-          <PencilIcon />
+          <span className="home-tool-icon">
+            <PencilIcon />
+          </span>
           <b>{t.freeWrite}</b>
         </button>
         <button
@@ -115,7 +118,9 @@ export default function HomePage() {
           aria-haspopup="dialog"
           onClick={() => chooseLevel('print')}
         >
-          <PrinterIcon />
+          <span className="home-tool-icon">
+            <PrinterIcon />
+          </span>
           <b>{t.printPdf}</b>
         </button>
       </section>
@@ -188,25 +193,25 @@ export default function HomePage() {
               <b>{t.percent(pct(d, n))}</b>
               <span>{t.completed}</span>
             </span>
+            <span className="home-level-arrow" aria-hidden>
+              ›
+            </span>
           </Link>
         );
       })}
 
       {upcoming.length > 0 && (
         <section className="home-upcoming">
-          <h2 className="home-rule-label home-rule-label-lg">
-            {t.otherLevels}
-          </h2>
+          <h2>{t.otherLevels}</h2>
           <div className="home-chips">
             {upcoming.map((l) => (
               <div key={l.id} className="home-chip" aria-disabled>
                 <b>HSK {l.id}</b>
-                <span className="home-soon">{t.soon}</span>
               </div>
             ))}
           </div>
         </section>
       )}
-    </div>
+    </main>
   );
 }
