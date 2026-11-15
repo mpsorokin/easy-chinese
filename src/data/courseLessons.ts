@@ -6,6 +6,7 @@ import { lesson2 } from './lessons/lesson2.ts';
 import { lesson3 } from './lessons/lesson3.ts';
 import { lesson4 } from './lessons/lesson4.ts';
 import { lesson5 } from './lessons/lesson5.ts';
+import { lesson6 } from './lessons/lesson6.ts';
 
 // Exercises that show a dialogue: exercise1, exercise2, ... with no upper limit.
 export type DialogueExercise = `exercise${number}`;
@@ -39,6 +40,7 @@ export const COURSE_LESSONS: readonly CourseLesson[] = [
   lesson3,
   lesson4,
   lesson5,
+  lesson6,
 ];
 
 export const isDialogueExercise = (x: unknown): x is DialogueExercise =>
