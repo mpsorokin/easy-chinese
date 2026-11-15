@@ -5,7 +5,7 @@ import type { Grade } from '../../domain/grading.ts';
 import {
   exerciseNumber,
   type CourseExercise,
-} from '../../data/courseLessons.ts';
+} from '../../data/courseExercise.ts';
 
 // A number written in Chinese characters, up to 99: 1 → 一, 12 → 十二, 27 → 二十七.
 const CN_DIGITS = '零一二三四五六七八九';
@@ -25,6 +25,8 @@ const count = (n: number, one: string, many?: string) =>
   `${n} ${plural(n, one, many)}`;
 
 export const t = {
+  colorTheme: 'Color theme',
+  themePreferences: { system: 'System', light: 'Light', dark: 'Dark' },
   // Header
   prev: 'Previous',
   next: 'Next',

@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router/dom';
+import ThemeProvider from '../features/settings/ThemeProvider.tsx';
 import '../styles/base.css';
 import { migratePrefix } from '../shared/lib/storage.ts';
 import { router } from './router.tsx';
@@ -13,6 +14,8 @@ if (!root) throw new Error('Root element #root not found');
 
 createRoot(root).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </StrictMode>,
 );

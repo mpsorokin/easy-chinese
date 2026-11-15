@@ -1,5 +1,6 @@
 /* Global tokens, reset and shared building blocks (.label, .status, .btn). */
 :root {
+  color-scheme: light;
   --paper: #f7f2e8;
   --card: #fffdf8;
   --ink: #1f1a17;
@@ -17,9 +18,49 @@
   --radius-sm: 14px;
   --radius-pill: 999px;
   --accent-strong: #a9301f; /* hover / pressed accent */
+  --accent-fill: var(--accent);
+  --accent-fill-hover: var(--accent-strong);
   --on-accent: #fffaf4; /* text on accent backgrounds */
+  --on-ink: #fff;
+  --backdrop: rgb(31 26 23 / 35%);
   --shadow-accent: 0 4px 12px rgb(194 65 45 / 25%);
   --shadow-accent-lift: 0 6px 16px rgb(194 65 45 / 28%);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: #181615;
+  --card: #231f1d;
+  --surface-raised: #2e2724;
+  --surface-inset: #1c1917;
+  --ink: #f4e9dc;
+  --muted: #c1ac9d;
+  --line: #4c3e37;
+  --line-strong: #795b4e;
+  --grid: #a56a5d;
+  --grid-soft: rgb(165 106 93 / 55%);
+  --accent: #f3a18d;
+  --accent-soft: #3e2823;
+  --accent-strong: #ffc0ad;
+  --accent-fill: #a84332;
+  --accent-fill-hover: #b54b38;
+  --on-ink: #231b17;
+  --good: #8bd2ae;
+  --good-soft: #22392f;
+  --error: #ffa49d;
+  --error-soft: #452a28;
+  --warn: #edc184;
+  --warn-soft: #41301f;
+  --backdrop: rgb(7 6 5 / 70%);
+  --shadow-accent: 0 4px 12px rgb(0 0 0 / 24%);
+  --shadow-accent-lift: 0 6px 16px rgb(0 0 0 / 34%);
+  --shadow-card: 0 4px 14px rgb(0 0 0 / 20%);
+  --art-filter: brightness(0.66) saturate(0.8);
+  --art-veil: rgb(35 31 29 / 80%);
+  --night-blossoms: url('../features/home/art/plum-blossom.webp');
+  --night-pavilion: url('../features/home/art/misty-pavilion.webp');
+  --icon-filter: brightness(0) saturate(100%) invert(76%) sepia(29%)
+    saturate(729%) hue-rotate(315deg) brightness(102%);
 }
 * {
   box-sizing: border-box;
@@ -49,6 +90,50 @@ body {
 button {
   font: inherit;
   color: inherit;
+  cursor: pointer;
+}
+
+:where(a, button, input, select, summary):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.theme-toolbar {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-control {
+  position: relative;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  place-items: center;
+  margin-inline-start: auto;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--card);
+  color: var(--accent);
+}
+
+.theme-control:hover {
+  border-color: var(--accent);
+}
+
+.theme-control:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.theme-control select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
   cursor: pointer;
 }
 .app {
@@ -90,8 +175,8 @@ button {
   border-color: transparent;
 }
 .status.err {
-  background: var(--accent-soft);
-  color: var(--accent);
+  background: var(--error-soft, var(--accent-soft));
+  color: var(--error, var(--accent));
   border-color: transparent;
 }
 .status .retry {
@@ -125,7 +210,7 @@ button {
 }
 .btn.primary {
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
   border-color: var(--ink);
 }
 

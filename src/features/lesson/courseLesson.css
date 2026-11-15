@@ -383,3 +383,95 @@ body:has(.course-lesson) {
     background: #922f1f;
   }
 }
+
+[data-theme='dark'] body:has(.course-lesson) {
+  background: var(--paper);
+}
+
+[data-theme='dark'] .course-lesson {
+  --lesson-ink: var(--ink);
+  --lesson-brown: var(--muted);
+  --lesson-red: var(--accent);
+  --lesson-line: var(--line);
+  --lesson-surface: var(--card);
+  --lesson-shadow: var(--shadow-card);
+}
+
+[data-theme='dark'] .course-lesson-hero {
+  background: linear-gradient(125deg, var(--surface-raised), var(--card));
+}
+
+[data-theme='dark'] .course-lesson-hero::before,
+[data-theme='dark'] .course-lesson-art {
+  filter: var(--art-filter);
+  opacity: 0.4;
+}
+
+[data-theme='dark'] .course-lesson-hero::before {
+  background:
+    var(--night-blossoms) right top -50px / min(54%, 280px) auto no-repeat,
+    var(--night-pavilion) right 43% / 100% auto no-repeat;
+  mask-image: radial-gradient(ellipse at 74% 45%, #000 28%, transparent 79%);
+  opacity: 0.58;
+}
+
+[data-theme='dark'] .course-lesson-jump {
+  border-color: var(--line-strong);
+  background: var(--accent-soft);
+}
+
+[data-theme='dark'] .course-lesson-card {
+  background: var(--surface-inset);
+}
+
+[data-theme='dark'] .course-lesson-card.is-ready {
+  background: var(--lesson-surface);
+}
+
+[data-theme='dark'] :is(.course-lesson-tile, .course-lesson-soon) {
+  background: var(--surface-raised);
+}
+
+[data-theme='dark'] .course-lesson-card.is-ready .course-lesson-tile {
+  background: var(--accent-soft);
+}
+
+[data-theme='dark'] .course-lesson-arrow {
+  background: var(--surface-raised);
+  opacity: 1;
+}
+
+[data-theme='dark']
+  :is(
+    .course-lesson-back,
+    .course-lesson-jump,
+    .course-lesson-tile,
+    .course-lesson-arrow,
+    .course-lesson-soon
+  )
+  img {
+  filter: var(--icon-filter);
+  opacity: 0.9;
+}
+
+[data-theme='dark']
+  :is(
+    .course-lesson-card.is-ready,
+    .course-lesson-jump,
+    .course-lesson .lesson-ex
+  ):hover {
+  border-color: var(--accent);
+}
+
+[data-theme='dark'] .course-lesson .lesson-ex.done {
+  border-color: #598672;
+}
+
+[data-theme='dark'] .course-lesson-start-button {
+  background: var(--accent-fill);
+  box-shadow: var(--shadow-accent);
+}
+
+[data-theme='dark'] .course-lesson-start-button:hover {
+  background: var(--accent-fill-hover);
+}

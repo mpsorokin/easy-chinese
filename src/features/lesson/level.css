@@ -9,10 +9,11 @@ body:has(.hsk-level) {
   --level-brown: #784431;
   --level-red: #aa2511;
   --level-focus: #b83924;
+  --level-gutter: clamp(11px, 2.9vw, 22px);
   width: 100%;
   max-width: 760px;
   min-height: 100svh;
-  padding: 0 clamp(11px, 2.9vw, 22px) 28px;
+  padding: 0 var(--level-gutter) 28px;
   color: var(--level-ink);
   container-type: inline-size;
 }
@@ -322,4 +323,105 @@ body:has(.hsk-level) {
     opacity: 0.72;
     mask-image: linear-gradient(to right, transparent, #000 55%);
   }
+}
+
+[data-theme='dark'] body:has(.hsk-level) {
+  background: var(--paper);
+  scrollbar-color: var(--line-strong) var(--paper);
+}
+
+[data-theme='dark'] .hsk-level {
+  --level-ink: var(--ink);
+  --level-brown: var(--muted);
+  --level-red: var(--accent);
+  --level-focus: var(--accent);
+}
+
+[data-theme='dark'] .level-header::before {
+  background:
+    var(--night-blossoms) right 2% top -52px / min(40%, 230px) auto no-repeat,
+    var(--night-pavilion) right top / 72% auto no-repeat;
+  filter: var(--art-filter);
+  opacity: 0.5;
+  mask-image: radial-gradient(ellipse at 71% 29%, #000 25%, transparent 80%);
+}
+
+[data-theme='dark'] .level-header .hsk-back,
+[data-theme='dark'] .hsk-level .hsk-tabs .seg button {
+  color: var(--muted);
+}
+
+[data-theme='dark'] .hsk-level .hsk-tabs .seg {
+  border-color: var(--line);
+  background: var(--surface-inset);
+  box-shadow: var(--shadow-card);
+}
+
+[data-theme='dark'] .hsk-level .hsk-tabs .seg button.on {
+  background: var(--accent-fill);
+  box-shadow: inset 0 1px rgb(255 255 255 / 12%);
+  color: var(--on-accent);
+}
+
+[data-theme='dark'] .hsk-level .hsk-tabs .seg button:not(.on):hover {
+  background: var(--surface-raised);
+}
+
+[data-theme='dark'] .hsk-level .lesson-row {
+  --topic-track: var(--line);
+  border-color: var(--line);
+  background: linear-gradient(155deg, var(--surface-raised), var(--card) 80%);
+  box-shadow: var(--shadow-card);
+}
+
+[data-theme='dark'] .hsk-level .topic-row.next {
+  --topic-track: #674239;
+  border-color: #b46a58;
+  background: linear-gradient(155deg, var(--accent-soft), #2d2220 80%);
+}
+
+[data-theme='dark'] .hsk-level .lesson-row:hover {
+  border-color: var(--accent);
+}
+
+[data-theme='dark'] .hsk-level .lesson-num {
+  border-color: var(--line);
+  color: var(--muted);
+}
+
+[data-theme='dark'] .hsk-level .topic-row.next .lesson-num {
+  border-color: #674239;
+}
+
+[data-theme='dark'] .hsk-level .topic-row.done .lesson-num {
+  color: var(--good);
+}
+
+[data-theme='dark'] .hsk-level .lesson-num::before,
+[data-theme='dark'] .hsk-level .topic-row.next .lesson-num::before {
+  filter: var(--art-filter);
+  opacity: 0.24;
+}
+
+[data-theme='dark'] .hsk-level .topic-row.next :is(.lesson-num, .lesson-count) {
+  color: var(--accent);
+}
+
+[data-theme='dark'] .hsk-level .lesson-chars {
+  color: var(--ink);
+}
+
+[data-theme='dark'] .hsk-level .lesson-badge {
+  background: #543227;
+  color: var(--accent-strong);
+}
+
+[data-theme='dark'] .topic-art {
+  filter: var(--art-filter);
+  opacity: 0.44;
+  mask-image: linear-gradient(to right, transparent 3%, #000 51%);
+}
+
+[data-theme='dark'] .topic-art.vignette {
+  opacity: 0.38;
 }

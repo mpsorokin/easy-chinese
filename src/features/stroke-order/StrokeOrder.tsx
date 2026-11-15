@@ -2,7 +2,8 @@ import { useEffect, useRef } from 'react';
 import type { CharacterJson } from 'hanzi-writer';
 import CanvasCell from '../../shared/ui/CanvasCell.tsx';
 import { toCharSpace, fillStrokes } from '../../shared/lib/draw.ts';
-import { COLORS } from '../../shared/theme.ts';
+import { writingColors } from '../../shared/theme.ts';
+import { useTheme } from '../settings/useTheme.ts';
 import { t } from '../../shared/i18n/en.ts';
 import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 import './StrokeOrder.css';
@@ -23,6 +24,7 @@ export default function StrokeOrder({
   shown: boolean;
   onToggle: () => void;
 }) {
+  const colors = writingColors[useTheme().resolved];
   const boxRef = useRef<HTMLDivElement>(null);
   const strokes = data?.strokes ?? []; // empty while loading
   const n = strokes.length;
@@ -81,9 +83,9 @@ export default function StrokeOrder({
               draw={(ctx, s) => {
                 ctx.save();
                 toCharSpace(ctx, s, 6);
-                fillStrokes(ctx, strokes, i + 1, n, COLORS.strokeTodo);
-                fillStrokes(ctx, strokes, 0, i, COLORS.strokeDone);
-                fillStrokes(ctx, strokes, i, i + 1, COLORS.accent);
+                fillStrokes(ctx, strokes, i + 1, n, colors.strokeTodo);
+                fillStrokes(ctx, strokes, 0, i, colors.strokeDone);
+                fillStrokes(ctx, strokes, i, i + 1, colors.accent);
                 ctx.restore();
               }}
             />

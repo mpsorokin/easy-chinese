@@ -7,6 +7,7 @@ import type { ExerciseId } from '../../domain/exercises.ts';
 import { lessonKey, lessonResults, PASS_GRADE } from '../progress/progress.ts';
 import { useProgress } from '../progress/useProgress.ts';
 import { t } from '../../shared/i18n/en.ts';
+import ThemeControl from '../settings/ThemeControl.tsx';
 import Meter from '../../shared/ui/Meter.tsx';
 import LessonExerciseCards from './LessonExerciseCards.tsx';
 import {
@@ -65,10 +66,13 @@ export default function LessonPage() {
   return (
     <main className="app lesson-page">
       <header className="lesson-head">
-        <Link className="hsk-back lesson-back" to={levelPath(level.id)}>
-          <span className="lesson-icon chevron previous" aria-hidden="true" />
-          {t.levelTitle(level.id)}
-        </Link>
+        <div className="theme-toolbar">
+          <Link className="hsk-back lesson-back" to={levelPath(level.id)}>
+            <span className="lesson-icon chevron previous" aria-hidden="true" />
+            {t.levelTitle(level.id)}
+          </Link>
+          <ThemeControl />
+        </div>
         <p className="lesson-kicker">{t.lessonN(lesson.id)}</p>
         <h1>{lesson.title}</h1>
         <div className="lesson-overview">

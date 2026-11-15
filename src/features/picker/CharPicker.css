@@ -3,7 +3,7 @@
 .sheet {
   position: fixed;
   inset: 0;
-  background: rgba(31, 26, 23, 0.35);
+  background: var(--backdrop);
   display: none;
   align-items: flex-end;
   justify-content: center;
@@ -59,7 +59,7 @@
 }
 .tabs button.on {
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
   border-color: var(--ink);
 }
 .chars {

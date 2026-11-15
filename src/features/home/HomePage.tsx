@@ -18,6 +18,7 @@ import {
   statusOf,
 } from '../lesson/lessonNav.ts';
 import { PencilIcon, PrinterIcon } from '../../shared/ui/icons.tsx';
+import ThemeControl from '../settings/ThemeControl.tsx';
 import bambooWash from './art/bamboo-wash.webp';
 import mistyPavilion from './art/misty-pavilion.webp';
 import plumBlossom from './art/plum-blossom.webp';
@@ -63,6 +64,7 @@ export default function HomePage() {
           汉字
         </span>
         <h1>{t.appTitle}</h1>
+        <ThemeControl />
       </header>
 
       {lesson && status && (

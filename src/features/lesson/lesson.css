@@ -472,3 +472,75 @@ body:has(.lesson-page) {
     width: 26px;
   }
 }
+
+[data-theme='dark'] body:has(.lesson-page) {
+  background: var(--paper);
+}
+
+[data-theme='dark'] .lesson-page {
+  --lesson-ink: var(--ink);
+  --lesson-brown: var(--muted);
+  --lesson-red: var(--accent);
+  --lesson-line: var(--line);
+  --lesson-surface: var(--card);
+  --lesson-shadow: var(--shadow-card);
+}
+
+[data-theme='dark'] .lesson-page::after,
+[data-theme='dark'] .lesson-head::before,
+[data-theme='dark'] .lesson-vocabulary::before {
+  filter: var(--art-filter);
+  opacity: 0.3;
+}
+
+[data-theme='dark'] :is(.lesson-overview, .lesson-words) {
+  border-color: var(--lesson-line);
+  background: var(--lesson-surface);
+}
+
+[data-theme='dark'] .lesson-summary-progress .meter {
+  background: var(--line);
+}
+
+[data-theme='dark'] .lesson-section h2::before {
+  filter: var(--art-filter);
+  opacity: 0.65;
+}
+
+[data-theme='dark'] :is(.lesson-card, .lesson-ex) {
+  border-color: var(--lesson-line);
+  background:
+    linear-gradient(90deg, var(--card) 35%, var(--art-veil)),
+    url('./art/level/hills.webp') right bottom / 51% auto no-repeat,
+    var(--card);
+}
+
+[data-theme='dark'] .lesson-ex:hover {
+  border-color: var(--accent);
+}
+
+[data-theme='dark'] .lesson-ex.done {
+  border-color: #598672;
+}
+
+[data-theme='dark'] :is(.lesson-stars, .lesson-ex-stars) {
+  color: var(--warn);
+}
+
+[data-theme='dark'] .lesson-ex-tile {
+  background: var(--accent-soft);
+}
+
+[data-theme='dark'] .lesson-nav .btn {
+  border-color: var(--line);
+  background: var(--surface-raised);
+}
+
+[data-theme='dark'] .lesson-nav .lesson-next {
+  border-color: transparent;
+  background: var(--accent-fill);
+}
+
+[data-theme='dark'] .lesson-nav .lesson-next:hover {
+  background: var(--accent-fill-hover);
+}

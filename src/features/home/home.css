@@ -49,10 +49,11 @@
 .home-logo {
   display: grid;
   place-items: center;
+  flex: none;
   width: 48px;
   height: 48px;
   border-radius: var(--radius-sm);
-  background: var(--accent);
+  background: var(--accent-fill);
   color: #fff;
   font-size: 19px;
   letter-spacing: -1px;
@@ -151,7 +152,7 @@
   height: 56px;
   margin-top: 8px;
   border-radius: var(--radius-pill);
-  background: var(--accent);
+  background: var(--accent-fill);
   color: #fff;
   font-size: 19px;
   font-weight: 700;
@@ -205,7 +206,7 @@
   color: var(--ink);
 }
 .home-level-picker::backdrop {
-  background: rgba(31, 26, 23, 0.35);
+  background: var(--backdrop);
 }
 .home-level-picker-head {
   display: flex;
@@ -342,6 +343,57 @@
 .home-tool:active,
 .home-level:active {
   transform: scale(0.98);
+}
+
+[data-theme='dark'] body:has(.home) {
+  background:
+    radial-gradient(
+      ellipse min(400px, 90vw) 420px at calc(50% + min(175px, 32vw)) 0,
+      #30211e,
+      transparent 85%
+    ),
+    radial-gradient(
+      ellipse min(360px, 85vw) 310px at calc(50% - min(180px, 32vw)) 100%,
+      #212622,
+      transparent 90%
+    ),
+    var(--paper);
+}
+
+[data-theme='dark'] .home {
+  background: transparent;
+}
+
+[data-theme='dark'] :is(.home-plum, .home-hills, .home-bamboo) {
+  filter: var(--art-filter);
+  opacity: 0.4;
+}
+
+[data-theme='dark'] .home-hills {
+  opacity: 0.32;
+  mask-image: radial-gradient(ellipse at 58% 65%, #000 28%, transparent 79%);
+}
+
+[data-theme='dark'] .home > .home-plum {
+  mask-image: linear-gradient(90deg, #000 58%, transparent);
+}
+
+[data-theme='dark'] .home-hero-chars span {
+  border: 1px solid var(--line);
+  background: var(--surface-raised);
+}
+
+[data-theme='dark'] :is(.home-tool, .home-level, .home-chip) {
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+[data-theme='dark'] .home-level-picker {
+  background: var(--surface-raised);
+}
+
+[data-theme='dark'] .home-soon {
+  background: var(--surface-raised);
 }
 
 @media (max-width: 420px) {

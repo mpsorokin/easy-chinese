@@ -9,7 +9,8 @@ import {
 } from '../../shared/lib/draw.ts';
 import { STEPS } from './steps.ts';
 import type { GridKind } from '../../domain/types.ts';
-import { COLORS, rgba } from '../../shared/theme.ts';
+import { rgba, writingColors } from '../../shared/theme.ts';
+import { useTheme } from '../settings/useTheme.ts';
 import { t } from '../../shared/i18n/en.ts';
 import type { StepResult } from '../../domain/grading.ts';
 import './copybook.css';
@@ -29,6 +30,7 @@ export default function CopybookSteps({
   results: StepResult[];
   gridKind: GridKind;
 }) {
+  const colors = writingColors[useTheme().resolved];
   const strokes = data?.strokes ?? []; // empty while loading: cells show only the grid
   const n = strokes.length;
   return (
@@ -56,19 +58,19 @@ export default function CopybookSteps({
                 style={FILL}
                 aria-hidden="true"
                 draw={(ctx, w) => {
-                  drawGrid(ctx, w, gridKind, 0.3);
+                  drawGrid(ctx, w, gridKind, colors.gridRgb, 0.3);
                   ctx.save();
                   toCharSpace(ctx, w, 3);
                   if (r) {
-                    fillStrokes(ctx, strokes, 0, n, COLORS.stepBehindUser);
-                    drawUserPaths(ctx, r.paths);
+                    fillStrokes(ctx, strokes, 0, n, colors.stepBehindUser);
+                    drawUserPaths(ctx, r.paths, colors.ink);
                   } else if (s.outline > 0) {
                     fillStrokes(
                       ctx,
                       strokes,
                       0,
                       n,
-                      rgba(COLORS.stepOutlineRgb, 0.25 + 0.45 * s.outline),
+                      rgba(colors.stepOutlineRgb, 0.25 + 0.45 * s.outline),
                     );
                   }
                   ctx.restore();

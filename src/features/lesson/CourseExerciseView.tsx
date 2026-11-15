@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import type { DialogueLine, LinesExercise } from '../../data/courseLessons.ts';
 import { t } from '../../shared/i18n/en.ts';
 import { canSpeak, speakChinese } from '../../shared/lib/speech.ts';
+import ThemeControl from '../settings/ThemeControl.tsx';
 import blossomsArt from './art/dialogue-blossoms.webp';
 import hillsArt from './art/dialogue-hills.webp';
 import chevronIcon from './icons/chevron.svg';
@@ -43,10 +44,13 @@ export default function CourseExerciseView({
   return (
     <main className="course-exercise" style={dialogueArt}>
       <header className="course-exercise-header">
-        <Link className="course-exercise-back" to={backTo}>
-          <img src={chevronIcon} alt="" />
-          {backLabel}
-        </Link>
+        <div className="theme-toolbar">
+          <Link className="course-exercise-back" to={backTo}>
+            <img src={chevronIcon} alt="" />
+            {backLabel}
+          </Link>
+          <ThemeControl />
+        </div>
         {progress}
         <h1>{t.courseExercises(exercise)}</h1>
         <p className="course-exercise-subtitle" lang="zh-Hans">

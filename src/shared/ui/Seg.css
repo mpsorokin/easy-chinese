@@ -13,5 +13,8 @@
 }
 .seg button.on {
   background: var(--ink);
-  color: #fff;
+  color: var(--on-ink);
+}
+.seg button:focus-visible {
+  outline-offset: -2px;
 }

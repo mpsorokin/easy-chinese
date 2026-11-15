@@ -299,3 +299,57 @@ body:has(.write-page) {
     text-decoration: underline;
   }
 }
+
+[data-theme='dark'] body:has(.write-page) {
+  background: var(--paper);
+}
+
+/* The writing page supplies its own paper colors in the light theme. */
+[data-theme='dark'] .write-page {
+  --paper: inherit;
+  --card: inherit;
+  --ink: inherit;
+  --muted: inherit;
+  --line: inherit;
+  --accent: inherit;
+  --accent-soft: inherit;
+  --write-shadow: var(--shadow-card);
+  --write-surface: linear-gradient(160deg, var(--surface-raised), var(--card));
+}
+
+[data-theme='dark'] .write-page::before {
+  background:
+    var(--night-blossoms) right top -35px / 43% auto no-repeat,
+    var(--night-pavilion) right top / 72% auto no-repeat;
+  filter: var(--art-filter);
+  opacity: 0.44;
+  mask-image: radial-gradient(ellipse at 73% 28%, #000 26%, transparent 79%);
+}
+
+[data-theme='dark'] .write-character {
+  background:
+    linear-gradient(90deg, var(--card) 38%, var(--art-veil)),
+    url('../features/lesson/art/dialogue-hills.webp') no-repeat right bottom /
+      65% auto,
+    var(--write-surface);
+}
+
+[data-theme='dark'] .write-glyph {
+  border-color: var(--line-strong);
+}
+
+[data-theme='dark'] .write-page .status {
+  background: var(--accent-soft);
+}
+
+[data-theme='dark'] .write-page .status.ok {
+  background: var(--good-soft);
+}
+
+[data-theme='dark'] .write-page .status.err {
+  background: var(--error-soft);
+}
+
+[data-theme='dark'] .write-page .status.err .write-icon {
+  color: var(--error);
+}

@@ -1,6 +1,6 @@
 // Canvas drawing in the character data coordinate space (1024×1024, Y axis up).
 import type { GridKind, StrokePaths } from '../../domain/types.ts';
-import { COLORS, rgba } from '../theme.ts';
+import { rgba } from '../theme.ts';
 
 // hanzi-writer-data glyphs live in a 1024 box with the baseline offset by 124,
 // so the top of the em box is at y = 900.
@@ -31,11 +31,12 @@ export function drawGrid(
   ctx: CanvasRenderingContext2D,
   s: number,
   kind: GridKind,
+  gridRgb: string,
   alpha = 0.5,
   h = s,
 ) {
   ctx.save();
-  ctx.strokeStyle = rgba(COLORS.gridRgb, alpha);
+  ctx.strokeStyle = rgba(gridRgb, alpha);
   ctx.lineWidth = 1;
   ctx.setLineDash([4, 4]);
   ctx.beginPath();
@@ -82,7 +83,7 @@ export function fillStrokes(
 export function drawUserPaths(
   ctx: CanvasRenderingContext2D,
   paths: Readonly<StrokePaths>,
-  color = COLORS.ink,
+  color: string,
   width = 42,
 ) {
   ctx.strokeStyle = color;

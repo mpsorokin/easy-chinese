@@ -7,11 +7,18 @@ import { lesson3 } from './lessons/lesson3.ts';
 import { lesson4 } from './lessons/lesson4.ts';
 import { lesson5 } from './lessons/lesson5.ts';
 import { lesson6 } from './lessons/lesson6.ts';
+import {
+  isDialogueExercise,
+  type CourseExercise,
+  type DialogueExercise,
+} from './courseExercise.ts';
 
-// Exercises that show a dialogue: exercise1, exercise2, ... with no upper limit.
-export type DialogueExercise = `exercise${number}`;
-
-export type CourseExercise = DialogueExercise | 'words';
+export {
+  exerciseNumber,
+  isDialogueExercise,
+  type CourseExercise,
+  type DialogueExercise,
+} from './courseExercise.ts';
 
 // One piece of a dialogue line: a character with its pinyin, or text without a reading
 // (punctuation, Latin letters such as "AI").
@@ -42,13 +49,6 @@ export const COURSE_LESSONS: readonly CourseLesson[] = [
   lesson5,
   lesson6,
 ];
-
-export const isDialogueExercise = (x: unknown): x is DialogueExercise =>
-  typeof x === 'string' && /^exercise[1-9]\d*$/.test(x);
-
-// The number of a dialogue exercise: 12 for "exercise12".
-export const exerciseNumber = (ex: DialogueExercise) =>
-  Number(ex.slice('exercise'.length));
 
 // Exercises shown as a list of lines: the dialogues and the vocabulary.
 export type LinesExercise = DialogueExercise | 'words';

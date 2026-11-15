@@ -15,6 +15,7 @@ import type { WriterHandle } from '../features/writer/types.ts';
 import SummaryOverlay from '../features/copybook/SummaryOverlay.tsx';
 import Controls from '../features/copybook/Controls.tsx';
 import SettingsPanel from '../features/settings/SettingsPanel.tsx';
+import ThemeControl from '../features/settings/ThemeControl.tsx';
 import { ALL, normalizeLastChar, wrapAt } from '../data/chars.ts';
 import {
   hskCharEntry,
@@ -255,9 +256,12 @@ function CopybookPage({ set }: { set: CopybookSet }) {
   return (
     <main className="write-page">
       <div className="write-context">
-        <Link className="write-back" to={back.to}>
-          <WriteIcon name="back" /> {back.label}
-        </Link>
+        <div className="theme-toolbar">
+          <Link className="write-back" to={back.to}>
+            <WriteIcon name="back" /> {back.label}
+          </Link>
+          <ThemeControl />
+        </div>
         <div className="write-progress">
           {set.level && (
             <span className="write-level">{t.levelTitle(set.level)}</span>

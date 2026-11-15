@@ -4,6 +4,7 @@ import { Link, Navigate, useNavigate } from 'react-router';
 import type { Question } from '../../domain/exercises.ts';
 import type { Grade } from '../../domain/grading.ts';
 import { t } from '../../shared/i18n/en.ts';
+import ThemeControl from '../settings/ThemeControl.tsx';
 import QuizRunner from './QuizRunner.tsx';
 
 // The page around a quiz: close link, title and the runner. Pages that use it must give it
@@ -33,6 +34,7 @@ export default function QuizPage({
           {t.quizExit}
         </Link>
         <h1>{title}</h1>
+        <ThemeControl />
       </header>
       <QuizRunner
         key={round}

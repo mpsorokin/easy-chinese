@@ -81,8 +81,9 @@
 .hsk-tray {
   position: sticky;
   bottom: 0;
-  margin: 8px -14px 0;
-  padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+  margin: 8px calc(-1 * var(--level-gutter, 14px)) 0;
+  padding: 12px var(--level-gutter, 14px)
+    calc(12px + env(safe-area-inset-bottom));
   background: var(--card);
   border: 1px solid var(--line);
   border-bottom: 0;
@@ -180,7 +181,7 @@
   overflow: hidden;
 }
 .print-dialog::backdrop {
-  background: rgba(31, 26, 23, 0.35);
+  background: var(--backdrop);
 }
 .print-dialog-panel {
   max-height: 85vh;
@@ -336,7 +337,7 @@
   padding: 0 18px 0 14px;
   border: 0;
   border-radius: var(--radius-pill);
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
   font: inherit;
   font-size: 15px;
@@ -353,7 +354,7 @@
   height: 20px;
 }
 .hsk-preset-print:hover {
-  background: var(--accent-strong);
+  background: var(--accent-fill-hover);
   box-shadow: var(--shadow-accent-lift);
 }
 .hsk-preset-print:active {
@@ -362,6 +363,26 @@
 .hsk-preset-print:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
+}
+
+[data-theme='dark'] :is(.hsk-tray, .hsk-preset) {
+  box-shadow: var(--shadow-card);
+}
+
+[data-theme='dark'] .hsk-preset-cell {
+  background: var(--surface-inset);
+}
+
+[data-theme='dark'] .print-dialog {
+  border: 1px solid var(--line);
+}
+
+[data-theme='dark'] .print-dialog-top {
+  background: var(--surface-raised);
+}
+
+[data-theme='dark'] .hsk-error {
+  color: var(--error);
 }
 /* Narrow phones: icon-only button so the title and preview keep their room. */
 @media (max-width: 360px) {

@@ -11,13 +11,20 @@ import CanvasCell from '../../shared/ui/CanvasCell.tsx';
 import { drawGrid } from '../../shared/lib/draw.ts';
 import { loadCharData } from '../../data/charData.ts';
 import type { GridKind, StrokePaths } from '../../domain/types.ts';
-import { COLORS, rgba } from '../../shared/theme.ts';
+import { rgba, writingColors } from '../../shared/theme.ts';
+import type { WritingColors } from '../../shared/theme.ts';
 import { vibrate } from '../../shared/lib/haptics.ts';
+import { useTheme } from '../settings/useTheme.ts';
 import type { QuizCallbacks, WriterHandle } from './types.ts';
 import './WritingCell.css';
 
-const outlineColor = (a: number) =>
-  a >= 1 ? COLORS.outlineSolid : rgba(COLORS.outlineRgb, a);
+const writerColors = (colors: WritingColors, outline: number) => ({
+  strokeColor: colors.ink,
+  drawingColor: colors.drawing,
+  highlightColor: colors.highlight,
+  outlineColor:
+    outline >= 1 ? colors.outlineSolid : rgba(colors.outlineRgb, outline),
+});
 const padFor = (size: number) => Math.round(size * 0.06);
 
 type WritingCellProps = QuizCallbacks & {
@@ -73,9 +80,11 @@ export default function WritingCell(props: WritingCellProps) {
     onMistake,
     onComplete,
   } = props;
+  const colors = writingColors[useTheme().resolved];
   const hostRef = useRef<HTMLDivElement>(null);
   const cellRef = useRef<HTMLDivElement>(null);
   const writerRef = useRef<HanziWriter | null>(null);
+  const paletteRef = useRef({ colors, outline });
   const [{ width, height }, setDimensions] = useState({ width: 1, height: 1 });
   // Character whose data is loaded into the writer; null until setCharacter() succeeds.
   const loadedRef = useRef<string | null>(null);
@@ -93,6 +102,33 @@ export default function WritingCell(props: WritingCellProps) {
   useLayoutEffect(() => {
     cb.current = { onStart, onCorrect, onMistake, onComplete };
   });
+
+  // Change colors in place so switching theme preserves the active quiz and its paths.
+  useLayoutEffect(() => {
+    paletteRef.current = { colors, outline };
+    const writer = writerRef.current;
+    if (!writer) return;
+
+    const options = writerColors(colors, outline);
+    writer._options.highlightCompleteColor = colors.good;
+    if (!loadedRef.current) {
+      Object.assign(writer._options, options);
+      return;
+    }
+
+    void writer.updateColor('strokeColor', options.strokeColor, {
+      duration: 0,
+    });
+    void writer.updateColor('drawingColor', options.drawingColor, {
+      duration: 0,
+    });
+    void writer.updateColor('highlightColor', options.highlightColor, {
+      duration: 0,
+    });
+    void writer.updateColor('outlineColor', options.outlineColor, {
+      duration: 0,
+    });
+  }, [colors, outline]);
 
   useLayoutEffect(() => {
     const cell = cellRef.current;
@@ -119,6 +155,7 @@ export default function WritingCell(props: WritingCellProps) {
     const cell = cellRef.current;
     if (!host || !cell) return;
     const { clientWidth: width, clientHeight: height } = cell;
+    const { colors, outline } = paletteRef.current;
     const w = new HanziWriter(host, {
       width,
       height,
@@ -126,13 +163,10 @@ export default function WritingCell(props: WritingCellProps) {
       renderer: 'svg',
       showCharacter: false,
       showOutline: true,
-      strokeColor: COLORS.ink,
       radicalColor: null,
-      outlineColor: outlineColor(1),
-      highlightColor: COLORS.highlight,
-      drawingColor: COLORS.drawing,
+      ...writerColors(colors, outline),
       drawingWidth: Math.max(14, Math.round(height / 22)),
-      highlightCompleteColor: COLORS.good,
+      highlightCompleteColor: colors.good,
       ...animationSpeeds(1),
       charDataLoader: (c) => loadCharData(c),
       // Without this handler HanziWriter rethrows, and its later calls throw synchronously.
@@ -189,10 +223,8 @@ export default function WritingCell(props: WritingCellProps) {
       // These return animation promises; the quiz does not wait for them.
       w.cancelQuiz();
       void w.hideCharacter();
-      if (outline > 0) {
-        void w.updateColor('outlineColor', outlineColor(outline));
-        void w.showOutline();
-      } else void w.hideOutline();
+      if (outline > 0) void w.showOutline();
+      else void w.hideOutline();
       cb.current.onStart?.();
 
       void w.quiz({
@@ -265,7 +297,9 @@ export default function WritingCell(props: WritingCellProps) {
         height={height}
         className="grid"
         aria-hidden="true"
-        draw={(ctx, s) => drawGrid(ctx, s, gridKind, 0.55, height)}
+        draw={(ctx, s) =>
+          drawGrid(ctx, s, gridKind, colors.gridRgb, 0.55, height)
+        }
       />
       <div ref={hostRef} className="writer-host" />
       {children}

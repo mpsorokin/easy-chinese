@@ -118,3 +118,17 @@
 .copybook-summary .acts .btn {
   padding: 0 16px;
 }
+
+[data-theme='dark'] .write-page .controls .write-show {
+  border-color: transparent;
+  background: var(--accent-fill);
+  color: var(--on-accent);
+}
+
+[data-theme='dark'] .write-page .controls .write-show:hover {
+  background: var(--accent-fill-hover);
+}
+
+[data-theme='dark'] .copybook-summary {
+  background: rgb(35 31 29 / 97%);
+}

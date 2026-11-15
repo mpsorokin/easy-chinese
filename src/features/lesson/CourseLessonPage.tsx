@@ -11,6 +11,7 @@ import { EXERCISES } from '../../domain/exercises.ts';
 import type { ExerciseId } from '../../domain/exercises.ts';
 import { courseLessonKey, lessonResults } from '../progress/progress.ts';
 import { useProgress } from '../progress/useProgress.ts';
+import ThemeControl from '../settings/ThemeControl.tsx';
 import LessonExerciseCards from './LessonExerciseCards.tsx';
 import { t } from '../../shared/i18n/en.ts';
 import { courseExerciseArt } from './courseExerciseArt.ts';
@@ -72,10 +73,13 @@ export default function CourseLessonPage() {
   return (
     <main className="course-lesson">
       <header className="course-lesson-header">
-        <Link className="course-lesson-back" to={levelLessonsPath(level.id)}>
-          <img src={chevronIcon} alt="" />
-          {levelTitle}
-        </Link>
+        <div className="theme-toolbar">
+          <Link className="course-lesson-back" to={levelLessonsPath(level.id)}>
+            <img src={chevronIcon} alt="" />
+            {levelTitle}
+          </Link>
+          <ThemeControl />
+        </div>
         <div className="course-lesson-hero">
           <h1>{t.lessonN(lesson.id)}</h1>
           {parts.length > 0 && (

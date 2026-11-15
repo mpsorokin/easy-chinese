@@ -56,3 +56,14 @@
     animation: none;
   }
 }
+
+[data-theme='dark'] .write-page .cell {
+  border-color: var(--grid);
+  outline-color: var(--card);
+  background:
+    linear-gradient(rgb(28 25 23 / 88%), rgb(28 25 23 / 88%)),
+    url('../home/art/plum-blossom.webp') no-repeat right bottom / 25% auto,
+    url('../lesson/art/dialogue-hills.webp') no-repeat center bottom / 100% auto,
+    var(--surface-inset);
+  box-shadow: var(--shadow-card);
+}

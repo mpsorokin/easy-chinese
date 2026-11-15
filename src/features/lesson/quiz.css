@@ -56,10 +56,12 @@ body:has(.quiz-page) {
 }
 
 .quiz-head h1 {
+  min-width: 0;
   margin: 0;
   font-size: clamp(16px, 4.25vw, 27px);
   font-weight: 570;
   line-height: 1.2;
+  overflow-wrap: anywhere;
 }
 
 .quiz-close {
@@ -384,5 +386,97 @@ body:has(.quiz-page) {
 @media (prefers-reduced-motion: reduce) {
   .quiz-top .meter span {
     transition: none;
+  }
+}
+
+[data-theme='dark'] body:has(.quiz-page) {
+  background: var(--paper);
+}
+
+[data-theme='dark'] .app.quiz-page {
+  --quiz-ink: var(--ink);
+  --quiz-muted: var(--muted);
+  --quiz-accent: var(--accent);
+  --quiz-edge: var(--line);
+  --quiz-surface: linear-gradient(140deg, var(--surface-raised), var(--card));
+  --quiz-shadow: var(--shadow-card);
+}
+
+[data-theme='dark'] .quiz-page::before {
+  background:
+    var(--night-blossoms) right -8px top -24px / clamp(125px, 36vw, 300px) auto
+      no-repeat,
+    url('./art/dialogue-hills.webp') right bottom / min(100%, 760px) auto
+      no-repeat;
+  filter: var(--art-filter);
+  opacity: 0.32;
+}
+
+[data-theme='dark'] .quiz-page::after {
+  content: none;
+}
+
+[data-theme='dark'] .quiz-top .meter {
+  background: var(--line);
+}
+
+[data-theme='dark'] .quiz-top .meter span {
+  background: var(--accent);
+}
+
+[data-theme='dark'] .quiz-prompt {
+  background:
+    linear-gradient(270deg, transparent, var(--art-veil) 52%),
+    url('./art/level/hills.webp') left bottom 10% / 35% auto no-repeat,
+    var(--quiz-surface);
+}
+
+[data-theme='dark'] .quiz-built span {
+  border-color: var(--line-strong);
+}
+
+[data-theme='dark'] :is(.quiz-option.right, .quiz-feedback.ok) {
+  border-color: #598672;
+  background: var(--good-soft);
+  color: var(--good);
+}
+
+[data-theme='dark'] .quiz-built.right span {
+  border-color: var(--good);
+  color: var(--good);
+}
+
+[data-theme='dark'] :is(.quiz-option.wrong, .quiz-feedback.err) {
+  border-color: #b26863;
+  background: var(--error-soft);
+  color: var(--error);
+}
+
+[data-theme='dark'] .quiz-built.wrong span {
+  border-color: var(--error);
+  color: var(--error);
+}
+
+[data-theme='dark'] .quiz-result-stars {
+  color: var(--warn);
+}
+
+[data-theme='dark'] .quiz-mistakes ul {
+  background: var(--surface-inset);
+}
+
+[data-theme='dark'] .quiz-page .btn.primary {
+  border-color: transparent;
+  background: var(--accent-fill);
+  box-shadow: var(--shadow-accent);
+}
+
+@media (hover: hover) {
+  [data-theme='dark'] .quiz-close:hover {
+    background: var(--surface-raised);
+  }
+
+  [data-theme='dark'] .quiz-page .btn.primary:hover {
+    background: var(--accent-fill-hover);
   }
 }
