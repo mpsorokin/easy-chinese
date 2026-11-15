@@ -3,6 +3,7 @@ import type { ExerciseId } from '../../domain/exercises.ts';
 import type { LessonProgress } from '../progress/progress.ts';
 import { PASS_GRADE } from '../progress/progress.ts';
 import { stars, t } from '../../shared/i18n/en.ts';
+import CourseCardArt from './CourseCardArt.tsx';
 import './lesson.css';
 
 const EXERCISE_ICONS: Record<ExerciseId, string> = {
@@ -20,6 +21,7 @@ export default function LessonExerciseCards({
   written,
   totalChars,
   onOpen,
+  art,
   title = t.exercisesLabel,
 }: {
   exercises: readonly ExerciseId[];
@@ -27,6 +29,7 @@ export default function LessonExerciseCards({
   written: number; // characters of the lesson written at least once
   totalChars: number;
   onOpen: (ex: ExerciseId) => void;
+  art?: Readonly<Record<ExerciseId, string>>;
   title?: ReactNode;
 }) {
   return (
@@ -44,6 +47,7 @@ export default function LessonExerciseCards({
               }
               onClick={() => onOpen(ex)}
             >
+              {art && <CourseCardArt key={art[ex]} src={art[ex]} />}
               <span className="lesson-ex-tile" aria-hidden="true">
                 <span className={`lesson-icon ${EXERCISE_ICONS[ex]}`} />
               </span>

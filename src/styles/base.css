@@ -108,33 +108,48 @@ button {
 .theme-control {
   position: relative;
   display: grid;
-  width: 44px;
+  width: 72px;
   height: 44px;
   flex: none;
+  grid-template-columns: repeat(2, 1fr);
   place-items: center;
   margin-inline-start: auto;
+  padding: 4px;
   border: 1px solid var(--line);
-  border-radius: 50%;
+  border-radius: var(--radius-pill);
   background: var(--card);
-  color: var(--accent);
+  color: var(--muted);
 }
 
 .theme-control:hover {
   border-color: var(--accent);
 }
 
-.theme-control:focus-within {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+.theme-control::before {
+  position: absolute;
+  inset: 4px auto 4px 4px;
+  width: calc(50% - 4px);
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  content: '';
 }
 
-.theme-control select {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
+.theme-control[aria-checked='true']::before {
+  transform: translateX(100%);
+}
+
+.theme-control svg {
+  position: relative;
+}
+
+.theme-control .is-active {
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .theme-control::before {
+    transition: transform 160ms ease;
+  }
 }
 .app {
   /* max-width is set inline from LAYOUT.maxWidth (shared/theme.ts) */

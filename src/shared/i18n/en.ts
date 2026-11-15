@@ -25,8 +25,7 @@ const count = (n: number, one: string, many?: string) =>
   `${n} ${plural(n, one, many)}`;
 
 export const t = {
-  colorTheme: 'Color theme',
-  themePreferences: { system: 'System', light: 'Light', dark: 'Dark' },
+  darkTheme: 'Dark theme',
   // Header
   prev: 'Previous',
   next: 'Next',

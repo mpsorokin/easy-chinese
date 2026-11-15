@@ -39,7 +39,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
   }, [resolved]);
 
   return (
-    <ThemeContext.Provider value={{ preference, resolved, setPreference }}>
+    <ThemeContext.Provider value={{ resolved, setPreference }}>
       {children}
     </ThemeContext.Provider>
   );

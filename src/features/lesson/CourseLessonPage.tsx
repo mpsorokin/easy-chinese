@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router';
 import { levelData } from '../../data/hsk.ts';
 import {
@@ -12,9 +11,10 @@ import type { ExerciseId } from '../../domain/exercises.ts';
 import { courseLessonKey, lessonResults } from '../progress/progress.ts';
 import { useProgress } from '../progress/useProgress.ts';
 import ThemeControl from '../settings/ThemeControl.tsx';
+import CourseCardArt from './CourseCardArt.tsx';
 import LessonExerciseCards from './LessonExerciseCards.tsx';
 import { t } from '../../shared/i18n/en.ts';
-import { courseExerciseArt } from './courseExerciseArt.ts';
+import { courseExerciseArt, coursePracticeArt } from './courseExerciseArt.ts';
 import {
   courseExercisePath,
   courseQuizPath,
@@ -27,18 +27,6 @@ import chevronIcon from './icons/chevron.svg';
 import lockIcon from './icons/lock.svg';
 import volumeIcon from './icons/volume.svg';
 import './courseLesson.css';
-
-function CourseCardArt({ src }: { src: string | undefined }) {
-  const [failed, setFailed] = useState(false);
-
-  return (
-    <span className="course-lesson-art" aria-hidden="true">
-      {src && !failed && (
-        <img src={src} alt="" onError={() => setFailed(true)} />
-      )}
-    </span>
-  );
-}
 
 export default function CourseLessonPage() {
   const params = useParams();
@@ -185,6 +173,7 @@ export default function CourseLessonPage() {
                   </>
                 }
                 exercises={practice}
+                art={coursePracticeArt}
                 results={lessonResults(
                   progress,
                   courseLessonKey(level.id, lesson.id, part),

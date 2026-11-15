@@ -143,6 +143,7 @@ body:has(.course-lesson) {
 }
 
 .course-lesson-art {
+  --exercise-art-inset: 36px;
   position: absolute;
   z-index: -1;
   inset: 0 0 0 auto;
@@ -157,15 +158,17 @@ body:has(.course-lesson) {
 .course-lesson-art img {
   position: absolute;
   top: 50%;
-  right: 16px;
-  height: 110%;
-  max-width: none;
+  right: var(--exercise-art-inset);
+  width: calc(100% - var(--exercise-art-inset));
+  height: 94%;
+  object-fit: contain;
+  object-position: right center;
   transform: translateY(-50%);
 }
 
 .course-lesson-art:empty {
-  background: url('./art/reference-bamboo.webp') right 16px center / auto 110%
-    no-repeat;
+  background: url('./art/reference-bamboo.webp') right var(--exercise-art-inset)
+    center / auto 110% no-repeat;
 }
 
 [data-exercise='words'] .course-lesson-art:empty {
@@ -282,11 +285,18 @@ body:has(.course-lesson) {
 }
 
 .course-lesson .lesson-ex {
+  position: relative;
+  isolation: isolate;
   gap: clamp(7px, 1.4cqi, 12px);
   min-height: 88px;
   padding: 10px;
   border-color: var(--lesson-line);
   border-radius: 16px;
+}
+
+.course-lesson .lesson-ex .course-lesson-art {
+  --exercise-art-inset: 8px;
+  width: min(38%, 144px);
 }
 
 .course-lesson .lesson-ex:hover {
@@ -318,6 +328,12 @@ body:has(.course-lesson) {
 
 .course-lesson .lesson-ex-stars {
   font-size: 15px;
+}
+
+@container (width < 600px) {
+  .course-lesson-copy {
+    padding-inline-end: clamp(0px, 100cqi - 273px, 62px);
+  }
 }
 
 @container (min-width: 600px) {
@@ -404,7 +420,6 @@ body:has(.course-lesson) {
 [data-theme='dark'] .course-lesson-hero::before,
 [data-theme='dark'] .course-lesson-art {
   filter: var(--art-filter);
-  opacity: 0.4;
 }
 
 [data-theme='dark'] .course-lesson-hero::before {

@@ -52,7 +52,8 @@ src/
     charData.ts           — on-demand stroke data loading (cached)
     useCharData.ts        — loading/ready/error state + retry, prefetch of neighbors
     hsk.ts, hsk/<level>/  — HSK characters, words and topic lessons
-    courseLessons.ts      — lessons of the Lessons tab: dialogues, words, practice parts
+    courseLessons.ts      — Lessons tab: types, the lesson list (COURSE_LESSONS) and helpers
+    lessons/lesson<N>.ts  — one lesson each: exercise list, card subtitles, dialogues, words, parts
   features/               — one folder per feature, with its own CSS
     writer/               — WritingCell (HanziWriter wrapper) and its contract (types.ts)
     copybook/             — copybook mode: useCopybook, steps, CopybookSteps, SummaryOverlay, Controls,
@@ -69,7 +70,7 @@ src/
                             quizzes (QuizPage, QuizRunner)
   shared/                 — reusable, knows nothing about features
     ui/                   — CanvasCell, Seg
-    lib/                  — draw, storage (createStore), haptics, plural
+    lib/                  — draw, storage (createStore), haptics, plural, speech
     hooks/                — useCellSize, usePersistentState
     i18n/en.ts            — all interface strings (English only)
     theme.ts              — canvas/HanziWriter colors, layout width
@@ -88,6 +89,25 @@ holds none.
 
 Create `src/features/<mode>/` with a hook like `useCopybook` (state machine over `QuizCallbacks`
 and `WriterHandle` from `features/writer/types.ts`) and its components, then add a route for it in `src/app/router.tsx`.
+
+## Add a lesson or an exercise
+
+A lesson is `src/data/lessons/lesson<N>.ts`, exporting a `CourseLesson`; list it in `COURSE_LESSONS`
+in `src/data/courseLessons.ts`. An exercise is three edits in that file:
+
+1. `exercises` — append `'exerciseN'` (numbers run on with no gaps; there is no upper limit).
+2. `descriptions` — the card subtitle for `exerciseN`. Once a lesson has its own descriptions they must
+   cover every exercise (a test checks this), otherwise lesson 1's subtitles would show.
+3. `dialogues.exerciseN` — the lines. Each line is `{ segments, en }`; a segment is one character with
+   its pinyin (`{ t: '我', py: 'wǒ' }`) or text without a reading (`{ t: '，' }`, `{ t: 'AI' }`). A
+   number is one segment read in full: `{ t: '2026', py: 'èr líng èr liù' }`.
+
+Pinyin conventions used across the course: 一 and 不 carry their sandhi tone (一个 yí gè, 一些 yì xiē,
+不是 bú shì), but 不 in A-不-A questions is neutral (去不去 qù bu qù); neutral tones as in the dictionary
+(喜欢 xǐ huan, 东西 dōng xi, 吧 ba); 个 is always gè; 儿 is ér (哪儿 nǎ ér); 1 in phone numbers is yāo.
+
+`parts` (the characters practised in writing and quizzes, 8–10 per part) is optional; without it the
+lesson practises the characters of its `words` as one part, or has no practice if it has no words. Card art is optional too: `src/features/lesson/courseExerciseArt.ts`.
 
 ## Add characters
 

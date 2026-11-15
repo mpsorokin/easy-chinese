@@ -22,7 +22,11 @@ export default defineConfig({
       injectRegister: 'auto',
       // PNG icons, favicon.ico and apple-touch-icon are generated from icon.svg at build
       // time and injected into the manifest and index.html.
-      pwaAssets: { image: 'public/icon.svg', preset: iconPreset },
+      pwaAssets: {
+        image: 'public/icon.svg',
+        preset: iconPreset,
+        injectThemeColor: false, // index.html sets the browser color from the active theme.
+      },
       manifest: {
         name: 'Hanzi Copybook',
         short_name: 'Hanzi',
@@ -35,9 +39,28 @@ export default defineConfig({
       workbox: {
         // App shell plus every stroke-data file (public/hanzi/*.json): fully offline.
         globPatterns: ['**/*.{js,css,html,svg,png,webp,ico,json,webmanifest}'],
+        // The worksheet PDF code (pdf-lib, ~420 KB) is only needed for printing: keep it out
+        // of the install and cache it the first time it is used (below).
+        globIgnores: ['**/assets/worksheetPdf-*.js'],
+        runtimeCaching: [
+          {
+            urlPattern: /\/assets\/worksheetPdf-[\w-]+\.js$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'worksheet-pdf',
+              expiration: { maxEntries: 2 },
+            },
+          },
+        ],
       },
     }),
   ],
+  build: {
+    // Raster images stay separate files: inlined as base64 into CSS they are copied once per
+    // url() (lesson.css uses hills.webp three times) and cannot be cached on their own.
+    // Small SVG icons are still inlined.
+    assetsInlineLimit: (file) => (file.endsWith('.webp') ? false : undefined),
+  },
   test: {
     environment: 'node',
     include: ['src/**/*.test.{ts,tsx}'],

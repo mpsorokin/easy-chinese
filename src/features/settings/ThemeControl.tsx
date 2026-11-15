@@ -1,13 +1,7 @@
 import { t } from '../../shared/i18n/en.ts';
-import { normalizeTheme, themePreferences, useTheme } from './useTheme.ts';
+import { useTheme } from './useTheme.ts';
 
 const icons = {
-  system: (
-    <>
-      <rect x="3" y="4" width="18" height="13" rx="2" />
-      <path d="M8 21h8m-4-4v4" />
-    </>
-  ),
   light: (
     <>
       <circle cx="12" cy="12" r="4" />
@@ -18,37 +12,36 @@ const icons = {
 };
 
 export default function ThemeControl() {
-  const { preference, setPreference } = useTheme();
+  const { resolved, setPreference } = useTheme();
+  const dark = resolved === 'dark';
 
   return (
-    <span className="theme-control">
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 24 24"
-        width="20"
-        height="20"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        {icons[preference]}
-      </svg>
-      <select
-        aria-label={t.colorTheme}
-        title={t.colorTheme}
-        value={preference}
-        onChange={(event) =>
-          setPreference(normalizeTheme(event.currentTarget.value))
-        }
-      >
-        {themePreferences.map((value) => (
-          <option key={value} value={value}>
-            {t.themePreferences[value]}
-          </option>
-        ))}
-      </select>
-    </span>
+    <button
+      type="button"
+      className="theme-control"
+      role="switch"
+      aria-checked={dark}
+      aria-label={t.darkTheme}
+      title={t.darkTheme}
+      onClick={() => setPreference(dark ? 'light' : 'dark')}
+    >
+      {Object.entries(icons).map(([theme, icon]) => (
+        <svg
+          key={theme}
+          className={theme === resolved ? 'is-active' : undefined}
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          width="17"
+          height="17"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          {icon}
+        </svg>
+      ))}
+    </button>
   );
 }

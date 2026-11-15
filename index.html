@@ -6,6 +6,25 @@
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
     />
+    <meta name="theme-color" content="#f7f2e8" />
+    <script>
+      (() => {
+        // Apply the saved theme before the app stylesheet paints.
+        let theme;
+        try {
+          theme = JSON.parse(localStorage.getItem('hanzi:theme'));
+        } catch {}
+        const dark =
+          theme === 'dark' ||
+          (theme !== 'light' &&
+            matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        if (dark) {
+          document.querySelector('meta[name="theme-color"]').content =
+            '#181615';
+        }
+      })();
+    </script>
     <title>Chinese Character Copybook</title>
   </head>
   <body>
