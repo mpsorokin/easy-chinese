@@ -14,18 +14,14 @@ import {
   lessonsDone,
   levelPath,
   normalizeLessonKey,
-  statusOf,
 } from '../lesson/lessonNav.ts';
 import { PencilIcon, PrinterIcon } from '../../shared/ui/icons.tsx';
 import ThemeControl from '../settings/ThemeControl.tsx';
 import JourneyCard from '../journey/JourneyCard.tsx';
-import bambooWash from './art/bamboo-wash.webp';
 import mistyPavilion from './art/misty-pavilion.webp';
 import './home.css';
 
 const HERO_CHARS = 4;
-const pct = (done: number, total: number) =>
-  total ? Math.round((100 * done) / total) : 0;
 
 type HomeTool = 'write' | 'print';
 
@@ -47,10 +43,6 @@ export default function HomePage() {
   const level = HSK1_LEVEL;
   const idx = continueIndex(level, progress, lastLesson);
   const lesson = level.lessons[idx];
-  const status = idx >= 0 ? statusOf(progress, level, idx) : undefined;
-  const done = lessonsDone(level, progress);
-  const total = level.lessons.length;
-  const percent = pct(done, total);
 
   const active = HSK_LEVELS.filter((l) => l.data);
   const upcoming = HSK_LEVELS.filter((l) => !l.data);
@@ -67,39 +59,78 @@ export default function HomePage() {
 
       <JourneyCard level={level} progress={progress} />
 
-      {lesson && status && (
-        <section className="home-hero" aria-labelledby="home-current-title">
+      {lesson && (
+        <Link
+          className="home-current home-panel"
+          to={lessonPath(level.id, lesson.id)}
+          aria-labelledby="home-current-title home-current-action"
+        >
           <img
             className="home-hills"
             src={mistyPavilion}
             alt=""
             decoding="async"
           />
-          <div className="home-hero-copy">
+          <div className="home-current-copy">
             <p className="home-kicker">{t.currentLesson}</p>
             <h2 id="home-current-title">{lesson.title}</h2>
-            <p className="home-hero-meta">
+            <p className="home-current-meta">
               HSK {level.id} · {t.lessonN(lesson.id)}
             </p>
           </div>
-          <div className="home-hero-chars" lang="zh-Hans">
+          <div className="home-current-chars" lang="zh-Hans">
             {lesson.chars.slice(0, HERO_CHARS).map((c) => (
               <span key={c}>{c}</span>
             ))}
           </div>
-          <div className="home-hero-actions">
-            <div className="home-progress">
-              <span className="home-progress-row">
-                <span>{t.lessonsProgress(done, total)}</span>
-                <span>{t.percent(percent)}</span>
+          <span className="home-panel-action" id="home-current-action">
+            {t.openLesson}
+            <span className="home-chevron" aria-hidden />
+          </span>
+        </Link>
+      )}
+
+      {active.map((l) => {
+        if (!l.data) return null;
+        const done = lessonsDone(l.data, progress);
+        const total = l.data.lessons.length;
+        return (
+          <Link
+            key={l.id}
+            className="home-level home-panel"
+            to={levelPath(l.id)}
+          >
+            <span className="home-level-info">
+              <b>{t.levelTitle(l.id)}</b>
+              <span className="home-level-meta">
+                {t.levelMeta(l.chars, l.words)}
               </span>
-              <Meter value={done} max={total} />
-            </div>
-            <Link className="home-cta" to={lessonPath(level.id, lesson.id)}>
-              {status.started ? t.continueLabel : t.startLabel}
-              <span aria-hidden>→</span>
-            </Link>
-          </div>
+              <span className="home-level-progress">
+                <span>{t.lessonsProgress(done, total)}</span>
+                <Meter value={done} max={total} />
+              </span>
+            </span>
+            <span className="home-panel-action">
+              {t.viewCourse}
+              <span className="home-chevron" aria-hidden />
+            </span>
+          </Link>
+        );
+      })}
+
+      {upcoming.length > 0 && (
+        <section
+          className="home-upcoming"
+          aria-labelledby="home-upcoming-title"
+        >
+          <h2 id="home-upcoming-title">{t.otherLevels}</h2>
+          <ul className="home-chips">
+            {upcoming.map((l) => (
+              <li key={l.id} className="home-chip">
+                {t.levelTitle(l.id)}
+              </li>
+            ))}
+          </ul>
         </section>
       )}
 
@@ -170,51 +201,6 @@ export default function HomePage() {
           )}
         </div>
       </dialog>
-
-      {active.map((l) => {
-        if (!l.data) return null;
-        const d = lessonsDone(l.data, progress);
-        const n = l.data.lessons.length;
-        return (
-          <Link key={l.id} className="home-level" to={levelPath(l.id)}>
-            <span className="home-level-info">
-              <b>HSK {l.id}</b>
-              <span className="home-level-meta">
-                {t.levelMeta(l.chars, l.words)}
-              </span>
-              <span className="home-level-meta">{t.lessonsProgress(d, n)}</span>
-              <Meter value={d} max={n} />
-            </span>
-            <span className="home-level-badge">
-              <img
-                className="home-bamboo"
-                src={bambooWash}
-                alt=""
-                loading="lazy"
-                decoding="async"
-              />
-              <b>{t.percent(pct(d, n))}</b>
-              <span>{t.completed}</span>
-            </span>
-            <span className="home-level-arrow" aria-hidden>
-              ›
-            </span>
-          </Link>
-        );
-      })}
-
-      {upcoming.length > 0 && (
-        <section className="home-upcoming">
-          <h2>{t.otherLevels}</h2>
-          <div className="home-chips">
-            {upcoming.map((l) => (
-              <div key={l.id} className="home-chip" aria-disabled>
-                <b>HSK {l.id}</b>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
     </main>
   );
 }

@@ -50,3 +50,17 @@ final result: passed
 - Interaction verification: a React integration run opened the Journey route, verified the current Story marker, followed Continue to the dialogue, opened and switched step details, and started Practice · Part 1. The repository check passed all 206 tests.
 
 final result: blocked
+
+
+## Copybook home design QA
+
+- Source: Copybook HSK calligraphy home screen.png, the selected 1103 × 1426 dark mock in the conversation.
+- Implementation: `C:/Users/alex_/AppData/Local/Temp/copybook-home-qa/implementation.jpg`. Browser viewport 1103 × 1426 CSS px, capture 1073 × 1426 px. Also reviewed the mobile layout at 320 and 390 CSS px and light mode at 390 CSS px.
+- The live state has Introductions as its current topic. The mock shows Politeness. Both show Lesson 1 as the next Journey step and zero progress.
+- Full-view review: The layout follows the hero, current lesson, course progress, and upcoming levels. The tools appear immediately after the upcoming levels on desktop and mobile. The application retains its shared page width.
+- Focused review: The hero has a serif headline, cinnabar action, warm lantern scene, and compact step, streak, and XP row. The current-lesson card has four gridded glyph previews. Course progress appears once.
+- Iteration: The first desktop capture showed a long topic name touching the glyph previews. The final capture shows a clear gap after reducing the heading and tile sizes. At 320 CSS px, the action now sits beside the kicker, making the full row available to the title. The mobile hero vignette was extended to improve link contrast.
+- Verified in the browser: Opened the story, journey, current lesson, and HSK course. Both practice buttons opened the level picker and exposed the expected routes. Tested the theme toggle and checked for horizontal overflow. The console logged one React Router HydrateFallback warning and no errors.
+- The source and implementation were reviewed visually. A normalized side-by-side capture could not be produced because the source image transfer failed.
+
+final result: blocked

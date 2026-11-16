@@ -8,7 +8,7 @@ import { journeyPath } from '../lesson/lessonNav.ts';
 import type { Progress } from '../progress/progress.ts';
 import { loadSessions } from '../progress/sessionStore.ts';
 import { isDone, placeJourney } from './journey.ts';
-import { GLYPH, continueLabel, stepTitle } from './journeyLabels.ts';
+import { continueLabel, stepTitle } from './journeyLabels.ts';
 import './journeyCard.css';
 
 // Home page card: the next journey step (resumed where it was left), the streak, today's
@@ -28,78 +28,64 @@ export default function JourneyCard({
   );
   const streak = currentStreak(progress.daily, now);
   const xp = todayXp(progress.daily, now);
-  const started = done > 0 || Boolean(next?.status.partial) || xp > 0;
   const partial =
     next && !isDone(next.status) ? next.status.partial : undefined;
+  const kind = next?.node.kind;
+  const title = !next
+    ? t.journey.allDone
+    : kind === 'review'
+      ? stepTitle(next)
+      : t.lessonN(next.node.lesson);
 
   return (
     <section className="journey-card" aria-labelledby="journey-card-title">
-      <div className="journey-card-top">
+      <div className="journey-card-content">
         <p className="home-kicker">
-          {t.tabJourney} · HSK {level.id}
+          {t.levelTitle(level.id)} · {t.tabJourney}
         </p>
-        <span className="journey-card-stats">
-          <span
-            className={'journey-card-streak' + (streak > 0 ? ' lit' : '')}
-            title={t.journey.streakLabel}
+        <h2 id="journey-card-title">{title}</h2>
+        {next && kind !== 'review' && (
+          <p className="journey-card-step">
+            {kind === 'story' ? t.journey.storyHeading : stepTitle(next)}
+          </p>
+        )}
+        {partial && (
+          <div className="journey-card-progress journey-card-partial">
+            <span>{t.journey.partial(partial.done, partial.total)}</span>
+            <Meter value={partial.done} max={partial.total} />
+          </div>
+        )}
+        <div className="journey-card-actions">
+          {next && (
+            <Link className="journey-card-cta" to={next.node.href}>
+              {kind === 'story' && !partial
+                ? t.journey.startStory
+                : continueLabel(next)}
+              <span aria-hidden>→</span>
+            </Link>
+          )}
+          <Link
+            className={next ? 'journey-card-link' : 'journey-card-cta'}
+            to={journeyPath(level.id)}
           >
-            <span aria-hidden="true">🔥</span> {t.journey.streak(streak)}
+            {t.journey.viewJourney}
+          </Link>
+        </div>
+      </div>
+
+      <div className="journey-card-footer">
+        <div className="journey-card-progress">
+          <span>{t.journey.stepsDone(done, total)}</span>
+          <Meter value={done} max={total} />
+        </div>
+        <div className="journey-card-stats">
+          <span className={streak > 0 ? 'is-active' : undefined}>
+            {t.journey.streakDays(streak)}
           </span>
           <span title={t.journey.xpLabel(xp, DAILY_GOAL)}>
             {t.journey.xpShort(xp, DAILY_GOAL)} XP
           </span>
-        </span>
-      </div>
-
-      {next ? (
-        <div className="journey-card-next">
-          <span
-            className={`journey-card-glyph kind-${next.node.kind}`}
-            lang="zh-Hans"
-            aria-hidden="true"
-          >
-            {GLYPH[next.node.kind]}
-          </span>
-          <span className="journey-card-copy">
-            <span className="journey-card-label">{t.journey.nextStep}</span>
-            <b id="journey-card-title">
-              {next.node.kind === 'review'
-                ? stepTitle(next)
-                : `${t.lessonN(next.node.lesson)} · ${stepTitle(next)}`}
-            </b>
-            {partial && (
-              <span className="journey-card-partial">
-                <Meter value={partial.done} max={partial.total} />
-                {t.journey.partial(partial.done, partial.total)}
-              </span>
-            )}
-          </span>
         </div>
-      ) : (
-        <b id="journey-card-title">{t.journey.allDone}</b>
-      )}
-
-      <div className="home-progress">
-        <span className="home-progress-row">
-          <span>{t.journey.stepsDone(done, total)}</span>
-        </span>
-        <Meter value={done} max={total} />
-      </div>
-
-      <div className="journey-card-actions">
-        {next && (
-          <Link className="home-cta" to={next.node.href}>
-            {next.status.partial || next.node.kind === 'review'
-              ? continueLabel(next)
-              : started
-                ? t.journey.continueJourney
-                : t.journey.startJourney}
-            <span aria-hidden>→</span>
-          </Link>
-        )}
-        <Link className="journey-card-map" to={journeyPath(level.id)}>
-          {t.journey.openMap}
-        </Link>
       </div>
     </section>
   );

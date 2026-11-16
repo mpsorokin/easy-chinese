@@ -39,20 +39,20 @@ export const t = {
   // Home
   appTitle: 'Copybook',
   currentLesson: 'Current lesson',
-  continueLabel: 'Continue',
-  startLabel: 'Start',
+  openLesson: 'Open lesson',
+  viewCourse: 'View course',
   levelMeta: (chars: number, words: number) =>
     `${count(chars, 'character')} · ${count(words, 'word')}`,
   topicsDone: (done: number, total: number) => `${done} of ${total} topics`,
   lessonsProgress: (done: number, total: number) =>
-    `Lessons: ${done} of ${total}`,
+    `${done} / ${total} lessons`,
   percent: (n: number) => `${n} %`,
   completed: 'completed',
   soon: 'soon',
   freeWrite: 'Free writing',
   printPdf: 'Print PDF',
   chooseHskLevel: (tool: string) => `${tool} · Choose HSK level`,
-  otherLevels: 'Other levels — soon',
+  otherLevels: 'Coming soon',
 
   // Level page
   levelTitle: (id: string) => `HSK ${id}`,
@@ -178,11 +178,11 @@ export const t = {
     again: 'Again',
     resume: 'Resume',
     partial: (done: number, total: number) => `${done}/${total}`,
-    continueJourney: 'Continue journey',
-    startJourney: 'Start journey',
-    openMap: 'Open map',
-    nextStep: 'Next step',
-    stepsDone: (done: number, total: number) => `Steps: ${done} of ${total}`,
+    viewJourney: 'View journey',
+    storyHeading: 'Read the story',
+    startStory: 'Start story',
+    streakDays: (n: number) => `${n}-day streak`,
+    stepsDone: (done: number, total: number) => `${done} / ${total} steps`,
     kinds: {
       story: 'Story',
       learn: 'Learn',
