@@ -1,3 +1,7 @@
+html:has(.hsk-level) {
+  scrollbar-gutter: stable both-edges;
+}
+
 .hsk-level {
   --level-ink: #2b1410;
   --level-brown: #784431;
@@ -10,19 +14,19 @@
 }
 
 .hsk-level .hsk-screen {
-  gap: clamp(12px, 3.15cqi, 23px);
+  gap: 16px;
 }
 
 .level-header {
   position: relative;
   isolation: isolate;
-  padding: clamp(23px, 7.6cqi, 54px) clamp(8px, 2.4cqi, 18px) 0;
+  padding: clamp(12px, 4cqi, 28px) 4px 4px;
 }
 
 .level-header::before {
   position: absolute;
   z-index: -1;
-  inset: 0 -3.1cqi -2cqi;
+  inset: 0 calc(-1 * var(--page-gutter)) -2cqi;
   background: url('./art/level/hero.webp') no-repeat top right / 87% auto;
   pointer-events: none;
   content: '';
@@ -33,9 +37,9 @@
   width: fit-content;
   min-height: clamp(37px, 7.5cqi, 54px);
   align-items: center;
-  gap: clamp(8px, 2cqi, 15px);
+  gap: 6px;
   color: #692715;
-  font-size: clamp(15px, 3.1cqi, 23px);
+  font-size: 14px;
   font-weight: 500;
 }
 
@@ -53,43 +57,43 @@
 }
 
 .hsk-level .hsk-title {
-  align-items: baseline;
-  gap: 4px 10px;
-  margin-top: clamp(12px, 5.7cqi, 39px);
+  display: grid;
+  gap: 6px;
+  margin-top: 14px;
 }
 
 .hsk-level .hsk-title h1 {
-  font-size: clamp(26px, 6.55cqi, 50px);
-  font-weight: 800;
+  font-size: clamp(28px, 5cqi, 32px);
+  font-weight: 750;
   letter-spacing: -0.035em;
-  line-height: 1.06;
+  line-height: 1.15;
 }
 
 .hsk-level .hsk-title span {
   color: var(--level-brown);
-  font-size: clamp(10px, 2.42cqi, 18px);
+  font-size: 14px;
+  line-height: 1.4;
   font-variant-numeric: tabular-nums;
 }
 
 .hsk-level .hsk-tabs .seg {
   gap: 2px;
-  margin-inline: 1px;
   padding: 2px;
   border-color: #ecd2c1;
-  border-radius: clamp(13px, 3.3cqi, 24px);
+  border-radius: var(--radius);
   background: linear-gradient(170deg, #fff6f0 0%, #f9eadf 100%);
-  box-shadow: 0 5px 9px #9b563111;
 }
 
 .hsk-level .hsk-tabs .seg button {
   flex: 1 1 0;
   min-width: 0;
-  min-height: 33px;
-  padding: clamp(6px, 1.55cqi, 11px) 2px;
-  border-radius: clamp(10px, 2.8cqi, 20px);
+  min-height: 40px;
+  padding: 4px 2px;
+  border-radius: 12px;
   color: #642b1d;
-  font-size: clamp(12px, 3.13cqi, 22px);
+  font-size: clamp(12px, 3.8cqi, 14px);
   font-weight: 500;
+  line-height: 1.2;
 }
 
 .hsk-level .hsk-tabs .seg button.on {
@@ -115,7 +119,7 @@
 
 .hsk-level .lesson-list {
   display: grid;
-  gap: clamp(9px, 2.25cqi, 16px);
+  gap: 12px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -340,7 +344,6 @@
 [data-theme='dark'] .hsk-level .hsk-tabs .seg {
   border-color: var(--line);
   background: var(--surface-inset);
-  box-shadow: var(--shadow-card);
 }
 
 [data-theme='dark'] .hsk-level .hsk-tabs .seg button.on {
@@ -410,4 +413,114 @@
 
 [data-theme='dark'] .topic-art.vignette {
   opacity: 0.38;
+}
+
+.hsk-level .lesson-row.course-lesson-row {
+  grid-template-columns: auto minmax(0, 1fr) var(--lesson-art-width) 16px;
+  --lesson-art-width: 31.5%;
+  min-height: 82px;
+  gap: 12px;
+  padding: 8px 14px;
+  border-color: var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: none;
+}
+
+.hsk-level .lesson-row.course-lesson-row:hover {
+  border-color: var(--level-focus);
+}
+
+.hsk-level .course-lesson-row .lesson-num {
+  width: 34px;
+  min-height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: var(--accent-soft);
+  color: var(--level-brown);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.hsk-level .course-lesson-row .lesson-num::before {
+  content: none;
+}
+
+.hsk-level .course-lesson-row .lesson-main {
+  gap: 4px;
+}
+
+.hsk-level .course-lesson-row .lesson-title {
+  display: block;
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+
+.course-lesson-preview {
+  color: var(--level-brown);
+  font-size: 14px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.course-lesson-row-art {
+  grid-column: -3;
+  width: 100%;
+  height: 68px;
+  margin-block: -2px;
+  object-fit: contain;
+  object-position: 80% center;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.course-lesson-row .level-chevron {
+  grid-column: -2;
+  width: 16px;
+  color: var(--level-red);
+}
+
+[data-theme='dark'] .course-lesson-row-art {
+  filter: brightness(0.8) saturate(0.8);
+}
+
+@container (max-width: 460px) {
+  .hsk-level .lesson-row.course-lesson-row {
+    --lesson-art-width: 24%;
+    min-height: 72px;
+    gap: 7px;
+    padding-inline: 10px;
+  }
+
+  .hsk-level .course-lesson-row .lesson-num {
+    width: 28px;
+    min-height: 28px;
+  }
+
+  .hsk-level .course-lesson-row .lesson-title {
+    font-size: 16px;
+  }
+
+  .course-lesson-preview {
+    font-size: 13px;
+  }
+
+  .course-lesson-row-art {
+    height: 56px;
+    object-position: right center;
+  }
+}
+
+@container (max-width: 335px) {
+  .hsk-level .lesson-row.course-lesson-row {
+    grid-template-columns: minmax(0, 1fr) var(--lesson-art-width) 16px;
+  }
+
+  .hsk-level .course-lesson-row .lesson-num {
+    display: none;
+  }
 }

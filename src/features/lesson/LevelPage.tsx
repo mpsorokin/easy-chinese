@@ -9,6 +9,12 @@ import Seg from '../../shared/ui/Seg.tsx';
 import { t } from '../../shared/i18n/en.ts';
 import { COURSE_LESSONS } from '../../data/courseLessons.ts';
 import JourneyMap from '../journey/JourneyMap.tsx';
+import nameCardArt from './art/exercises/name-card.webp';
+import noodlesArt from './art/exercises/noodles.webp';
+import taxiArt from './art/exercises/taxi.webp';
+import teacherArt from './art/exercises/teacher.webp';
+import globeArt from './art/lesson-3/globe.webp';
+import householdArt from './art/lesson-4/household.webp';
 import activitiesArt from './art/level/activities.webp';
 import animalsArt from './art/level/animals.webp';
 import clothesArt from './art/level/clothes.webp';
@@ -49,6 +55,29 @@ const TABS = [
   ['topics', t.tabTopics],
   ['chars', t.tabAllChars],
 ] as const;
+
+const COURSE_LESSON_PREVIEWS: Partial<
+  Record<number, { title: string; words: string; art: string }>
+> = {
+  1: {
+    title: '第一课',
+    words: '小学生 · 同学们 · 正在 · 客气',
+    art: teacherArt,
+  },
+  2: {
+    title: '第二课',
+    words: '请问 · 对不起 · 没关系 · 认识',
+    art: nameCardArt,
+  },
+  3: { title: '第三课', words: '哪个 · 女朋友 · 漂亮 · 喜欢', art: globeArt },
+  4: { title: '第四课', words: '口 · 女儿 · 岁 · 都', art: householdArt },
+  5: {
+    title: '第五课',
+    words: '星期日 · 面条儿 · 饺子 · 非常',
+    art: noodlesArt,
+  },
+  6: { title: '第六课', words: '打电话 · 东西 · 怎么 · 出租车', art: taxiArt },
+};
 
 const TOPIC_ART: Partial<Record<number, string>> = {
   1: numbersArt,
@@ -98,7 +127,7 @@ export default function LevelPage() {
   const done = lessonsDone(level, progress);
 
   return (
-    <main className="app page-frame hsk-level" data-tab={tab}>
+    <main className="app page-frame hsk-level">
       <div className="hsk-screen">
         <header className="level-header">
           <div className="theme-toolbar">
@@ -122,7 +151,10 @@ export default function LevelPage() {
             value={tab}
             options={TABS}
             onChange={(v) =>
-              setParams(v === 'topics' ? {} : { tab: v }, { replace: true })
+              setParams(v === 'topics' ? {} : { tab: v }, {
+                replace: true,
+                preventScrollReset: true,
+              })
             }
           />
         </div>
@@ -137,22 +169,46 @@ export default function LevelPage() {
           />
         ) : tab === 'lessons' ? (
           <ol className="lesson-list">
-            {COURSE_LESSONS.map((l) => (
-              <li key={l.id}>
-                <Link
-                  className="lesson-row"
-                  to={courseLessonPath(level.id, l.id)}
-                >
-                  <span className="lesson-num">{l.id}</span>
-                  <span className="lesson-main">
-                    <span className="lesson-title">{t.lessonN(l.id)}</span>
-                  </span>
-                  <span className="lesson-meta">
+            {COURSE_LESSONS.map((lesson) => {
+              const preview = COURSE_LESSON_PREVIEWS[lesson.id];
+              return (
+                <li key={lesson.id}>
+                  <Link
+                    className="lesson-row course-lesson-row"
+                    to={courseLessonPath(level.id, lesson.id)}
+                  >
+                    <span className="lesson-num" aria-hidden="true">
+                      {lesson.id}
+                    </span>
+                    <span className="lesson-main">
+                      <span className="lesson-title">
+                        {t.lessonN(lesson.id)}
+                        {preview && (
+                          <>
+                            <span aria-hidden="true"> · </span>
+                            <span lang="zh-Hans">{preview.title}</span>
+                          </>
+                        )}
+                      </span>
+                      {preview && (
+                        <span className="course-lesson-preview" lang="zh-Hans">
+                          {preview.words}
+                        </span>
+                      )}
+                    </span>
+                    {preview && (
+                      <img
+                        className="course-lesson-row-art"
+                        src={preview.art}
+                        alt=""
+                        decoding="async"
+                      />
+                    )}
                     <span className="level-chevron" aria-hidden="true" />
-                  </span>
-                </Link>
-              </li>
-            ))}
+                  </Link>
+                </li>
+              );
+            })}
           </ol>
         ) : (
           <ol className="lesson-list">
