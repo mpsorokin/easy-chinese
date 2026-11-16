@@ -13,6 +13,8 @@ export const lesson7: CourseLesson = {
     'exercise7',
     'exercise8',
     'exercise9',
+    'exercise10',
+    'exercise11',
   ],
   descriptions: {
     exercise1: 'Telling the time: 几点 and 上午, 下午',
@@ -24,6 +26,8 @@ export const lesson7: CourseLesson = {
     exercise7: 'In the afternoon: 回家 and 不上课',
     exercise8: 'Classes today: 很多课 and 第三课',
     exercise9: 'Meeting up: 明天见 and 三点见',
+    exercise10: 'Suggestions: 吧 and 早点儿',
+    exercise11: 'Writing the time: 点, 分 and 零',
   },
   dialogues: {
     exercise1: [
@@ -295,6 +299,115 @@ export const lesson7: CourseLesson = {
           { t: '。' },
         ],
         en: "Let's meet at Jiajia Supermarket at 3:00 p.m.",
+      },
+    ],
+    exercise10: [
+      {
+        segments: [
+          { t: '我', py: 'wǒ' },
+          { t: '们', py: 'men' },
+          { t: '去', py: 'qù' },
+          { t: '那', py: 'nà' },
+          { t: '家', py: 'jiā' },
+          { t: '饭', py: 'fàn' },
+          { t: '店', py: 'diàn' },
+          { t: '吃', py: 'chī' },
+          { t: '饭', py: 'fàn' },
+          { t: '吧', py: 'ba' },
+          { t: '。' },
+        ],
+        en: "Let's go to that restaurant to eat.",
+      },
+      {
+        segments: [
+          { t: '你', py: 'nǐ' },
+          { t: '早', py: 'zǎo' },
+          { t: '点', py: 'diǎn' },
+          { t: '儿', py: 'ér' },
+          { t: '休', py: 'xiū' },
+          { t: '息', py: 'xi' },
+          { t: '吧', py: 'ba' },
+          { t: '。' },
+        ],
+        en: 'You should get some rest early.',
+      },
+      {
+        segments: [
+          { t: '我', py: 'wǒ' },
+          { t: '们', py: 'men' },
+          { t: '现', py: 'xiàn' },
+          { t: '在', py: 'zài' },
+          { t: '走', py: 'zǒu' },
+          { t: '吧', py: 'ba' },
+          { t: '。' },
+        ],
+        en: "Let's go now.",
+      },
+    ],
+    exercise11: [
+      {
+        segments: [{ t: '点', py: 'diǎn' }],
+        en: "o'clock",
+      },
+      {
+        segments: [{ t: '分', py: 'fēn' }],
+        en: 'minute',
+      },
+      {
+        segments: [
+          { t: '数', py: 'shù' },
+          { t: '字', py: 'zì' },
+          { t: '写', py: 'xiě' },
+          { t: '法', py: 'fǎ' },
+        ],
+        en: 'numerical notation',
+      },
+      {
+        segments: [
+          { t: '九', py: 'jiǔ' },
+          { t: '点', py: 'diǎn' },
+        ],
+        en: '9:00',
+      },
+      {
+        segments: [
+          { t: '二', py: 'èr' },
+          { t: '十', py: 'shí' },
+          { t: '点', py: 'diǎn' },
+        ],
+        en: '20:00',
+      },
+      {
+        segments: [
+          { t: '十', py: 'shí' },
+          { t: '五', py: 'wǔ' },
+          { t: '点', py: 'diǎn' },
+          { t: '四', py: 'sì' },
+          { t: '十', py: 'shí' },
+        ],
+        en: '15:40',
+      },
+      {
+        segments: [
+          { t: '二', py: 'èr' },
+          { t: '十', py: 'shí' },
+          { t: '一', py: 'yī' },
+          { t: '点', py: 'diǎn' },
+          { t: '十', py: 'shí' },
+          { t: '分', py: 'fēn' },
+        ],
+        en: '21:10',
+      },
+      {
+        segments: [
+          { t: '二', py: 'èr' },
+          { t: '十', py: 'shí' },
+          { t: '二', py: 'èr' },
+          { t: '点', py: 'diǎn' },
+          { t: '零', py: 'líng' },
+          { t: '五', py: 'wǔ' },
+        ],
+        en: '22:05',
       },
     ],
   },
