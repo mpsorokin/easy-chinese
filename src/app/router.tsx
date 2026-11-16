@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react';
 import { Navigate, createBrowserRouter } from 'react-router';
 import RootLayout from './RootLayout.tsx';
-import { LessonsTab, OldTopic, TopicsTab } from './redirects.tsx';
+import { JourneyTab, LessonsTab, OldTopic, TopicsTab } from './redirects.tsx';
 
 // Old links and installed PWAs may still open '#/hsk'; rewrite them to the path form
 // before the router below reads the URL.
@@ -25,10 +25,12 @@ const page =
   });
 
 const copybook = () => import('./CopybookScreen.tsx');
+const journey = () => import('../features/journey/JourneyQuizPages.tsx');
 // '/' home; '/write[/<level>]' the copybook; '/hsk/<level>' a level ('/hsk' alone opens
 // HSK 1) with the tabs Lessons, Topics and All characters;
 // '/hsk/<level>/topics/<n>[/<exercise>|/write]' a themed topic;
-// '/hsk/<level>/lessons/<n>[/…]' a lesson of the Lessons tab; unknown paths go home.
+// '/hsk/<level>/lessons/<n>[/…]' a lesson of the Lessons tab;
+// '/hsk/<level>/journey[/…]' the journey map (a tab) and its rounds; unknown paths go home.
 // The basename lets the app work when deployed under a subdirectory. The host must
 // serve index.html for unknown paths (SPA fallback); the service worker does the same offline.
 export const router = createBrowserRouter(
@@ -83,6 +85,20 @@ export const router = createBrowserRouter(
         {
           path: 'hsk/:level/lessons/:lesson/quiz/:part/:exercise',
           lazy: page(() => import('../features/lesson/CourseQuizPage.tsx')),
+        },
+
+        { path: 'hsk/:level/journey', element: <JourneyTab /> },
+        {
+          path: 'hsk/:level/journey/practice/:lesson/:part',
+          lazy: page(journey, 'JourneyPracticePage'),
+        },
+        {
+          path: 'hsk/:level/journey/checkpoint/:lesson',
+          lazy: page(journey, 'JourneyCheckpointPage'),
+        },
+        {
+          path: 'hsk/:level/journey/review',
+          lazy: page(journey, 'JourneyReviewPage'),
         },
 
         { path: 'hsk/:level/:lesson', element: <OldTopic /> },

@@ -1,5 +1,14 @@
 import { useCallback, useMemo, useSyncExternalStore } from 'react';
-import { bestGrades, recordAttempt, recordLesson } from './progress.ts';
+import {
+  PASS_GRADE,
+  XP,
+  bestGrades,
+  gainXp,
+  recordAnswer,
+  recordAttempt,
+  recordJourney,
+  recordLesson,
+} from './progress.ts';
 import type { AttemptResult } from './progress.ts';
 import type { ExerciseId } from '../../domain/exercises.ts';
 import type { Grade } from '../../domain/grading.ts';
@@ -9,13 +18,15 @@ import {
   updateProgress,
 } from './progressStore.ts';
 
-// Persistent learning progress: per-character stats, best grades for the UI and
-// lesson exercise results. Every caller sees the same data (see progressStore.ts).
+// Persistent learning progress: per-character stats, best grades for the UI, lesson
+// exercise results, journey steps, review boxes and daily XP. Every caller sees the same
+// data (see progressStore.ts).
 export function useProgress() {
   const progress = useSyncExternalStore(subscribeProgress, getProgress);
   const best = useMemo(() => bestGrades(progress), [progress]);
   const record = useCallback(
-    (r: AttemptResult) => updateProgress((p) => recordAttempt(p, r)),
+    (r: AttemptResult) =>
+      updateProgress((p) => gainXp(recordAttempt(p, r), XP.char, r.at)),
     [],
   );
   const recordExercise = useCallback(
@@ -23,5 +34,43 @@ export function useProgress() {
       updateProgress((p) => recordLesson(p, key, ex, grade, Date.now())),
     [],
   );
-  return { progress, best, record, recordExercise };
+  // A quiz answer: review boxes for its character or word, and XP when right.
+  const answer = useCallback((item: string | undefined, right: boolean) => {
+    const now = Date.now();
+    updateProgress((p) => {
+      const next = item ? recordAnswer(p, item, right, now) : p;
+      return right ? gainXp(next, XP.answer, now) : next;
+    });
+  }, []);
+  // A finished journey round; passing it earns the round bonus.
+  const recordStep = useCallback((key: string, grade: Grade) => {
+    const now = Date.now();
+    updateProgress((p) =>
+      gainXp(
+        recordJourney(p, key, grade, now),
+        grade >= PASS_GRADE ? XP.step : 0,
+        now,
+      ),
+    );
+  }, []);
+  // A lesson's dialogues read to the end (the bonus only the first time).
+  const readStory = useCallback((key: string) => {
+    const now = Date.now();
+    updateProgress((p) =>
+      gainXp(
+        recordJourney(p, key, 3, now),
+        p.journey?.[key] ? 0 : XP.story,
+        now,
+      ),
+    );
+  }, []);
+  return {
+    progress,
+    best,
+    record,
+    recordExercise,
+    answer,
+    recordStep,
+    readStory,
+  };
 }

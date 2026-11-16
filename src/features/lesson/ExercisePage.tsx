@@ -61,6 +61,7 @@ export default function ExercisePage() {
     <QuizPage
       // New params (back/forward between exercises) start a new quiz.
       key={`${level.id}:${lesson.id}:${ex}`}
+      session={`${lessonKey(level.id, lesson.id)}:${ex}`}
       title={`${t.lessonN(lesson.id)} · ${t.exercises[ex].title}`}
       back={lessonPath(level.id, lesson.id)}
       build={() => buildQuiz(level, idx, ex)}

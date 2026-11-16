@@ -40,6 +40,8 @@ import { t } from '../shared/i18n/en.ts';
 import WriteIcon from '../shared/ui/WriteIcon.tsx';
 import {
   courseLessonPath,
+  fromJourney,
+  journeyPath,
   lessonPath,
   levelCharsPath,
   levelLessonsPath,
@@ -148,13 +150,18 @@ export function TopicCopybookScreen() {
 // '/hsk/<level>/lessons/<n>/write/<part>': one part of a lesson of the Lessons tab.
 export function CourseCopybookScreen() {
   const params = useParams();
+  const { search } = useLocation();
   const level = levelData(params.level);
   const lesson = courseLesson(params.lesson);
   const partNumber = Number(params.part);
   const part = lesson && coursePart(lesson, partNumber);
   if (!level) return <Navigate to="/" replace />;
   if (!lesson) return <Navigate to={levelLessonsPath(level.id)} replace />;
-  const back = courseLessonPath(level.id, lesson.id);
+  // Opened from the journey map: the close link returns there.
+  const toMap = fromJourney(search);
+  const back = toMap
+    ? journeyPath(level.id)
+    : courseLessonPath(level.id, lesson.id);
   if (!part?.length) return <Navigate to={back} replace />;
   return (
     <Copybook
@@ -162,7 +169,10 @@ export function CourseCopybookScreen() {
         id: `c${level.id}:${lesson.id}:${partNumber}`,
         list: entries(part),
         lastKey: `last:c${level.id}:${lesson.id}:${partNumber}`,
-        back: { to: back, label: t.lessonN(lesson.id) },
+        back: {
+          to: back,
+          label: toMap ? t.journey.toMap : t.lessonN(lesson.id),
+        },
         level: level.id,
         exitable: true,
         // All the lesson's words, also those finished in a later part.

@@ -18,6 +18,7 @@ import {
 } from '../lesson/lessonNav.ts';
 import { PencilIcon, PrinterIcon } from '../../shared/ui/icons.tsx';
 import ThemeControl from '../settings/ThemeControl.tsx';
+import JourneyCard from '../journey/JourneyCard.tsx';
 import bambooWash from './art/bamboo-wash.webp';
 import mistyPavilion from './art/misty-pavilion.webp';
 import './home.css';
@@ -28,7 +29,7 @@ const pct = (done: number, total: number) =>
 
 type HomeTool = 'write' | 'print';
 
-// Home: continue the current lesson, open the tools, see HSK level progress.
+// Home: continue the journey or the current topic, open the tools, see HSK level progress.
 export default function HomePage() {
   const levelPicker = useRef<HTMLDialogElement>(null);
   const [tool, setTool] = useState<HomeTool>('write');
@@ -63,6 +64,8 @@ export default function HomePage() {
         <h1>{t.appTitle}</h1>
         <ThemeControl />
       </header>
+
+      <JourneyCard level={level} progress={progress} />
 
       {lesson && status && (
         <section className="home-hero" aria-labelledby="home-current-title">

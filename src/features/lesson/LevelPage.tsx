@@ -8,6 +8,7 @@ import { usePersistentState } from '../../shared/hooks/usePersistentState.ts';
 import Seg from '../../shared/ui/Seg.tsx';
 import { t } from '../../shared/i18n/en.ts';
 import { COURSE_LESSONS } from '../../data/courseLessons.ts';
+import JourneyMap from '../journey/JourneyMap.tsx';
 import activitiesArt from './art/level/activities.webp';
 import animalsArt from './art/level/animals.webp';
 import clothesArt from './art/level/clothes.webp';
@@ -41,8 +42,9 @@ import {
 import '../../shared/ui/page.css';
 import './level.css';
 
-type Tab = 'lessons' | 'topics' | 'chars';
+type Tab = 'journey' | 'lessons' | 'topics' | 'chars';
 const TABS = [
+  ['journey', t.tabJourney],
   ['lessons', t.tabLessons],
   ['topics', t.tabTopics],
   ['chars', t.tabAllChars],
@@ -74,7 +76,7 @@ const TOPIC_ART: Partial<Record<number, string>> = {
 
 // URL value → tab; no or unknown value opens Topics (the themed list older links point to).
 const toTab = (raw: string | null): Tab =>
-  raw === 'lessons' || raw === 'chars' ? raw : 'topics';
+  raw === 'journey' || raw === 'lessons' || raw === 'chars' ? raw : 'topics';
 
 // One HSK level: lessons, its themed topics, or the full character list with Write / Print PDF.
 // The tab lives in the URL (?tab=lessons, ?tab=chars) so links can open it directly.
@@ -125,7 +127,9 @@ export default function LevelPage() {
           />
         </div>
 
-        {tab === 'chars' ? (
+        {tab === 'journey' ? (
+          <JourneyMap level={level} progress={progress} />
+        ) : tab === 'chars' ? (
           <HskChars
             key={`${level.id}:${writingOnly}`}
             level={level}

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
 import { WORD_PASSES } from '../../domain/exercises.ts';
 import type {
   Audio,
@@ -19,28 +20,41 @@ import WritingCell from '../writer/WritingCell.tsx';
 import type { AttemptComplete, WriterHandle } from '../writer/types.ts';
 import { copybookStore } from '../copybook/copybookStore.ts';
 import { normalizeSettings } from '../settings/settings.ts';
+import type { QuizAnswer } from '../progress/sessionStore.ts';
 import './quiz.css';
 
 // A right answer moves on by itself after this delay; a wrong one waits for "Next".
 const AUTO_NEXT_MS = 700;
 
-type Answer = { right: boolean; reveal: string };
+type Answer = QuizAnswer;
 
 // Runs a list of questions one by one, then shows the score.
-// onFinish is called once, when the last question is answered.
+// onAnswer is called for every answer; onFinish once, when the last question is answered.
+// `resultNote` adds a line to the result screen (e.g. the XP earned). A saved round resumes
+// from `initialAnswers`; `onProgress` gets all answers so far after each one.
 export default function QuizRunner({
   questions,
+  initialAnswers = [],
+  onProgress,
   onFinish,
+  onAnswer,
   onAgain,
   onExit,
+  exitLabel = t.quizToLesson,
+  resultNote,
 }: {
   questions: Question[];
+  initialAnswers?: Answer[];
+  onProgress?: (answers: Answer[]) => void;
   onFinish: (grade: Grade) => void;
+  onAnswer?: (q: Question, right: boolean) => void;
   onAgain: () => void;
   onExit: () => void;
+  exitLabel?: string;
+  resultNote?: (right: number, total: number, grade: Grade) => ReactNode;
 }) {
-  const [i, setI] = useState(0);
-  const [answers, setAnswers] = useState<Answer[]>([]);
+  const [i, setI] = useState(initialAnswers.length);
+  const [answers, setAnswers] = useState<Answer[]>(initialAnswers);
   const q = questions[i];
   const answered = answers.length > i;
   const current = answers[i];
@@ -49,6 +63,8 @@ export default function QuizRunner({
     if (!q || answered) return;
     const next = [...answers, { right, reveal: q.reveal }];
     setAnswers(next);
+    onAnswer?.(q, right);
+    onProgress?.(next);
     if (next.length === questions.length)
       onFinish(quizGrade(next.filter((a) => a.right).length, next.length));
   };
@@ -69,6 +85,11 @@ export default function QuizRunner({
         <div className="quiz-result-stars">{stars(grade)}</div>
         <h2>{t.quizDone(grade)}</h2>
         <p>{t.quizScore(right, answers.length)}</p>
+        {resultNote && (
+          <p className="quiz-result-note">
+            {resultNote(right, answers.length, grade)}
+          </p>
+        )}
         {mistakes.length > 0 && (
           <div className="quiz-mistakes">
             <h3 className="label">{t.quizMistakes}</h3>
@@ -84,7 +105,7 @@ export default function QuizRunner({
             {t.quizAgain}
           </button>
           <button className="btn primary" onClick={onExit}>
-            {t.quizToLesson}
+            {exitLabel}
           </button>
         </div>
       </div>
@@ -195,6 +216,7 @@ const BUILD_LABEL = {
   listen: t.quizListenBuild,
   reading: t.quizReading,
   gap: t.quizGap,
+  sentence: t.quizSentence,
 } as const;
 
 const fills = (q: BuildQuestion, picked: readonly number[]) =>

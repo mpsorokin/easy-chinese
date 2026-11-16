@@ -1,0 +1,124 @@
+/* Journey card on the home page (features/journey/JourneyCard.tsx). */
+.journey-card {
+  display: grid;
+  gap: 14px;
+  padding: clamp(16px, 4.1vw, 28px);
+  border: 1px solid var(--line);
+  border-radius: clamp(18px, 4vw, 28px);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.journey-card .home-kicker {
+  margin: 0;
+}
+
+.journey-card-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 12px;
+}
+
+.journey-card-stats {
+  display: inline-flex;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.journey-card-streak > span {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.journey-card-streak.lit {
+  color: var(--accent);
+}
+
+.journey-card-streak.lit > span {
+  filter: none;
+  opacity: 1;
+}
+
+.journey-card-next {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.journey-card-glyph {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  flex: none;
+  place-items: center;
+  border: 3px solid var(--accent);
+  border-radius: 50%;
+  background: var(--paper);
+  font-size: 26px;
+}
+
+.journey-card-glyph.kind-checkpoint {
+  border-radius: 12px;
+}
+
+.journey-card-glyph.kind-review {
+  border-style: dashed;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.journey-card-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.journey-card-label {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.journey-card-copy b {
+  font-size: 18px;
+}
+
+.journey-card-partial {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.journey-card-partial .meter {
+  width: 120px;
+}
+
+.journey-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+}
+
+.journey-card-actions .home-cta {
+  padding-inline: 22px;
+}
+
+.journey-card-map {
+  color: var(--accent-strong);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.journey-card-map:hover {
+  text-decoration: underline;
+}

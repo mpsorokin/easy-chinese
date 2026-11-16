@@ -71,3 +71,33 @@ it('chooses the Chinese word for a meaning', () => {
   tap('同学');
   expect(onFinish).toHaveBeenCalledWith(3);
 });
+
+it('resumes a saved round at the first unanswered question', () => {
+  const choice = (prompt: string): Question => ({
+    kind: 'choice',
+    prompt,
+    options: ['one', 'two', 'three', 'four'],
+    answer: 0,
+    reveal: prompt,
+  });
+  const onFinish = vi.fn();
+  const onProgress = vi.fn();
+  render(
+    <QuizRunner
+      questions={[choice('人'), choice('大')]}
+      initialAnswers={[{ right: false, reveal: '人' }]}
+      onProgress={onProgress}
+      onFinish={onFinish}
+      onAgain={() => {}}
+      onExit={() => {}}
+    />,
+  );
+  expect(screen.getByText('2 / 2')).toBeTruthy();
+  tap('one');
+  expect(onProgress).toHaveBeenCalledWith([
+    { right: false, reveal: '人' },
+    { right: true, reveal: '大' },
+  ]);
+  // One of two right → one star.
+  expect(onFinish).toHaveBeenCalledWith(1);
+});

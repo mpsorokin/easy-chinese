@@ -2,6 +2,7 @@
 import { Navigate, useParams } from 'react-router';
 import {
   exercisePath,
+  journeyPath,
   lessonPath,
   levelLessonsPath,
   levelPath,
@@ -12,6 +13,12 @@ import { isExercise } from '../domain/exercises.ts';
 export function LessonsTab() {
   const { level = '1' } = useParams();
   return <Navigate to={levelLessonsPath(level)} replace />;
+}
+
+// '/hsk/<level>/journey' alone is the Journey tab.
+export function JourneyTab() {
+  const { level = '1' } = useParams();
+  return <Navigate to={journeyPath(level)} replace />;
 }
 
 // '/hsk/<level>/topics' alone is the Topics tab.

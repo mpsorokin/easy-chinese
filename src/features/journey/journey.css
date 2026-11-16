@@ -1,0 +1,504 @@
+/* Journey map: an ink-wash scroll with a winding path of steps (features/journey). */
+.journey {
+  --journey-ink: var(--ink);
+  --journey-wash: color-mix(in srgb, var(--ink) 7%, transparent);
+  --journey-gold: var(--warn);
+  --journey-seal: var(--accent-fill);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 48px;
+  color: var(--ink);
+}
+
+.journey .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Header: streak, daily XP ring and Continue, stuck to the top while scrolling. */
+.journey-head {
+  position: sticky;
+  z-index: 3;
+  top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--card) 92%, transparent);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(6px);
+}
+
+.journey-streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.journey-streak > span {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.journey-streak.lit {
+  color: var(--accent);
+}
+
+.journey-streak.lit > span {
+  filter: none;
+  opacity: 1;
+}
+
+.journey-xp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.journey-xp svg {
+  width: 30px;
+  height: 30px;
+  transform: rotate(-90deg);
+}
+
+.journey-xp circle {
+  fill: none;
+  stroke-width: 4;
+}
+
+.journey-xp-track {
+  stroke: var(--line);
+}
+
+.journey-xp-fill {
+  stroke: var(--accent);
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.6s ease;
+}
+
+.journey-xp.met .journey-xp-fill {
+  stroke: var(--good);
+}
+
+.journey-xp b {
+  color: var(--ink);
+}
+
+.journey .btn {
+  height: 44px;
+  padding: 0 18px;
+}
+
+.journey-continue {
+  margin-left: auto;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.journey-all-done {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: right;
+}
+
+/* A lesson: banner, then its stretch of the path. */
+.journey-region {
+  position: relative;
+  margin-top: 18px;
+}
+
+.journey-banner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 76px;
+  padding: 10px 16px 10px 10px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.journey-banner img {
+  width: 64px;
+  height: 64px;
+  flex: none;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  filter: var(--art-filter, none);
+}
+
+.journey-banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.journey-banner-text b {
+  font-size: 18px;
+}
+
+.journey-banner-text span {
+  color: var(--muted);
+  font-size: 15px;
+  letter-spacing: 0.08em;
+}
+
+/* Red seal stamped on a lesson whose checkpoint is passed. */
+.journey-banner-seal {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  margin-left: auto;
+  place-items: center;
+  border: 2px solid var(--journey-seal);
+  border-radius: 6px;
+  color: var(--journey-seal);
+  font-size: 24px;
+  font-weight: 700;
+  transform: rotate(-8deg);
+  opacity: 0.9;
+}
+
+.journey-path {
+  position: relative;
+  /* Mist on the paper behind the river. */
+  background:
+    radial-gradient(
+      ellipse 60% 40% at 15% 30%,
+      var(--journey-wash),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 35% at 85% 75%,
+      var(--journey-wash),
+      transparent 70%
+    );
+}
+
+.journey-river {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.journey-seg {
+  fill: none;
+  stroke: var(--line);
+  stroke-dasharray: 2 10;
+  stroke-linecap: round;
+  stroke-width: 6;
+  vector-effect: non-scaling-stroke;
+}
+
+.journey-seg.done {
+  stroke: var(--journey-ink);
+  stroke-dasharray: none;
+  stroke-width: 7;
+  opacity: 0.75;
+}
+
+/* The last inked stretch, into the current step, is drawn by the brush. */
+.journey-seg.fresh {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: journey-ink 1.2s 0.3s ease-out forwards;
+}
+
+@keyframes journey-ink {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.journey-nodes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.journey-node {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 0;
+}
+
+.journey-node.open {
+  z-index: 2;
+}
+
+.journey-dot {
+  position: absolute;
+  top: 0;
+  display: grid;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  place-items: center;
+  border: 3px solid var(--line);
+  border-radius: 50%;
+  background: var(--card);
+  color: var(--muted);
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.journey-dot:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.journey-dot:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.journey-glyph {
+  font-size: 28px;
+  line-height: 1;
+}
+
+/* Partly inked: the lower half washed in. */
+.state-started .journey-dot {
+  border-color: var(--journey-ink);
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--ink) 22%, var(--card)) var(--fill, 50%),
+    var(--card) var(--fill, 50%)
+  );
+  color: var(--ink);
+}
+
+.state-done .journey-dot,
+.state-mastered .journey-dot {
+  border-color: var(--journey-ink);
+  background: var(--journey-ink);
+  color: var(--paper);
+}
+
+.state-mastered .journey-dot {
+  box-shadow:
+    0 0 0 3px var(--card),
+    0 0 0 6px var(--journey-gold);
+}
+
+/* The checkpoint is a square seal; passed, it turns red. */
+.kind-checkpoint .journey-dot {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+}
+
+.kind-checkpoint.state-done .journey-dot,
+.kind-checkpoint.state-mastered .journey-dot {
+  border-color: var(--journey-seal);
+  background: var(--journey-seal);
+  color: var(--on-accent);
+}
+
+/* Review: a cracked stone, dashed outline in the accent colour. */
+.kind-review .journey-dot {
+  border-style: dashed;
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.journey-partial {
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  background: var(--card);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.journey-pop-text .journey-pop-partial {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font-size: 13px;
+}
+
+.journey-pop-partial .meter {
+  flex: 1;
+  max-width: 140px;
+}
+
+.journey-stars {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  color: var(--journey-gold);
+  font-size: 12px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+/* The step to continue with: a ring that breathes and a brush label above it. */
+.journey-node.next .journey-dot {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 0 var(--accent-soft);
+  animation: journey-breathe 2.2s ease-in-out infinite;
+}
+
+@keyframes journey-breathe {
+  50% {
+    box-shadow: 0 0 0 12px var(--accent-soft);
+  }
+}
+
+.journey-here {
+  position: absolute;
+  top: -34px;
+  left: 50%;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-fill);
+  color: var(--on-accent);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.journey-here::after {
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: inherit;
+  transform: translateX(-50%) rotate(45deg);
+  content: '';
+}
+
+/* Details of a step, as a card across the path below it. */
+.journey-pop {
+  position: absolute;
+  top: 58px;
+  right: 8px;
+  left: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+  animation: journey-pop 0.18s ease-out;
+}
+
+@keyframes journey-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.journey-pop-text {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.journey-pop-text span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.journey-pop-text .journey-pop-chars {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 18px;
+  letter-spacing: 0.1em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.journey-pop .btn {
+  flex: none;
+}
+
+/* Checkpoint result: the seal. */
+.journey-seal {
+  display: inline-block;
+  color: var(--muted);
+}
+
+.journey-seal.sealed {
+  padding: 2px 8px;
+  border: 2px solid var(--journey-seal);
+  border-radius: 6px;
+  color: var(--journey-seal);
+  font-weight: 700;
+  transform: rotate(-4deg);
+}
+
+.quiz-result-note {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+@media (max-width: 420px) {
+  .journey-head {
+    gap: 8px;
+    padding-left: 10px;
+  }
+
+  .journey-xp svg {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey-seg.fresh {
+    animation: none;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+
+  .journey-node.next .journey-dot,
+  .journey-pop {
+    animation: none;
+  }
+
+  .journey-dot,
+  .journey-xp-fill {
+    transition: none;
+  }
+}

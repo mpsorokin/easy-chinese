@@ -36,14 +36,17 @@ export type ChoiceQuestion = {
   // Shown after answering: the full entry, so a wrong answer still teaches.
   reveal: string;
   audio?: Audio;
+  // The character or word the question checks (spaced repetition keys on it).
+  item?: string;
 };
 
 // Tile questions, all shown with the "Build the word" layout:
 //  build   — meaning + pinyin given, tap the word's characters in order;
 //  listen  — only the sound is given, tap the characters (dictation);
 //  reading — the word is given, tap its syllables in order (tone practice);
-//  gap     — pick the word's characters from 5–7 tiles, all slots empty.
-export type BuildMode = 'build' | 'listen' | 'reading' | 'gap';
+//  gap     — pick the word's characters from 5–7 tiles, all slots empty;
+//  sentence — a short line of a lesson dialogue from its translation.
+export type BuildMode = 'build' | 'listen' | 'reading' | 'gap' | 'sentence';
 
 export type BuildQuestion = {
   kind: 'build';
@@ -56,6 +59,7 @@ export type BuildQuestion = {
   tileLang: 'zh' | 'pinyin';
   reveal: string;
   audio?: Audio;
+  item?: string;
 };
 
 // Write a whole word by hand, several passes with a fading outline.
@@ -66,6 +70,7 @@ export type WriteQuestion = {
   answer: string; // the word
   reveal: string;
   audio: Audio;
+  item?: string;
 };
 
 export type Question = ChoiceQuestion | BuildQuestion | WriteQuestion;
@@ -132,6 +137,7 @@ export function meaningQuiz(
       ...choice(e.en, wrong, rng),
       reveal: reveal(e),
       audio: { text: e.c },
+      item: e.c,
     };
   });
 }
@@ -195,6 +201,7 @@ export function pinyinQuiz(
       ...choice(e.py, wrong, rng),
       reveal: reveal(e),
       audio: { text: e.c, afterAnswer: true },
+      item: e.c,
     };
   });
 }
@@ -278,6 +285,7 @@ function pickQuestion(
     tileLang: 'zh',
     reveal: wordReveal(w),
     audio: { text: w.w, afterAnswer: true },
+    item: w.w,
   };
 }
 
@@ -328,6 +336,7 @@ export function wordQuiz(
       kind: 'build' as const,
       reveal: wordReveal(w),
       tileLang: 'zh' as const,
+      item: w.w,
     };
     if (mode === 'build' || mode === 'listen') {
       const extra = pick([tilePool], 2, new Set(chars), rng);
@@ -381,6 +390,7 @@ export function wordQuiz(
           ...choice(w.w, wrong, rng),
           reveal: wordReveal(w),
           audio: { text: w.w, afterAnswer: true },
+          item: w.w,
         };
     }
     const wrong = pick(
@@ -397,6 +407,7 @@ export function wordQuiz(
       ...choice(w.en, wrong, rng),
       reveal: wordReveal(w),
       audio: { text: w.w },
+      item: w.w,
     };
   });
 }
@@ -422,5 +433,75 @@ export function wordWriteQuiz(
       answer: w.w,
       reveal: wordReveal(w),
       audio: { text: w.w },
+      item: w.w,
     }));
+}
+
+// A mixed round: each character once, as meaning or pinyin in turn, plus the words in
+// their rotating modes, all shuffled together. Distractors come from the round first,
+// then from the pools.
+export function mixedQuiz(
+  chars: readonly HskChar[],
+  words: readonly HskWord[],
+  charPool: readonly HskChar[],
+  wordPool: readonly HskWord[],
+  rng: Rng = Math.random,
+): Question[] {
+  const unique = [...new Map(chars.map((e) => [e.c, e])).values()];
+  const byItem = (qs: ChoiceQuestion[]) => new Map(qs.map((q) => [q.item, q]));
+  const meaning = byItem(meaningQuiz(unique, charPool, rng));
+  const pinyin = byItem(pinyinQuiz(unique, charPool, rng));
+  const charQs = shuffle(unique, rng).map((e, k) =>
+    (k % 2 === 0 ? meaning : pinyin).get(e.c)!,
+  );
+  const tilePool = [
+    ...new Set([...unique.map((e) => e.c), ...words.flatMap((w) => [...w.w])]),
+  ];
+  const wordQs = wordQuiz(
+    [...new Map(words.map((w) => [w.w, w])).values()],
+    wordPool,
+    tilePool,
+    rng,
+  );
+  return shuffle([...charQs, ...wordQs], rng);
+}
+
+// A dialogue line for "Build the sentence": its characters (no punctuation), reading and
+// translation.
+export type SentenceLine = { chars: string[]; py: string; en: string };
+
+export const SENTENCE_CHARS = { min: 3, max: 7 } as const;
+
+// Up to `n` short dialogue lines to build from their translation; distractor tiles come
+// from `tilePool`.
+export function sentenceQuiz(
+  lines: readonly SentenceLine[],
+  tilePool: readonly string[],
+  n: number,
+  rng: Rng = Math.random,
+): BuildQuestion[] {
+  const fit = lines.filter(
+    (l) =>
+      l.chars.length >= SENTENCE_CHARS.min &&
+      l.chars.length <= SENTENCE_CHARS.max,
+  );
+  const unique = [...new Map(fit.map((l) => [l.chars.join(''), l])).values()];
+  return shuffle(unique, rng)
+    .slice(0, n)
+    .map((l) => {
+      const zh = l.chars.join('');
+      const extra = pick([tilePool], 2, new Set(l.chars), rng);
+      return {
+        kind: 'build',
+        mode: 'sentence',
+        prompt: l.en,
+        hint: l.py,
+        cells: l.chars,
+        blanks: l.chars.map((_, k) => k),
+        tiles: shuffle([...l.chars, ...extra], rng),
+        tileLang: 'zh',
+        reveal: `${zh} · ${l.py} — ${l.en}`,
+        audio: { text: zh, afterAnswer: true },
+      };
+    });
 }

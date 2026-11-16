@@ -2,10 +2,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   bestGrades,
   emptyProgress,
+  gainXp,
   lessonStatus,
   migrateBestGrades,
   normalizeProgress,
+  recordAnswer,
   recordAttempt,
+  recordJourney,
   recordLesson,
   writeResult,
 } from './progress.ts';
@@ -200,5 +203,59 @@ describe('loadProgress', () => {
 
   it('starts empty when nothing is stored', () => {
     expect(loadProgress(undefined)).toEqual(emptyProgress());
+  });
+});
+
+describe('journey fields', () => {
+  it('keeps valid journey results, review boxes and daily XP, drops the rest', () => {
+    const raw = {
+      version: 2,
+      chars: {},
+      lessons: {},
+      journey: {
+        '1:c3:story': { best: 3, at: 4 },
+        '1:c3p2:practice': { best: 2 }, // at missing → 0
+        '1:c3:bogus': { best: 2, at: 1 },
+        '1:c3:checkpoint': { best: 7, at: 1 },
+      },
+      srs: {
+        人: { box: 2, due: 9 },
+        老师: { box: 0, due: 1 },
+        ab: { box: 1, due: 1 },
+        大: { box: 99, due: 1 },
+      },
+      daily: { day: '2026-03-10', xp: 12, streak: 3 },
+    };
+    expect(normalizeProgress(raw)).toEqual({
+      version: 2,
+      chars: {},
+      lessons: {},
+      journey: {
+        '1:c3:story': { best: 3, at: 4 },
+        '1:c3p2:practice': { best: 2, at: 0 },
+      },
+      srs: { 人: { box: 2, due: 9 }, 老师: { box: 0, due: 1 } },
+      daily: { day: '2026-03-10', xp: 12, streak: 3 },
+    });
+  });
+
+  it('leaves the fields out until they are used', () => {
+    const p = normalizeProgress({ version: 2, chars: {}, lessons: {} });
+    expect(p && Object.keys(p)).toEqual(['version', 'chars', 'lessons']);
+  });
+
+  it('records journey bests, review answers and XP', () => {
+    let p = recordJourney(emptyProgress(), '1:c1:checkpoint', 3, 1);
+    p = recordJourney(p, '1:c1:checkpoint', 1, 2);
+    expect(p.journey?.['1:c1:checkpoint']).toEqual({ best: 3, at: 2 });
+    p = recordAnswer(p, '人', false, 5);
+    expect(p.srs?.['人']).toEqual({ box: 0, due: 5 });
+    expect(recordAnswer(p, 'x', true, 5)).toBe(p);
+    expect(gainXp(p, 0, 5)).toBe(p);
+    expect(gainXp(p, 4, new Date(2026, 0, 2).getTime()).daily).toEqual({
+      day: '2026-01-02',
+      xp: 4,
+      streak: 1,
+    });
   });
 });

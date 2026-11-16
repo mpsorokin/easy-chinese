@@ -44,6 +44,22 @@ export const courseQuizPath = (
   ex: ExerciseId,
 ) => `${courseLessonPath(level, lesson)}/quiz/${part}/${ex}`;
 
+// The journey map (a tab of the level page) and its own rounds. Pages opened from the map
+// get `?from=journey` so their close link returns to it.
+export const journeyPath = (level: string) => `${levelPath(level)}?tab=journey`;
+export const FROM_JOURNEY = 'from=journey';
+export const fromJourney = (search: string) =>
+  new URLSearchParams(search).get('from') === 'journey';
+export const journeyPracticePath = (
+  level: string,
+  lesson: number,
+  part: number,
+) => `/hsk/${level}/journey/practice/${lesson}/${part}`;
+export const journeyCheckpointPath = (level: string, lesson: number) =>
+  `/hsk/${level}/journey/checkpoint/${lesson}`;
+export const journeyReviewPath = (level: string) =>
+  `/hsk/${level}/journey/review`;
+
 export const exercisePath = (level: string, lesson: number, ex: ExerciseId) =>
   `${lessonPath(level, lesson)}/${ex}`;
 

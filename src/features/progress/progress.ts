@@ -4,6 +4,10 @@ import { isGrade } from '../../domain/grading.ts';
 import type { BestGrades, Grade } from '../../domain/grading.ts';
 import { EXERCISES, isExercise } from '../../domain/exercises.ts';
 import type { ExerciseId } from '../../domain/exercises.ts';
+import { isSrsEntry, srsAnswer } from '../../domain/srs.ts';
+import type { SrsEntry } from '../../domain/srs.ts';
+import { addXp, isDaily } from '../../domain/daily.ts';
+import type { Daily } from '../../domain/daily.ts';
 
 // One finished exercise on a character, reported by an exercise mode.
 export type AttemptResult = {
@@ -25,11 +29,15 @@ export type CharProgress = {
 export type ExerciseProgress = { best: Grade; at: number };
 export type LessonProgress = Partial<Record<ExerciseId, ExerciseProgress>>;
 
-// v2 added `lessons`; v1 data is read as v2 with no lessons.
+// v2 added `lessons`; v1 data is read as v2 with no lessons. The journey fields are optional
+// additions to v2 (older app versions simply ignore them), present once used.
 export type Progress = {
   version: 2;
   chars: Record<string, CharProgress>;
   lessons: Record<string, LessonProgress>; // by lessonKey
+  journey?: Record<string, ExerciseProgress>; // by journeyKey
+  srs?: Record<string, SrsEntry>; // by character or word
+  daily?: Daily;
 };
 
 export const emptyProgress = (): Progress => ({
@@ -45,6 +53,19 @@ export const lessonKey = (level: string, lesson: number) =>
 export const courseLessonKey = (level: string, lesson: number, part: number) =>
   `${level}:c${lesson}p${part}`;
 const LESSON_KEY = /^[0-9-]+:(\d+|c\d+(p\d+)?)$/;
+
+// Journey steps with a stored result: a lesson's dialogues, a part's practice round and the
+// lesson's checkpoint, "1:c3:story", "1:c3p2:practice", "1:c3:checkpoint".
+export type JourneyStep = 'story' | 'practice' | 'checkpoint';
+export const journeyKey = (
+  level: string,
+  lesson: number,
+  step: JourneyStep,
+  part?: number,
+) => `${level}:c${lesson}${part ? `p${part}` : ''}:${step}`;
+const JOURNEY_KEY = /^[0-9-]+:c\d+(p\d+)?:(story|practice|checkpoint)$/;
+// Spaced repetition keys: one character or a word of up to 8.
+const SRS_KEY = /^\p{Script=Han}{1,8}$/u;
 
 const SINGLE_CHAR = /^.$/u;
 
@@ -107,11 +128,43 @@ export function normalizeProgress(raw: unknown): Progress | undefined {
     if (p && SINGLE_CHAR.test(c)) entries.push([c, p]);
   }
   // fromEntries defines own properties, so no key can touch the prototype.
+  const journey = normalizeJourney(r.journey);
+  const srs = normalizeSrs(r.srs);
   return {
     version: 2,
     chars: Object.fromEntries(entries),
     lessons: r.version === 2 ? normalizeLessons(r.lessons) : {},
+    ...(journey ? { journey } : {}),
+    ...(srs ? { srs } : {}),
+    ...(isDaily(r.daily) ? { daily: r.daily } : {}),
   };
+}
+
+function normalizeJourney(
+  raw: unknown,
+): Record<string, ExerciseProgress> | undefined {
+  if (raw === null || typeof raw !== 'object') return undefined;
+  const entries: [string, ExerciseProgress][] = [];
+  for (const [k, v] of Object.entries(raw)) {
+    if (!JOURNEY_KEY.test(k) || v === null || typeof v !== 'object') continue;
+    const r = v as Record<string, unknown>;
+    if (!isGrade(r.best)) continue;
+    const at = typeof r.at === 'number' && r.at >= 0 ? r.at : 0;
+    entries.push([k, { best: r.best, at }]);
+  }
+  return entries.length ? Object.fromEntries(entries) : undefined;
+}
+
+function normalizeSrs(raw: unknown): Record<string, SrsEntry> | undefined {
+  if (raw === null || typeof raw !== 'object') return undefined;
+  const entries = Object.entries(raw).filter(
+    (e): e is [string, SrsEntry] => SRS_KEY.test(e[0]) && isSrsEntry(e[1]),
+  );
+  return entries.length
+    ? Object.fromEntries(
+        entries.map(([k, e]) => [k, { box: e.box, due: e.due }]),
+      )
+    : undefined;
 }
 
 // Builds progress from the pre-v1 format, where only the best grade per character was kept.
@@ -155,6 +208,44 @@ export function recordLesson(
     lessons: { ...p.lessons, [key]: { ...lesson, [ex]: { best, at } } },
   };
 }
+
+// Keeps the best result of a journey step.
+export function recordJourney(
+  p: Progress,
+  key: string,
+  grade: Grade,
+  at: number,
+): Progress {
+  const prev = p.journey?.[key];
+  const best = prev && prev.best > grade ? prev.best : grade;
+  return { ...p, journey: { ...p.journey, [key]: { best, at } } };
+}
+
+// One quiz answer about a character or word: moves it in the review boxes.
+export function recordAnswer(
+  p: Progress,
+  item: string,
+  right: boolean,
+  at: number,
+): Progress {
+  if (!SRS_KEY.test(item)) return p;
+  return {
+    ...p,
+    srs: { ...p.srs, [item]: srsAnswer(p.srs?.[item], right, at) },
+  };
+}
+
+// XP for today, which also keeps the streak of days in a row.
+export const gainXp = (p: Progress, xp: number, at: number): Progress =>
+  xp > 0 ? { ...p, daily: addXp(p.daily, xp, at) } : p;
+
+// XP rewards.
+export const XP = {
+  answer: 1, // each right quiz answer
+  char: 3, // a character finished in the copybook
+  story: 5, // a lesson's dialogues read to the end
+  step: 5, // a journey round passed (two stars or more)
+} as const;
 
 // A lesson counts as done when every exercise has at least two stars.
 export const PASS_GRADE: Grade = 2;
