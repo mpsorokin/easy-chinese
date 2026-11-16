@@ -60,7 +60,10 @@ const writeAll = (p: Progress, chars: readonly string[], grade: 1 | 2 | 3) =>
 
 describe('buildJourney', () => {
   it('has a region per lesson: story, learn + practice per part, checkpoint', () => {
-    expect(regions).toHaveLength(COURSE_LESSONS.length);
+    // A lesson without practice parts yet has no region.
+    expect(regions).toHaveLength(
+      COURSE_LESSONS.filter((l) => courseParts(l).length > 0).length,
+    );
     for (const r of regions) {
       const parts = courseParts(r.lesson).length;
       expect(r.nodes.map((n) => n.kind)).toEqual([

@@ -7,6 +7,7 @@ import { lesson3 } from './lessons/lesson3.ts';
 import { lesson4 } from './lessons/lesson4.ts';
 import { lesson5 } from './lessons/lesson5.ts';
 import { lesson6 } from './lessons/lesson6.ts';
+import { lesson7 } from './lessons/lesson7.ts';
 import {
   isDialogueExercise,
   type CourseExercise,
@@ -48,6 +49,7 @@ export const COURSE_LESSONS: readonly CourseLesson[] = [
   lesson4,
   lesson5,
   lesson6,
+  lesson7,
 ];
 
 // Exercises shown as a list of lines: the dialogues and the vocabulary.

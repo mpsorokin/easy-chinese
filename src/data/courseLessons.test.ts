@@ -49,7 +49,9 @@ describe('COURSE_LESSONS', () => {
       it('keeps parts short and has words to practise', () => {
         for (const part of lesson.parts ?? [])
           expect([...part].length).toBeLessThanOrEqual(10);
-        expect(lesson.words?.length).toBeGreaterThan(0);
+        // A lesson still being written has no "Words" card and no words yet.
+        if (lesson.exercises.includes('words'))
+          expect(lesson.words?.length).toBeGreaterThan(0);
       });
 
       // A multi-character word of HSK characters must show up in some part's word quizzes.

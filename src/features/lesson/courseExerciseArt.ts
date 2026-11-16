@@ -216,6 +216,12 @@ export const courseExerciseArt: Partial<Record<number, ExerciseArt>> = {
     exercise27: where,
     words: smartphone,
   },
+  7: {
+    exercise1: time,
+    exercise2: leisure,
+    exercise3: dinner,
+    exercise4: deskClock,
+  },
 };
 
 export const coursePracticeArt: Readonly<Record<ExerciseId, string>> = {
