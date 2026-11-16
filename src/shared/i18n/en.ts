@@ -163,6 +163,7 @@ export const t = {
   // Journey map (features/journey)
   tabJourney: 'Journey',
   journey: {
+    lessonZh: (n: number) => `第${chineseNumber(n)}课`,
     streak: (n: number) => (n === 1 ? '1 day' : `${n} days`),
     streakLabel: 'Days in a row',
     xpLabel: (xp: number, goal: number) => `Today: ${xp} of ${goal} XP`,

@@ -5,34 +5,29 @@ import { Link } from 'react-router';
 import type { LevelData } from '../../data/hsk.ts';
 import { DAILY_GOAL, currentStreak, todayXp } from '../../domain/daily.ts';
 import { stars, t } from '../../shared/i18n/en.ts';
-import { courseExerciseArt } from '../lesson/courseExerciseArt.ts';
-import hillsArt from '../lesson/art/level/hills.webp';
 import type { Progress } from '../progress/progress.ts';
 import { loadSessions } from '../progress/sessionStore.ts';
 import { isDone, placeJourney } from './journey.ts';
 import type { PlacedNode, PlacedRegion } from './journey.ts';
-import { GLYPH, continueLabel } from './journeyLabels.ts';
+import { GLYPH, continueLabel, stepTitle } from './journeyLabels.ts';
 import './journey.css';
 
-// Height of one step on the path, in px.
-const ROW = 124;
-// Horizontal swing of the path, in % of the width either side of the middle.
-const SWING = 26;
+const STEP_GAP = 102;
+const FIRST_STOP = 62;
+const DETAILS_SPACE = 116;
+const TRAIL_POSITIONS = [23, 59, 20, 55, 23, 60];
 
-// x in % of the map width for the k-th step of the whole journey: a slow winding river.
-const xAt = (k: number) => 50 + SWING * Math.sin(k * 0.9);
+type Point = { x: number; y: number };
 
-// Smooth curve from one step to the next (viewBox: x 0..100, y in px).
-const segment = (x0: number, y0: number, x1: number, y1: number) =>
-  `M${x0} ${y0} C${x0} ${y0 + ROW / 2} ${x1} ${y1 - ROW / 2} ${x1} ${y1}`;
+function segment(from: Point, to: Point) {
+  const mid = (from.y + to.y) / 2;
+  return `M${from.x} ${from.y} C${from.x} ${mid} ${to.x} ${mid} ${to.x} ${to.y}`;
+}
 
 const reducedMotion = () =>
   typeof window !== 'undefined' &&
   window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
-// The journey tab of a level: streak and daily XP on top, then each course lesson as a
-// region of steps along a winding ink path. Nothing is locked; the step to continue with
-// is marked and scrolled into view.
 export default function JourneyMap({
   level,
   progress,
@@ -55,20 +50,20 @@ export default function JourneyMap({
   const nextRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    nextRef.current?.scrollIntoView?.({
-      block: 'center',
-      behavior: reducedMotion() ? 'auto' : 'smooth',
-    });
-  }, []);
+    const button = nextRef.current;
+    if (!button) return;
+    const bounds = button.getBoundingClientRect();
+    if (bounds.top < 0 || bounds.bottom > window.innerHeight) {
+      button.scrollIntoView?.({
+        block: 'center',
+        behavior: reducedMotion() ? 'auto' : 'smooth',
+      });
+    }
+  }, [next]);
 
   const streak = currentStreak(progress.daily, now);
   const xp = todayXp(progress.daily, now);
 
-  // Index of each region's first step over the whole journey, so the river keeps winding
-  // across regions.
-  const starts = regions.map((_, ri) =>
-    regions.slice(0, ri).reduce((n, r) => n + r.nodes.length, 0),
-  );
   return (
     <section className="journey" aria-label={t.tabJourney}>
       <header className="journey-head">
@@ -92,20 +87,18 @@ export default function JourneyMap({
         )}
       </header>
 
-      {regions.map((region, ri) => {
-        const start = starts[ri] ?? 0;
-        return (
+      <div className="journey-landscape">
+        {regions.map((region) => (
           <Region
             key={region.lesson.id}
             region={region}
-            start={start}
             next={next}
             open={open}
             onOpen={(id) => setOpen((o) => (o === id ? undefined : id))}
             nextRef={nextRef}
           />
-        );
-      })}
+        ))}
+      </div>
     </section>
   );
 }
@@ -141,38 +134,41 @@ function XpRing({ xp }: { xp: number }) {
 
 function Region({
   region,
-  start,
   next,
   open,
   onOpen,
   nextRef,
 }: {
   region: PlacedRegion;
-  start: number;
   next: string | undefined;
   open: string | undefined;
   onOpen: (id: string) => void;
   nextRef: RefObject<HTMLButtonElement | null>;
 }) {
   const { lesson, nodes } = region;
-  const height = nodes.length * ROW;
+  const openAt = open ? nodes.findIndex(({ node }) => node.id === open) : -1;
+  const height =
+    FIRST_STOP +
+    (nodes.length - 1) * STEP_GAP +
+    64 +
+    (openAt < 0 ? 0 : DETAILS_SPACE);
   const points = nodes.map((_, i) => ({
-    x: xAt(start + i),
-    y: ROW * (i + 0.5),
+    x: TRAIL_POSITIONS[i % TRAIL_POSITIONS.length]!,
+    y:
+      FIRST_STOP +
+      i * STEP_GAP +
+      (openAt >= 0 && i > openAt ? DETAILS_SPACE : 0),
   }));
   const sealed = nodes.some(
     (n) => n.node.kind === 'checkpoint' && isDone(n.status),
   );
-  const art = courseExerciseArt[lesson.id]?.words ?? hillsArt;
+  const headingId = `journey-lesson-${lesson.id}`;
 
   return (
-    <div className={'journey-region' + (sealed ? ' sealed' : '')}>
-      <div className="journey-banner">
-        <img src={art} alt="" loading="lazy" />
-        <span className="journey-banner-text">
-          <b>{t.lessonN(lesson.id)}</b>
-          <span lang="zh-Hans">第{lesson.id}课</span>
-        </span>
+    <section className="journey-region" aria-labelledby={headingId}>
+      <header className="journey-banner">
+        <h2 id={headingId}>{t.lessonN(lesson.id)}</h2>
+        <span lang="zh-Hans">{t.journey.lessonZh(lesson.id)}</span>
         {sealed && (
           <span
             className="journey-banner-seal"
@@ -182,11 +178,11 @@ function Region({
             印
           </span>
         )}
-      </div>
+      </header>
 
       <div className="journey-path" style={{ height }}>
         <svg
-          className="journey-river"
+          className="journey-trail"
           viewBox={`0 0 100 ${height}`}
           preserveAspectRatio="none"
           aria-hidden="true"
@@ -198,7 +194,7 @@ function Region({
             return (
               <path
                 key={i}
-                d={segment(from.x, from.y, p.x, p.y)}
+                d={segment(from, p)}
                 className={
                   'journey-seg' +
                   (done ? ' done' : '') +
@@ -224,7 +220,7 @@ function Region({
           ))}
         </ol>
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -246,8 +242,7 @@ function Node({
   nextRef?: RefObject<HTMLButtonElement | null>;
 }) {
   const { node, status } = placed;
-  const kind = t.journey.kinds[node.kind];
-  const title = t.journey.nodeTitle(kind, node.part);
+  const title = stepTitle(placed);
   const hint =
     node.kind === 'review' && node.count
       ? t.journey.reviewDue(node.count)
@@ -265,37 +260,41 @@ function Node({
         (isNext ? ' next' : '') +
         (open ? ' open' : '')
       }
-      style={{ top: y, '--fill': `${fill}%` } as CSSProperties}
+      style={
+        { top: y, '--stop': `${x}%`, '--fill': `${fill}%` } as CSSProperties
+      }
     >
       <button
         ref={nextRef}
         type="button"
-        className="journey-dot"
-        style={{ left: `${x}%` }}
+        className="journey-step"
+        aria-current={isNext ? 'step' : undefined}
         aria-expanded={open}
-        aria-controls={popId}
-        aria-label={`${title}${status.stars ? ` · ${stars(status.stars)}` : ''}`}
+        aria-controls={open ? popId : undefined}
         onClick={onOpen}
       >
-        <span className="journey-glyph" lang="zh-Hans" aria-hidden="true">
-          {GLYPH[node.kind]}
-        </span>
-        {partial ? (
-          <span className="journey-partial" aria-hidden="true">
-            {t.journey.partial(partial.done, partial.total)}
+        <span className="journey-dot" aria-hidden="true">
+          <span className="journey-glyph" lang="zh-Hans">
+            {GLYPH[node.kind]}
           </span>
-        ) : (
-          status.stars > 0 && (
-            <span className="journey-stars" aria-hidden="true">
-              {stars(status.stars)}
+          {isNext && (
+            <span className="journey-here">
+              {node.kind === 'review' ? t.journey.review : t.journey.youAreHere}
             </span>
-          )
-        )}
-        {isNext && (
-          <span className="journey-here" aria-hidden="true">
-            {node.kind === 'review' ? t.journey.review : t.journey.youAreHere}
-          </span>
-        )}
+          )}
+        </span>
+        <span className="journey-step-copy">
+          <span className="journey-step-title">{title}</span>
+          {partial ? (
+            <span className="journey-partial">
+              {t.journey.partial(partial.done, partial.total)}
+            </span>
+          ) : (
+            status.stars > 0 && (
+              <span className="journey-stars">{stars(status.stars)}</span>
+            )
+          )}
+        </span>
       </button>
       {open && (
         <div className="journey-pop" id={popId}>

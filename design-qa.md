@@ -40,3 +40,13 @@ final result: passed
 - Browser checks: meaning quiz next button and automatic advance, lesson navigation, pinyin audio button after an answer, word tile selection and undo. Fresh load showed no console warnings or errors.
 
 final result: passed
+
+## HSK 1 Journey map
+
+- Reference: [Easy Chinese HSK 1 Journey Map.png](https://chatgpt.com/library?file_id=libfile_48e231bc58988191aaf0b04abc5ab522&account_id=personal), 842 × 1869 px, dark theme, Lesson 1 at the start of the course.
+- Route: `/hsk/1?tab=journey`. The implementation shows all four practice parts from the course data. The reference illustrates the first two parts.
+- The production build includes separate 760 × 1140 WebP landscapes for both themes (114 KB for day and 26 KB for night).
+- Browser evidence: unavailable. The in-app browser timed out reaching the local Vite server. The live viewport, both themes, visual comparison, and browser console remain unverified.
+- Interaction verification: a React integration run opened the Journey route, verified the current Story marker, followed Continue to the dialogue, opened and switched step details, and started Practice · Part 1. The repository check passed all 206 tests.
+
+final result: blocked
