@@ -193,18 +193,22 @@ export type LessonStatus = {
   lastAt: number;
 };
 
+// Exercises a lesson's status counts. Writing and picking whole words are extra practice, so adding it
+// did not take "complete" away from lessons finished before it existed.
+const COUNTED = EXERCISES.filter((ex) => ex !== 'wordWrite' && ex !== 'pick');
+
 export function lessonStatus(
   p: Progress,
   key: string,
   chars: readonly string[],
 ): LessonStatus {
   const lesson = lessonResults(p, key, chars);
-  const results = EXERCISES.flatMap((ex) => lesson[ex] ?? []);
+  const results = COUNTED.flatMap((ex) => lesson[ex] ?? []);
   const done = results.filter((r) => r.best >= PASS_GRADE).length;
   return {
     done,
-    total: EXERCISES.length,
-    complete: done === EXERCISES.length,
+    total: COUNTED.length,
+    complete: done === COUNTED.length,
     started: results.length > 0,
     lastAt: Math.max(0, ...results.map((r) => r.at)),
   };

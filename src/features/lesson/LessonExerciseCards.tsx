@@ -8,6 +8,8 @@ import './lesson.css';
 
 const EXERCISE_ICONS: Record<ExerciseId, string> = {
   write: 'brush',
+  wordWrite: 'brush',
+  pick: 'target',
   meaning: 'target',
   pinyin: 'volume',
   words: 'book',

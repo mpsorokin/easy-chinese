@@ -2,7 +2,14 @@
 // Randomness comes in as `rng` (Math.random by default) so tests can fix it.
 import type { HskChar, HskWord } from './types.ts';
 
-export const EXERCISES = ['write', 'meaning', 'pinyin', 'words'] as const;
+export const EXERCISES = [
+  'write',
+  'wordWrite',
+  'pick',
+  'meaning',
+  'pinyin',
+  'words',
+] as const;
 export type ExerciseId = (typeof EXERCISES)[number];
 
 export const isExercise = (x: unknown): x is ExerciseId =>
@@ -16,8 +23,12 @@ export type Audio = { text: string; afterAnswer?: boolean };
 
 // One multiple-choice question: `prompt` is shown big (a character or word), `hint` under it.
 // Options are shown as text; for 'build' questions they are characters to tap in order.
+// Modes: 'show' — the prompt is shown (default); 'listen' — only its sound until answered;
+// optionLang 'zh' — the options are Chinese words (shown with a CJK font).
 export type ChoiceQuestion = {
   kind: 'choice';
+  mode?: 'show' | 'listen' | 'toWord';
+  optionLang?: 'zh';
   prompt: string;
   hint?: string;
   options: string[];
@@ -27,18 +38,37 @@ export type ChoiceQuestion = {
   audio?: Audio;
 };
 
-// Build a word from character tiles: tap the tiles in order.
+// Tile questions, all shown with the "Build the word" layout:
+//  build   — meaning + pinyin given, tap the word's characters in order;
+//  listen  — only the sound is given, tap the characters (dictation);
+//  reading — the word is given, tap its syllables in order (tone practice);
+//  gap     — pick the word's characters from 5–7 tiles, all slots empty.
+export type BuildMode = 'build' | 'listen' | 'reading' | 'gap';
+
 export type BuildQuestion = {
   kind: 'build';
-  prompt: string; // the meaning (and pinyin) to build
+  mode: BuildMode;
+  prompt: string; // the meaning, or the word itself for 'reading'
   hint?: string;
-  tiles: string[]; // the word's characters plus distractors, shuffled
-  answer: string; // the word
+  cells: string[]; // the full answer, one cell per character or syllable
+  blanks: number[]; // indexes of the cells to fill, in order; the rest are shown
+  tiles: string[]; // the missing cells plus distractors, shuffled
+  tileLang: 'zh' | 'pinyin';
   reveal: string;
   audio?: Audio;
 };
 
-export type Question = ChoiceQuestion | BuildQuestion;
+// Write a whole word by hand, several passes with a fading outline.
+export type WriteQuestion = {
+  kind: 'write';
+  prompt: string; // the meaning
+  hint: string; // pinyin
+  answer: string; // the word
+  reveal: string;
+  audio: Audio;
+};
+
+export type Question = ChoiceQuestion | BuildQuestion | WriteQuestion;
 
 export const OPTIONS = 4;
 
@@ -171,27 +201,187 @@ export function pinyinQuiz(
 
 const wordReveal = (w: HskWord) => `${w.w} · ${w.py} — ${w.en}`;
 
-// Lesson words, two kinds mixed: word → meaning (any word) and building multi-character
-// words from tiles (the word's characters plus two from `tilePool`).
+const SYLLABLE =
+  /^(?:zh|ch|sh|[bpmfdtnlgkhjqxrzcsyw])?[aeiouüvāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]+(?:ng|n|r)?$/;
+const startsWithVowel = (s: string) => !/^[bcdfghjklmnpqrstvwxyz]/.test(s);
+
+// Splits a word's pinyin ("xuéshēng", "Xī'ān") into `n` syllables, or null if it can't.
+// Of the possible splits, one where no later syllable starts with a vowel wins
+// ("bàngōng" → bàn gōng, not bàng ōng).
+export function splitPinyin(py: string, n: number): string[] | null {
+  const chunks = py
+    .toLowerCase()
+    .trim()
+    .split(/[\s'’]+/)
+    .filter(Boolean);
+  const found: string[][] = [];
+  const walk = (ci: number, rest: string, acc: string[]) => {
+    if (found.length > 20) return;
+    if (!rest) {
+      if (ci + 1 < chunks.length) walk(ci + 1, chunks[ci + 1]!, acc);
+      else if (acc.length === n) found.push(acc);
+      return;
+    }
+    if (acc.length >= n) return;
+    for (let len = 1; len <= rest.length; len++) {
+      const syl = rest.slice(0, len);
+      if (SYLLABLE.test(syl)) walk(ci, rest.slice(len), [...acc, syl]);
+    }
+  };
+  if (chunks.length) walk(0, chunks[0]!, []);
+  return (
+    found.find((f) => f.slice(1).every((s) => !startsWithVowel(s))) ??
+    found[0] ??
+    null
+  );
+}
+
+// A word's syllables, one per character; null for erhua words (面条儿 miàntiáor), where
+// 儿 is only an "r" on the syllable before it.
+export function wordSyllables(w: HskWord): string[] | null {
+  const chars = [...w.w];
+  const syllables = splitPinyin(w.py, chars.length);
+  // A real 儿 syllable reads ér (女儿 nǚ'ér); anything else is an erhua split.
+  if (chars.at(-1) === '儿' && !/^[eēéěè]r$/.test(syllables?.at(-1) ?? ''))
+    return null;
+  return syllables;
+}
+
+export const PICK_TILES = { min: 5, max: 7 } as const;
+
+// "Pick the characters": the meaning and pinyin are given, every slot is empty, and the
+// word's characters hide among 5–7 tiles. Distractors: the part's characters first, then
+// characters of the level's words.
+function pickQuestion(
+  w: HskWord,
+  tilePool: readonly string[],
+  poolChars: readonly string[],
+  rng: Rng,
+): BuildQuestion {
+  const chars = [...w.w];
+  const size =
+    PICK_TILES.min + Math.floor(rng() * (PICK_TILES.max - PICK_TILES.min + 1));
+  const extra = pick(
+    [tilePool, poolChars],
+    Math.max(2, size - chars.length),
+    new Set(chars),
+    rng,
+  );
+  return {
+    kind: 'build',
+    mode: 'gap',
+    prompt: w.en,
+    hint: w.py,
+    cells: chars,
+    blanks: chars.map((_, k) => k),
+    tiles: shuffle([...chars, ...extra], rng),
+    tileLang: 'zh',
+    reveal: wordReveal(w),
+    audio: { text: w.w, afterAnswer: true },
+  };
+}
+
+// One "Pick the characters" question per multi-character word.
+export function pickQuiz(
+  words: readonly HskWord[],
+  tilePool: readonly string[],
+  pool: readonly HskWord[],
+  rng: Rng = Math.random,
+): BuildQuestion[] {
+  const poolChars = pool.flatMap((x) => [...x.w]);
+  return shuffle(
+    words.filter((w) => [...w.w].length > 1),
+    rng,
+  ).map((w) => pickQuestion(w, tilePool, poolChars, rng));
+}
+
+const WORD_MODES = [
+  'build',
+  'choice',
+  'listen',
+  'toWord',
+  'gap',
+  'hear',
+  'reading',
+] as const;
+
+// Lesson words, several kinds mixed: single characters are word → meaning; longer words
+// rotate through meaning, building from tiles (the word's characters plus distractors from
+// `tilePool`), dictation, a missing character and building the reading from syllables.
 export function wordQuiz(
   words: readonly HskWord[],
   pool: readonly HskWord[],
   tilePool: readonly string[],
   rng: Rng = Math.random,
 ): Question[] {
-  return shuffle(words, rng).map((w, i): Question => {
+  const offset = Math.floor(rng() * WORD_MODES.length);
+  let multi = 0;
+  const poolChars = pool.flatMap((x) => [...x.w]);
+  return shuffle(words, rng).map((w): Question => {
     const chars = [...w.w];
-    if (chars.length > 1 && i % 2 === 1) {
+    const mode =
+      chars.length > 1
+        ? WORD_MODES[(offset + multi++) % WORD_MODES.length]!
+        : 'choice';
+    const all = chars.map((_, k) => k);
+    const base = {
+      kind: 'build' as const,
+      reveal: wordReveal(w),
+      tileLang: 'zh' as const,
+    };
+    if (mode === 'build' || mode === 'listen') {
       const extra = pick([tilePool], 2, new Set(chars), rng);
       return {
-        kind: 'build',
+        ...base,
+        mode,
         prompt: w.en,
         hint: w.py,
+        cells: chars,
+        blanks: all,
         tiles: shuffle([...chars, ...extra], rng),
-        answer: w.w,
-        reveal: wordReveal(w),
+        audio: { text: w.w, afterAnswer: mode === 'build' },
+      };
+    }
+    if (mode === 'gap') return pickQuestion(w, tilePool, poolChars, rng);
+    const syllables = mode === 'reading' ? wordSyllables(w) : null;
+    if (syllables) {
+      const tones = syllables.flatMap((s) => toneVariants(s));
+      const extra = pick([tones], 2, new Set(syllables), rng);
+      return {
+        ...base,
+        mode: 'reading',
+        prompt: w.w,
+        hint: w.en,
+        cells: syllables,
+        blanks: syllables.map((_, k) => k),
+        tiles: shuffle([...syllables, ...extra], rng),
+        tileLang: 'pinyin',
         audio: { text: w.w, afterAnswer: true },
       };
+    }
+    if (mode === 'toWord') {
+      // Meaning → the word: other words of the same length look most alike.
+      const same = (x: HskWord) => [...x.w].length === chars.length;
+      const taken = new Set([
+        w.w,
+        ...words.filter((x) => x.en === w.en).map((x) => x.w),
+      ]);
+      const wrong = pick(
+        [words.filter(same).map((x) => x.w), pool.filter(same).map((x) => x.w)],
+        OPTIONS - 1,
+        taken,
+        rng,
+      );
+      if (wrong.length === OPTIONS - 1)
+        return {
+          kind: 'choice',
+          mode: 'toWord',
+          optionLang: 'zh',
+          prompt: w.en,
+          ...choice(w.w, wrong, rng),
+          reveal: wordReveal(w),
+          audio: { text: w.w, afterAnswer: true },
+        };
     }
     const wrong = pick(
       [words.map((x) => x.en), pool.map((x) => x.en)],
@@ -201,6 +391,7 @@ export function wordQuiz(
     );
     return {
       kind: 'choice',
+      ...(mode === 'hear' ? { mode: 'listen' as const } : {}),
       prompt: w.w,
       hint: w.py,
       ...choice(w.en, wrong, rng),
@@ -208,4 +399,28 @@ export function wordQuiz(
       audio: { text: w.w },
     };
   });
+}
+
+// Outline visibility for each pass of "Write the word": traced, faint, then from memory.
+export const WORD_PASSES = [0.7, 0.25, 0] as const;
+export const WORD_WRITE_MAX = 4;
+
+// Multi-character words to write by hand, a few per round.
+export function wordWriteQuiz(
+  words: readonly HskWord[],
+  rng: Rng = Math.random,
+): WriteQuestion[] {
+  return shuffle(
+    words.filter((w) => [...w.w].length > 1),
+    rng,
+  )
+    .slice(0, WORD_WRITE_MAX)
+    .map((w) => ({
+      kind: 'write',
+      prompt: w.en,
+      hint: w.py,
+      answer: w.w,
+      reveal: wordReveal(w),
+      audio: { text: w.w },
+    }));
 }

@@ -118,11 +118,21 @@ export const t = {
   hidePinyinEnglish: 'Hide pinyin & English',
   exercises: {
     write: { title: 'Writing', hint: 'write each character' },
+    wordWrite: {
+      title: '写 Write words',
+      hint: 'whole words by hand, 3 times',
+    },
+    pick: {
+      title: '填 Pick the characters',
+      hint: 'build words from 5–7 characters',
+    },
     meaning: { title: '字 → meaning', hint: 'recognize the meaning' },
     pinyin: { title: '字 → pinyin', hint: 'reading and tone' },
     words: { title: '词 Words', hint: 'words of the lesson' },
   },
   writeProgress: (done: number, total: number) => `${done}/${total} characters`,
+  partOfWord: 'Part of the word',
+  charOfWord: (i: number, n: number) => `character ${i} of ${n}`,
 
   // Quiz
   quizOf: (i: number, n: number) => `${i} / ${n}`,
@@ -130,6 +140,13 @@ export const t = {
   quizWrong: 'Not quite',
   quizNext: 'Next ›',
   quizBuild: 'Build the word',
+  quizListenBuild: 'Listen and build',
+  quizReading: 'Build the reading',
+  quizGap: 'Pick the characters',
+  quizListenChoose: 'Listen and choose',
+  quizToWord: 'Choose the word',
+  quizWriteWord: 'Write the word',
+  quizPass: (i: number, n: number) => `Pass ${i} / ${n}`,
   quizUndo: '⌫',
   quizUndoLabel: 'Undo',
   quizListen: 'Listen',

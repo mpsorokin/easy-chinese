@@ -12,6 +12,8 @@ import {
   meaningQuiz,
   pinyinQuiz,
   wordQuiz,
+  wordWriteQuiz,
+  pickQuiz,
 } from '../../domain/exercises.ts';
 import type { ExerciseId, Question } from '../../domain/exercises.ts';
 import { courseLessonKey } from '../progress/progress.ts';
@@ -35,6 +37,14 @@ function buildQuiz(
       return meaningQuiz(chars, level.chars);
     case 'pinyin':
       return pinyinQuiz(chars, level.chars);
+    case 'pick':
+      return pickQuiz(
+        courseWords(lesson, part),
+        chars.map((c) => c.c),
+        level.words,
+      );
+    case 'wordWrite':
+      return wordWriteQuiz(courseWords(lesson, part));
     case 'words':
       return wordQuiz(
         courseWords(lesson, part),

@@ -93,19 +93,29 @@ export const coursePart = (
   part: number,
 ): HskChar[] | undefined => courseParts(lesson)[part - 1];
 
-// Multi-character vocabulary entries for a part's word quiz: words that use one of the
-// part's characters and otherwise only characters of this or earlier parts.
+// Characters practised in the lessons before this one (they count as known).
+function knownBefore(lesson: CourseLesson): string[] {
+  const at = COURSE_LESSONS.indexOf(lesson);
+  return COURSE_LESSONS.slice(0, Math.max(0, at)).flatMap((l) =>
+    courseParts(l).flatMap((p) => p.map((e) => e.c)),
+  );
+}
+
+// Multi-character vocabulary entries for a part's word quizzes: each word of the lesson
+// goes to the first part by which all its characters are known (from this lesson's parts
+// so far or from earlier lessons), so a word made only of older characters is in part 1.
 export function courseWords(lesson: CourseLesson, part: number): HskWord[] {
   const parts = courseParts(lesson).map((p) => p.map((e) => e.c));
-  const own = new Set(parts[part - 1]);
-  const known = new Set(parts.slice(0, part).flat());
+  const before = knownBefore(lesson);
+  const known = new Set([...before, ...parts.slice(0, part).flat()]);
+  const knownEarlier = new Set([...before, ...parts.slice(0, part - 1).flat()]);
   return (lesson.words ?? [])
     .filter((w) => {
       const cs = [...w.zh];
       return (
         cs.length > 1 &&
-        cs.some((c) => own.has(c)) &&
-        cs.every((c) => known.has(c))
+        cs.every((c) => known.has(c)) &&
+        (part === 1 || !cs.every((c) => knownEarlier.has(c)))
       );
     })
     .map((w) => ({ w: w.zh, py: w.py, en: w.en }));

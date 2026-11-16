@@ -3,7 +3,12 @@ import type { CourseLesson } from '../courseLessons.ts';
 
 export const lesson2: CourseLesson = {
   id: 2,
-  parts: ['叫什么名字这时', '来个也月对没'],
+  parts: [
+    '叫什么名字这时',
+    '来个也月对没',
+    '请问超市谁猫候真起',
+    '关系能事高兴认识',
+  ],
   exercises: [
     'exercise1',
     'exercise2',
@@ -22,6 +27,7 @@ export const lesson2: CourseLesson = {
     'exercise15',
     'exercise16',
     'exercise17',
+    'words',
   ],
   descriptions: {
     exercise1: "Ask someone's name",
@@ -41,6 +47,7 @@ export const lesson2: CourseLesson = {
     exercise15: 'Happy and not happy',
     exercise16: 'Do you know him?',
     exercise17: 'Also with 也',
+    words: 'Names, greetings and apologies',
   },
   dialogues: {
     exercise1: [
@@ -612,4 +619,29 @@ export const lesson2: CourseLesson = {
       },
     ],
   },
+  words: [
+    { zh: '请问', py: 'qǐngwèn', en: 'Excuse me, may I ask' },
+    { zh: '叫', py: 'jiào', en: 'To be called' },
+    { zh: '什么', py: 'shénme', en: 'What' },
+    { zh: '名字', py: 'míngzi', en: 'Name' },
+    { zh: '在', py: 'zài', en: 'At / In' },
+    { zh: '超市', py: 'chāoshì', en: 'Supermarket' },
+    { zh: '谁', py: 'shéi', en: 'Who' },
+    { zh: '猫', py: 'māo', en: 'Cat' },
+    { zh: '这', py: 'zhè', en: 'This' },
+    { zh: '这个', py: 'zhège', en: 'This one' },
+    { zh: '时候', py: 'shíhou', en: 'Time / Moment' },
+    { zh: '来', py: 'lái', en: 'To come' },
+    { zh: '真', py: 'zhēn', en: 'Really' },
+    { zh: '也', py: 'yě', en: 'Also / Too' },
+    { zh: '家', py: 'jiā', en: 'Home / Family' },
+    { zh: '月', py: 'yuè', en: 'Month / Moon' },
+    { zh: '对不起', py: 'duìbuqǐ', en: 'Sorry' },
+    { zh: '没关系', py: 'méi guānxi', en: "It doesn't matter" },
+    { zh: '能', py: 'néng', en: 'Can / To be able to' },
+    { zh: '对', py: 'duì', en: 'Correct / Right' },
+    { zh: '没事', py: 'méishì', en: "It's nothing / Never mind" },
+    { zh: '高兴', py: 'gāoxìng', en: 'Happy / Glad' },
+    { zh: '认识', py: 'rènshi', en: 'To know (someone)' },
+  ],
 };

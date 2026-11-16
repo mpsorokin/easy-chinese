@@ -1,15 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { WORD_PASSES } from '../../domain/exercises.ts';
 import type {
   Audio,
   BuildQuestion,
   ChoiceQuestion,
   Question,
+  WriteQuestion,
 } from '../../domain/exercises.ts';
-import { quizGrade } from '../../domain/grading.ts';
+import { gradeFor, quizGrade } from '../../domain/grading.ts';
 import type { Grade } from '../../domain/grading.ts';
 import Meter from '../../shared/ui/Meter.tsx';
 import { stars, t } from '../../shared/i18n/en.ts';
 import { canSpeak, speakChinese } from '../../shared/lib/speech.ts';
+import { vibrate } from '../../shared/lib/haptics.ts';
+import { usePersistentState } from '../../shared/hooks/usePersistentState.ts';
+import { useCharData } from '../../data/useCharData.ts';
+import WritingCell from '../writer/WritingCell.tsx';
+import type { AttemptComplete, WriterHandle } from '../writer/types.ts';
+import { copybookStore } from '../copybook/copybookStore.ts';
+import { normalizeSettings } from '../settings/settings.ts';
 import './quiz.css';
 
 // A right answer moves on by itself after this delay; a wrong one waits for "Next".
@@ -91,8 +100,10 @@ export default function QuizRunner({
 
       {q.kind === 'choice' ? (
         <Choice key={i} q={q} onAnswer={answer} />
-      ) : (
+      ) : q.kind === 'build' ? (
         <Build key={i} q={q} onAnswer={answer} />
+      ) : (
+        <WriteWord key={i} q={q} onAnswer={answer} />
       )}
 
       <div
@@ -118,6 +129,12 @@ export default function QuizRunner({
   );
 }
 
+const CHOICE_LABEL = {
+  show: undefined,
+  listen: t.quizListenChoose,
+  toWord: t.quizToWord,
+} as const;
+
 function Choice({
   q,
   onAnswer,
@@ -126,18 +143,23 @@ function Choice({
   onAnswer: (right: boolean) => void;
 }) {
   const [picked, setPicked] = useState<number>();
+  const mode = q.mode ?? 'show';
   const pick = (k: number) => {
     if (picked !== undefined) return;
     setPicked(k);
     onAnswer(k === q.answer);
   };
+  useAutoplay(mode === 'listen' ? q.audio?.text : undefined);
   return (
     <>
       <Prompt
         text={q.prompt}
         hint={q.hint}
+        small={mode === 'toWord'}
+        label={CHOICE_LABEL[mode]}
         audio={q.audio}
         answered={picked !== undefined}
+        listen={mode === 'listen'}
       />
       <div className="quiz-options">
         {q.options.map((o, k) => (
@@ -145,9 +167,11 @@ function Choice({
             key={o}
             className={
               'quiz-option' +
+              (q.optionLang === 'zh' ? ' quiz-option-zh' : '') +
               (picked !== undefined && k === q.answer ? ' right' : '') +
               (picked === k && k !== q.answer ? ' wrong' : '')
             }
+            lang={q.optionLang === 'zh' ? 'zh-Hans' : undefined}
             disabled={picked !== undefined}
             onClick={() => pick(k)}
           >
@@ -159,6 +183,23 @@ function Choice({
   );
 }
 
+// Plays a word once when a listening question opens.
+function useAutoplay(text: string | undefined) {
+  useEffect(() => {
+    if (text && canSpeak()) speakChinese(text);
+  }, [text]);
+}
+
+const BUILD_LABEL = {
+  build: t.quizBuild,
+  listen: t.quizListenBuild,
+  reading: t.quizReading,
+  gap: t.quizGap,
+} as const;
+
+const fills = (q: BuildQuestion, picked: readonly number[]) =>
+  q.blanks.every((cell, j) => q.tiles[picked[j] ?? -1] === q.cells[cell]);
+
 function Build({
   q,
   onAnswer,
@@ -167,35 +208,53 @@ function Build({
   onAnswer: (right: boolean) => void;
 }) {
   const [picked, setPicked] = useState<number[]>([]); // tile indexes in tap order
-  const size = [...q.answer].length;
+  const size = q.blanks.length;
   const done = picked.length === size;
-  const built = picked.map((k) => q.tiles[k]).join('');
   const tap = (k: number) => {
     if (done || picked.includes(k)) return;
     const next = [...picked, k];
     setPicked(next);
-    if (next.length === size)
-      onAnswer(next.map((x) => q.tiles[x]).join('') === q.answer);
+    if (next.length === size) onAnswer(fills(q, next));
   };
+  useAutoplay(q.mode === 'listen' ? q.audio?.text : undefined);
+  const pinyin = q.tileLang === 'pinyin';
+  const tileLang = pinyin ? 'zh-Latn-pinyin' : 'zh-Hans';
   return (
     <>
       <Prompt
         text={q.prompt}
         hint={q.hint}
-        small
-        label={t.quizBuild}
+        small={q.mode !== 'reading'}
+        label={BUILD_LABEL[q.mode]}
         audio={q.audio}
         answered={done}
+        listen={q.mode === 'listen'}
       />
       <div
         className={
           'quiz-built' +
-          (done ? (built === q.answer ? ' right' : ' wrong') : '')
+          (pinyin ? ' quiz-built-pinyin' : '') +
+          (done ? (fills(q, picked) ? ' right' : ' wrong') : '')
         }
       >
-        {Array.from({ length: size }, (_, k) => (
-          <span key={k}>{q.tiles[picked[k] ?? -1] ?? ''}</span>
-        ))}
+        {q.cells.map((cell, k) => {
+          const blank = q.blanks.indexOf(k);
+          if (blank < 0)
+            return (
+              <span key={k} className="given" lang="zh-Hans">
+                {cell}
+              </span>
+            );
+          return (
+            <span
+              key={k}
+              className={blank === picked.length && !done ? 'current' : ''}
+              lang={tileLang}
+            >
+              {q.tiles[picked[blank] ?? -1] ?? ''}
+            </span>
+          );
+        })}
         <button
           className="quiz-undo"
           disabled={done || picked.length === 0}
@@ -205,17 +264,137 @@ function Build({
           {t.quizUndo}
         </button>
       </div>
-      <div className="quiz-tiles">
+      <div className={pinyin ? 'quiz-tiles quiz-tiles-pinyin' : 'quiz-tiles'}>
         {q.tiles.map((c, k) => (
           <button
             key={k}
             className="quiz-tile"
             disabled={done || picked.includes(k)}
             onClick={() => tap(k)}
+            lang={tileLang}
           >
             {c}
           </button>
         ))}
+      </div>
+    </>
+  );
+}
+
+// Pause after a character is written, so the finished glyph is seen before the next one.
+const NEXT_CHAR_MS = 650;
+
+// "Write the word": every character of the word in turn, WORD_PASSES times, with the
+// outline fading each pass. Right when the whole run grades at least two stars.
+function WriteWord({
+  q,
+  onAnswer,
+}: {
+  q: WriteQuestion;
+  onAnswer: (right: boolean) => void;
+}) {
+  const chars = [...q.answer];
+  const [pass, setPass] = useState(0);
+  const [k, setK] = useState(0);
+  const [waiting, setWaiting] = useState(false);
+  const [done, setDone] = useState(false);
+  const [animating, setAnimating] = useState(false);
+  const [replay, setReplay] = useState(0);
+  const tally = useRef({ mistakes: 0, strokes: 0 });
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const writerRef = useRef<WriterHandle>(null);
+  const [settings] = usePersistentState(
+    copybookStore,
+    'settings',
+    normalizeSettings,
+  );
+  const char = chars[k] ?? '';
+  const { data } = useCharData(char);
+  const passes = WORD_PASSES.length;
+
+  useEffect(() => () => clearTimeout(timer.current), []);
+
+  const onComplete = ({ totalMistakes }: AttemptComplete) => {
+    const sum = tally.current;
+    sum.mistakes += totalMistakes;
+    sum.strokes += data?.strokes.length ?? 1;
+    vibrate(15);
+    setWaiting(true);
+    timer.current = setTimeout(() => {
+      setWaiting(false);
+      if (k + 1 < chars.length) setK(k + 1);
+      else if (pass + 1 < passes) {
+        setPass(pass + 1);
+        setK(0);
+      } else {
+        setDone(true);
+        onAnswer(gradeFor(sum.mistakes, sum.strokes) >= 2);
+      }
+    }, NEXT_CHAR_MS);
+  };
+
+  const show = () => {
+    if (done || waiting || animating) return;
+    setAnimating(true);
+    writerRef.current?.animate(() => {
+      setAnimating(false);
+      setReplay((r) => r + 1);
+    });
+  };
+
+  return (
+    <>
+      <Prompt
+        text={q.prompt}
+        hint={q.hint}
+        small
+        label={t.quizWriteWord}
+        audio={q.audio}
+        answered={done}
+      />
+      <div className="quiz-write-status">
+        <div className={'quiz-built' + (done ? ' right' : '')}>
+          {chars.map((c, j) => (
+            <span
+              key={j}
+              lang="zh-Hans"
+              className={j === k && !done && !waiting ? 'current' : ''}
+            >
+              {done || j < k || (j === k && waiting) ? c : ''}
+            </span>
+          ))}
+        </div>
+        <span className="quiz-passes">
+          {WORD_PASSES.map((_, j) => (
+            <i
+              key={j}
+              className={j < pass || done ? 'done' : j === pass ? 'now' : ''}
+            />
+          ))}
+          <span>{t.quizPass(pass + 1, passes)}</span>
+        </span>
+      </div>
+      <div className="quiz-write">
+        <WritingCell
+          ref={writerRef}
+          char={char}
+          gridKind={settings.grid}
+          outline={WORD_PASSES[pass] ?? 0}
+          active={!done && !animating}
+          quizKey={`${pass}-${k}-${replay}`}
+          strict={settings.strict}
+          hint={settings.hint}
+          speed={settings.speed}
+          onComplete={onComplete}
+        />
+        <button
+          type="button"
+          className="btn quiz-write-show"
+          onClick={show}
+          disabled={done || waiting || animating}
+        >
+          {t.show}
+        </button>
       </div>
     </>
   );
@@ -228,6 +407,7 @@ function Prompt({
   label,
   audio,
   answered,
+  listen,
 }: {
   text: string;
   hint?: string;
@@ -235,15 +415,23 @@ function Prompt({
   label?: string;
   audio?: Audio;
   answered: boolean;
+  listen?: boolean; // only the sound until answered
 }) {
   const playable =
     audio && canSpeak() && (!audio.afterAnswer || answered) ? audio : null;
+  // Without speech the listening question falls back to showing the prompt.
+  const hidden = listen && !answered && canSpeak();
   return (
-    <div className={small ? 'quiz-prompt quiz-prompt-build' : 'quiz-prompt'}>
+    <div
+      className={
+        (small ? 'quiz-prompt quiz-prompt-build' : 'quiz-prompt') +
+        (hidden ? ' quiz-prompt-listen' : '')
+      }
+    >
       {playable && (
         <button
           type="button"
-          className="quiz-speak"
+          className={hidden ? 'quiz-speak quiz-speak-big' : 'quiz-speak'}
           aria-label={t.quizListen}
           title={t.quizListen}
           onClick={() => speakChinese(playable.text)}
@@ -261,17 +449,21 @@ function Prompt({
         </button>
       )}
       {label && <span className="label">{label}</span>}
-      <span
-        className={
-          !small && text.length > 1
-            ? 'quiz-prompt-text quiz-prompt-word'
-            : 'quiz-prompt-text'
-        }
-        lang={small ? undefined : 'zh-Hans'}
-      >
-        {text}
-      </span>
-      {hint && <span className="quiz-prompt-hint">{hint}</span>}
+      {!hidden && (
+        <>
+          <span
+            className={
+              !small && text.length > 1
+                ? 'quiz-prompt-text quiz-prompt-word'
+                : 'quiz-prompt-text'
+            }
+            lang={small ? undefined : 'zh-Hans'}
+          >
+            {text}
+          </span>
+          {hint && <span className="quiz-prompt-hint">{hint}</span>}
+        </>
+      )}
     </div>
   );
 }

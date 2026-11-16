@@ -13,6 +13,7 @@ import CopybookSteps from '../features/copybook/CopybookSteps.tsx';
 import WritingCell from '../features/writer/WritingCell.tsx';
 import type { WriterHandle } from '../features/writer/types.ts';
 import SummaryOverlay from '../features/copybook/SummaryOverlay.tsx';
+import WordContext from '../features/copybook/WordContext.tsx';
 import Controls from '../features/copybook/Controls.tsx';
 import SettingsPanel from '../features/settings/SettingsPanel.tsx';
 import ThemeControl from '../features/settings/ThemeControl.tsx';
@@ -20,12 +21,13 @@ import { ALL, normalizeLastChar, wrapAt } from '../data/chars.ts';
 import {
   hskCharEntry,
   lessonChars,
+  lessonWords,
   levelData,
   normalizeHskChars,
   selectableEntry,
 } from '../data/hsk.ts';
 import { courseLesson, coursePart } from '../data/courseLessons.ts';
-import type { CharEntry, HskChar } from '../domain/types.ts';
+import type { CharEntry, HskChar, HskWord } from '../domain/types.ts';
 import type { FinalGrade } from '../domain/grading.ts';
 import { copybookStore } from '../features/copybook/copybookStore.ts';
 import type { LastKey } from '../features/copybook/copybookStore.ts';
@@ -57,6 +59,7 @@ type CopybookSet = {
   back: { to: string; label: string };
   level?: string; // HSK level shown next to the counter
   exitable: boolean; // a "leave the set" button that opens the deck copybook
+  words?: readonly HskWord[]; // lesson words, to show which word a character belongs to
 };
 
 const entries = (chars: readonly HskChar[]) => chars.map(hskCharEntry);
@@ -136,6 +139,7 @@ export function TopicCopybookScreen() {
         back: { to: back, label: t.lessonN(lesson.id) },
         level: level.id,
         exitable: true,
+        words: lessonWords(level, idx),
       }}
     />
   );
@@ -161,6 +165,12 @@ export function CourseCopybookScreen() {
         back: { to: back, label: t.lessonN(lesson.id) },
         level: level.id,
         exitable: true,
+        // All the lesson's words, also those finished in a later part.
+        words: (lesson.words ?? []).map((w) => ({
+          w: w.zh,
+          py: w.py,
+          en: w.en,
+        })),
       }}
     />
   );
@@ -282,6 +292,8 @@ function CopybookPage({ set }: { set: CopybookSet }) {
         onPrev={() => go(idx - 1)}
         onNext={() => go(idx + 1)}
       />
+
+      <WordContext char={item.c} words={set.words} />
 
       <StrokeOrder
         data={data}

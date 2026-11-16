@@ -3,6 +3,7 @@ import type { CourseLesson } from '../courseLessons.ts';
 
 export const lesson3: CourseLesson = {
   id: 3,
+  parts: ['国一说女朋友哪里', '漂亮两想喂姐工', '作还忙太喜欢今'],
   exercises: [
     'exercise1',
     'exercise2',
@@ -31,6 +32,7 @@ export const lesson3: CourseLesson = {
     'exercise25',
     'exercise26',
     'exercise27',
+    'words',
   ],
   descriptions: {
     exercise1: 'Where are you from?',
@@ -60,6 +62,7 @@ export const lesson3: CourseLesson = {
     exercise25: 'Too busy! Great! With 太…了',
     exercise26: 'Going to school together',
     exercise27: 'I miss you',
+    words: 'Countries, friends and work',
   },
   dialogues: {
     exercise1: [
@@ -1071,4 +1074,33 @@ export const lesson3: CourseLesson = {
       },
     ],
   },
+  words: [
+    { zh: '中国', py: 'Zhōngguó', en: 'China' },
+    { zh: '国', py: 'guó', en: 'Country' },
+    { zh: '法国', py: 'Fǎguó', en: 'France' },
+    { zh: '泰国', py: 'Tàiguó', en: 'Thailand' },
+    { zh: '英国', py: 'Yīngguó', en: 'United Kingdom' },
+    { zh: '一', py: 'yī', en: 'One' },
+    { zh: '个', py: 'gè', en: 'General measure word' },
+    { zh: '说', py: 'shuō', en: 'To speak / Say' },
+    { zh: '女朋友', py: 'nǚpéngyou', en: 'Girlfriend' },
+    { zh: '朋友', py: 'péngyou', en: 'Friend' },
+    { zh: '哪', py: 'nǎ', en: 'Which' },
+    { zh: '哪个', py: 'nǎge', en: 'Which one' },
+    { zh: '这里', py: 'zhèlǐ', en: 'Here' },
+    { zh: '漂亮', py: 'piàoliang', en: 'Beautiful / Pretty' },
+    { zh: '两', py: 'liǎng', en: 'Two (of something)' },
+    { zh: '她们', py: 'tāmen', en: 'They (female)' },
+    { zh: '想', py: 'xiǎng', en: 'To want / Miss / Think' },
+    { zh: '喂', py: 'wèi', en: 'Hello (on the phone)' },
+    { zh: '姐姐', py: 'jiějie', en: 'Elder sister' },
+    { zh: '工作', py: 'gōngzuò', en: 'To work / Job' },
+    { zh: '还', py: 'hái', en: 'Still / Also' },
+    { zh: '忙', py: 'máng', en: 'Busy' },
+    { zh: '太', py: 'tài', en: 'Too / Very' },
+    { zh: '没有', py: 'méiyǒu', en: "Not have / There isn't" },
+    { zh: '喜欢', py: 'xǐhuan', en: 'To like' },
+    { zh: '今天', py: 'jīntiān', en: 'Today' },
+    { zh: '上学', py: 'shàngxué', en: 'To go to school' },
+  ],
 };

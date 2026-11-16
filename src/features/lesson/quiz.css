@@ -356,6 +356,147 @@
   color: var(--on-accent);
 }
 
+/* Chinese words as answer options ("Choose the word"). */
+.quiz-option-zh {
+  font-family:
+    'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, sans-serif;
+  font-size: clamp(24px, 7vw, 38px);
+}
+
+/* A cell already given (fill the gap) and the cell the next tile goes into. */
+.quiz-built span.given {
+  border-bottom-style: dotted;
+  color: var(--quiz-muted);
+}
+
+.quiz-built span.current {
+  border-bottom-color: var(--quiz-accent);
+  border-bottom-width: 3px;
+}
+
+/* Syllable cells and tiles are wider than character ones. */
+.quiz-built-pinyin span:not(.given),
+.quiz-tiles-pinyin .quiz-tile {
+  width: auto;
+  min-width: clamp(56px, 16vw, 84px);
+  padding-inline: 8px;
+  font-size: clamp(19px, 5.2vw, 26px);
+}
+
+.quiz-built-pinyin span:not(.given),
+.quiz-tiles-pinyin .quiz-tile {
+  aspect-ratio: auto;
+  min-height: clamp(44px, 13vw, 60px);
+}
+
+/* Listening: the card shows only a large speaker until answered. */
+.quiz-prompt-listen {
+  align-content: center;
+  gap: 10px;
+}
+
+.quiz-speak.quiz-speak-big {
+  position: static;
+  width: clamp(72px, 20vw, 104px);
+  order: 2;
+  animation: quiz-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes quiz-pulse {
+  0%,
+  100% {
+    box-shadow:
+      var(--quiz-shadow),
+      0 0 0 0 rgb(223 104 74 / 0%);
+  }
+  50% {
+    box-shadow:
+      var(--quiz-shadow),
+      0 0 0 10px rgb(223 104 74 / 14%);
+  }
+}
+
+/* "Write the word": slots, passes and the writing cell. */
+.quiz-write-status {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.quiz-passes {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--quiz-muted);
+  font-size: clamp(13px, 3.2vw, 16px);
+  font-variant-numeric: tabular-nums;
+}
+
+.quiz-passes i {
+  width: 9px;
+  aspect-ratio: 1;
+  border: 1.5px solid var(--quiz-accent);
+  border-radius: 50%;
+}
+
+.quiz-passes i.done {
+  background: var(--quiz-accent);
+}
+
+.quiz-passes i.now {
+  background: color-mix(in srgb, var(--quiz-accent) 40%, transparent);
+}
+
+.quiz-passes span {
+  margin-left: 4px;
+}
+
+.quiz-write {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+
+.quiz-write .cell {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 380px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 2px solid #d3321d;
+  border-radius: clamp(12px, 3.2vw, 19px);
+  outline: 3px solid #fffaf6;
+  background:
+    url('../home/art/plum-blossom.webp') no-repeat right bottom / 25% auto,
+    url('./art/dialogue-hills.webp') no-repeat center bottom / 100% auto,
+    #fff9f5;
+  box-shadow: 0 5px 15px rgb(118 56 35 / 23%);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.quiz-page .btn.quiz-write-show {
+  min-width: 120px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quiz-speak.quiz-speak-big {
+    animation: none;
+  }
+}
+
+[data-theme='dark'] .quiz-write .cell {
+  border-color: var(--grid);
+  outline-color: var(--card);
+  background:
+    linear-gradient(rgb(28 25 23 / 88%), rgb(28 25 23 / 88%)),
+    url('../home/art/plum-blossom.webp') no-repeat right bottom / 25% auto,
+    url('./art/dialogue-hills.webp') no-repeat center bottom / 100% auto,
+    var(--surface-inset);
+  box-shadow: var(--shadow-card);
+}
+
 @media (hover: hover) {
   .quiz-close:hover {
     background: #f5e0d0;
@@ -425,6 +566,10 @@
 
 [data-theme='dark'] .quiz-built span {
   border-color: var(--line-strong);
+}
+
+[data-theme='dark'] .quiz-built span.current {
+  border-color: var(--accent);
 }
 
 [data-theme='dark'] :is(.quiz-option.right, .quiz-feedback.ok) {

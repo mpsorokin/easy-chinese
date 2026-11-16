@@ -3,6 +3,12 @@ import type { CourseLesson } from '../courseLessons.ts';
 
 export const lesson6: CourseLesson = {
   id: 6,
+  parts: [
+    '手机话打吧知道东西',
+    '牛奶公司影院苹果',
+    '爱米晚边包怎坐车',
+    '出租飞火开水早现',
+  ],
   exercises: [
     'exercise1',
     'exercise2',
@@ -31,6 +37,7 @@ export const lesson6: CourseLesson = {
     'exercise25',
     'exercise26',
     'exercise27',
+    'words',
   ],
   descriptions: {
     exercise1: 'Phone numbers: 手机号 and 多少',
@@ -60,6 +67,7 @@ export const lesson6: CourseLesson = {
     exercise25: 'Travelling: 坐车, 坐飞机 and 坐火车',
     exercise26: 'Taxis: 叫出租车 and 开出租车',
     exercise27: 'Getting there: 怎么去',
+    words: 'Phones, shopping and getting around',
   },
   dialogues: {
     exercise1: [
@@ -1170,4 +1178,35 @@ export const lesson6: CourseLesson = {
       },
     ],
   },
+  words: [
+    { zh: '手机', py: 'shǒujī', en: 'Mobile phone' },
+    { zh: '电话', py: 'diànhuà', en: 'Telephone' },
+    { zh: '打电话', py: 'dǎ diànhuà', en: 'To make a phone call' },
+    { zh: '吧', py: 'ba', en: 'Suggestion particle' },
+    { zh: '知道', py: 'zhīdào', en: 'To know' },
+    { zh: '东西', py: 'dōngxi', en: 'Thing / Stuff' },
+    { zh: '牛奶', py: 'niúnǎi', en: 'Milk' },
+    { zh: '公司', py: 'gōngsī', en: 'Company' },
+    { zh: '看', py: 'kàn', en: 'To look / Watch / Read' },
+    { zh: '电影', py: 'diànyǐng', en: 'Movie' },
+    { zh: '电影院', py: 'diànyǐngyuàn', en: 'Cinema' },
+    { zh: '苹果', py: 'píngguǒ', en: 'Apple' },
+    { zh: '爱', py: 'ài', en: 'To love' },
+    { zh: '饭', py: 'fàn', en: 'Meal / Cooked rice' },
+    { zh: '米饭', py: 'mǐfàn', en: 'Cooked rice' },
+    { zh: '晚饭', py: 'wǎnfàn', en: 'Dinner' },
+    { zh: '饭店', py: 'fàndiàn', en: 'Restaurant / Hotel' },
+    { zh: '那边', py: 'nàbiān', en: 'Over there' },
+    { zh: '包子', py: 'bāozi', en: 'Steamed bun' },
+    { zh: '怎么', py: 'zěnme', en: 'How / Why' },
+    { zh: '坐', py: 'zuò', en: 'To sit / Take (a vehicle)' },
+    { zh: '车', py: 'chē', en: 'Car / Vehicle' },
+    { zh: '出租车', py: 'chūzūchē', en: 'Taxi' },
+    { zh: '飞机', py: 'fēijī', en: 'Airplane' },
+    { zh: '火车', py: 'huǒchē', en: 'Train' },
+    { zh: '开', py: 'kāi', en: 'To open / Drive' },
+    { zh: '水果', py: 'shuǐguǒ', en: 'Fruit' },
+    { zh: '早上', py: 'zǎoshang', en: 'Early morning' },
+    { zh: '现在', py: 'xiànzài', en: 'Now' },
+  ],
 };

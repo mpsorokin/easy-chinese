@@ -41,8 +41,11 @@ export default function LessonPage() {
   const chars = lessonChars(level, idx);
   const words = lessonWords(level, idx);
   const results = lessonResults(progress, key, lesson.chars);
+  const multiWords = words.filter((w) => [...w.w].length > 1);
   const exercises = EXERCISES.filter(
-    (ex) => ex !== 'words' || words.length > 0,
+    (ex) =>
+      (ex !== 'words' || words.length > 0) &&
+      ((ex !== 'wordWrite' && ex !== 'pick') || multiWords.length > 0),
   );
   const passed = exercises.filter(
     (ex) => (results[ex]?.best ?? 0) >= PASS_GRADE,

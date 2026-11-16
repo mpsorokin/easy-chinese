@@ -158,8 +158,11 @@ export default function CourseLessonPage() {
       {parts.length > 0 && (
         <div id="course-practice" tabIndex={-1}>
           {parts.map(({ part, chars }) => {
+            const hasWords = courseWords(lesson, part).length > 0;
             const practice = EXERCISES.filter(
-              (ex) => ex !== 'words' || courseWords(lesson, part).length > 0,
+              (ex) =>
+                (ex !== 'words' && ex !== 'wordWrite' && ex !== 'pick') ||
+                hasWords,
             );
             return (
               <LessonExerciseCards

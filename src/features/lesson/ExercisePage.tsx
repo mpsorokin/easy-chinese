@@ -6,6 +6,8 @@ import {
   meaningQuiz,
   pinyinQuiz,
   wordQuiz,
+  wordWriteQuiz,
+  pickQuiz,
 } from '../../domain/exercises.ts';
 import type { ExerciseId, Question } from '../../domain/exercises.ts';
 import { lessonKey } from '../progress/progress.ts';
@@ -24,6 +26,14 @@ function buildQuiz(level: LevelData, idx: number, ex: QuizId): Question[] {
       return meaningQuiz(chars, level.chars);
     case 'pinyin':
       return pinyinQuiz(chars, level.chars);
+    case 'pick':
+      return pickQuiz(
+        lessonWords(level, idx),
+        chars.map((c) => c.c),
+        level.words,
+      );
+    case 'wordWrite':
+      return wordWriteQuiz(lessonWords(level, idx));
     case 'words': {
       const known = level.lessons.slice(0, idx + 1).flatMap((l) => l.chars);
       return wordQuiz(lessonWords(level, idx), level.words, known);

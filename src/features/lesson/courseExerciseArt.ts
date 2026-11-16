@@ -94,6 +94,7 @@ export const courseExerciseArt: Partial<Record<number, ExerciseArt>> = {
     exercise15: feelings,
     exercise16: people,
     exercise17: classmates,
+    words: nameCard,
   },
   3: {
     exercise1: where,
@@ -123,6 +124,7 @@ export const courseExerciseArt: Partial<Record<number, ExerciseArt>> = {
     exercise25: feelings,
     exercise26: classmates,
     exercise27: letter,
+    words: globe,
   },
   4: {
     exercise1: school,
@@ -152,6 +154,7 @@ export const courseExerciseArt: Partial<Record<number, ExerciseArt>> = {
     exercise25: dates,
     exercise26: shopping,
     exercise27: toddler,
+    words: family,
   },
   5: {
     exercise1: dates,
@@ -181,6 +184,7 @@ export const courseExerciseArt: Partial<Record<number, ExerciseArt>> = {
     exercise25: school,
     exercise26: computer,
     exercise27: pets,
+    words: dates,
   },
   6: {
     exercise1: smartphone,
@@ -210,11 +214,14 @@ export const courseExerciseArt: Partial<Record<number, ExerciseArt>> = {
     exercise25: travel,
     exercise26: taxi,
     exercise27: where,
+    words: smartphone,
   },
 };
 
 export const coursePracticeArt: Readonly<Record<ExerciseId, string>> = {
   write: calligraphy,
+  wordWrite: letter,
+  pick: nameCard,
   meaning: functionWords,
   pinyin: speaking,
   words: school,
