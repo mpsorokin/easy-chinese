@@ -240,6 +240,18 @@ export const courseExerciseArt: Partial<Record<number, ExerciseArt>> = {
     exercise21: where,
     exercise22: quantity,
     exercise23: youngerSister,
+    exercise24: cooking,
+    exercise25: smartphone,
+    exercise26: household,
+    exercise27: family,
+    exercise28: pets,
+    exercise29: rest,
+    exercise30: father,
+    exercise31: briefcase,
+    exercise32: groceries,
+    exercise33: shopping,
+    exercise34: brother,
+    exercise35: travel,
   },
 };
 
