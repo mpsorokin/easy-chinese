@@ -24,6 +24,9 @@ export const lesson7: CourseLesson = {
     'exercise18',
     'exercise19',
     'exercise20',
+    'exercise21',
+    'exercise22',
+    'exercise23',
   ],
   descriptions: {
     exercise1: 'Telling the time: 几点 and 上午, 下午',
@@ -46,6 +49,9 @@ export const lesson7: CourseLesson = {
     exercise18: 'Things to do: 一件事 and 很多事',
     exercise19: 'Going to class: 上课 and 不能去',
     exercise20: 'After class: 下课了 and 下课后',
+    exercise21: 'Happening now: 在…呢 and 下雨',
+    exercise22: 'Half: 半个 and 半年',
+    exercise23: 'Wants and feelings: 不想去 and 高兴',
   },
   dialogues: {
     exercise1: [
@@ -863,6 +869,95 @@ export const lesson7: CourseLesson = {
           { t: '。' },
         ],
         en: 'After class, I am going to watch a movie with my friend.',
+      },
+    ],
+    exercise21: [
+      {
+        segments: [
+          { t: '我', py: 'wǒ' },
+          { t: '在', py: 'zài' },
+          { t: '吃', py: 'chī' },
+          { t: '饭', py: 'fàn' },
+          { t: '呢', py: 'ne' },
+          { t: '。' },
+        ],
+        en: 'I am eating.',
+      },
+      {
+        segments: [
+          { t: '外', py: 'wài' },
+          { t: '边', py: 'biān' },
+          { t: '下', py: 'xià' },
+          { t: '雨', py: 'yǔ' },
+          { t: '呢', py: 'ne' },
+          { t: '。' },
+        ],
+        en: 'It is raining outside.',
+      },
+    ],
+    exercise22: [
+      {
+        segments: [
+          { t: '我', py: 'wǒ' },
+          { t: '吃', py: 'chī' },
+          { t: '了', py: 'le' },
+          { t: '半', py: 'bàn' },
+          { t: '个', py: 'gè' },
+          { t: '苹', py: 'píng' },
+          { t: '果', py: 'guǒ' },
+          { t: '。' },
+        ],
+        en: 'I ate half an apple.',
+      },
+      {
+        segments: [
+          { t: '她', py: 'tā' },
+          { t: '半', py: 'bàn' },
+          { t: '年', py: 'nián' },
+          { t: '没', py: 'méi' },
+          { t: '回', py: 'huí' },
+          { t: '家', py: 'jiā' },
+          { t: '了', py: 'le' },
+          { t: '。' },
+        ],
+        en: "She hasn't been home for half a year.",
+      },
+    ],
+    exercise23: [
+      {
+        segments: [
+          { t: '我', py: 'wǒ' },
+          { t: '不', py: 'bù' },
+          { t: '想', py: 'xiǎng' },
+          { t: '去', py: 'qù' },
+          { t: '。' },
+        ],
+        en: "I don't want to go.",
+      },
+      {
+        segments: [
+          { t: '妹', py: 'mèi' },
+          { t: '妹', py: 'mei' },
+          { t: '很', py: 'hěn' },
+          { t: '高', py: 'gāo' },
+          { t: '兴', py: 'xìng' },
+          { t: '。' },
+        ],
+        en: 'My younger sister is very happy.',
+      },
+      {
+        segments: [
+          { t: '她', py: 'tā' },
+          { t: '上', py: 'shàng' },
+          { t: '午', py: 'wǔ' },
+          { t: '十', py: 'shí' },
+          { t: '点', py: 'diǎn' },
+          { t: '半', py: 'bàn' },
+          { t: '上', py: 'shàng' },
+          { t: '课', py: 'kè' },
+          { t: '。' },
+        ],
+        en: 'She has class at 10:30 a.m.',
       },
     ],
   },
