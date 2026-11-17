@@ -15,7 +15,7 @@ import {
   levelPath,
   normalizeLessonKey,
 } from '../lesson/lessonNav.ts';
-import { PencilIcon, PrinterIcon } from '../../shared/ui/icons.tsx';
+import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 import ThemeControl from '../settings/ThemeControl.tsx';
 import JourneyCard from '../journey/JourneyCard.tsx';
 import mistyPavilion from './art/misty-pavilion.webp';
@@ -142,7 +142,7 @@ export default function HomePage() {
           onClick={() => chooseLevel('write')}
         >
           <span className="home-tool-icon">
-            <PencilIcon />
+            <WriteIcon name="pencil" strokeWidth={1.8} />
           </span>
           <b>{t.freeWrite}</b>
         </button>
@@ -153,7 +153,7 @@ export default function HomePage() {
           onClick={() => chooseLevel('print')}
         >
           <span className="home-tool-icon">
-            <PrinterIcon />
+            <WriteIcon name="printer" strokeWidth={1.8} />
           </span>
           <b>{t.printPdf}</b>
         </button>

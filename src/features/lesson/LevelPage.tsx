@@ -1,6 +1,5 @@
-import { Link, Navigate, useParams, useSearchParams } from 'react-router';
+import { Link, Navigate, useSearchParams } from 'react-router';
 import { lessonStore } from './lessonStore.ts';
-import { levelData } from '../../data/hsk.ts';
 import HskChars from '../hsk/HskChars.tsx';
 import { useProgress } from '../progress/useProgress.ts';
 import ThemeControl from '../settings/ThemeControl.tsx';
@@ -9,34 +8,6 @@ import Seg from '../../shared/ui/Seg.tsx';
 import { t } from '../../shared/i18n/en.ts';
 import { COURSE_LESSONS } from '../../data/courseLessons.ts';
 import JourneyMap from '../journey/JourneyMap.tsx';
-import nameCardArt from './art/exercises/name-card.webp';
-import noodlesArt from './art/exercises/noodles.webp';
-import taxiArt from './art/exercises/taxi.webp';
-import teacherArt from './art/exercises/teacher.webp';
-import globeArt from './art/lesson-3/globe.webp';
-import householdArt from './art/lesson-4/household.webp';
-import activitiesArt from './art/level/activities.webp';
-import animalsArt from './art/level/animals.webp';
-import clothesArt from './art/level/clothes.webp';
-import datesArt from './art/level/dates.webp';
-import familyArt from './art/level/family.webp';
-import feelingsArt from './art/level/feelings.webp';
-import foodArt from './art/level/food.webp';
-import functionWordsArt from './art/level/function-words.webp';
-import hillsArt from './art/level/hills.webp';
-import homeArt from './art/level/home.webp';
-import introductionsArt from './art/level/introductions.webp';
-import leisureArt from './art/level/leisure.webp';
-import numbersArt from './art/level/numbers.webp';
-import peopleArt from './art/level/people.webp';
-import politenessArt from './art/level/politeness.webp';
-import quantityArt from './art/level/quantity.webp';
-import roadArt from './art/level/road.webp';
-import schoolArt from './art/level/school.webp';
-import shoppingArt from './art/level/shopping.webp';
-import speakingArt from './art/level/speaking.webp';
-import timeArt from './art/level/time.webp';
-import whereArt from './art/level/where.webp';
 import {
   continueIndex,
   courseLessonPath,
@@ -45,6 +16,8 @@ import {
   normalizeLessonKey,
   statusOf,
 } from './lessonNav.ts';
+import { art } from './art/index.ts';
+import { useLevelParam } from './lessonRoute.ts';
 import '../../shared/ui/page.css';
 import './level.css';
 
@@ -62,46 +35,59 @@ const COURSE_LESSON_PREVIEWS: Partial<
   1: {
     title: '第一课',
     words: '小学生 · 同学们 · 正在 · 客气',
-    art: teacherArt,
+    art: art('teacher'),
   },
   2: {
     title: '第二课',
     words: '请问 · 对不起 · 没关系 · 认识',
-    art: nameCardArt,
+    art: art('name-card'),
   },
-  3: { title: '第三课', words: '哪个 · 女朋友 · 漂亮 · 喜欢', art: globeArt },
-  4: { title: '第四课', words: '口 · 女儿 · 岁 · 都', art: householdArt },
+  3: {
+    title: '第三课',
+    words: '哪个 · 女朋友 · 漂亮 · 喜欢',
+    art: art('globe'),
+  },
+  4: {
+    title: '第四课',
+    words: '口 · 女儿 · 岁 · 都',
+    art: art('household'),
+  },
   5: {
     title: '第五课',
     words: '星期日 · 面条儿 · 饺子 · 非常',
-    art: noodlesArt,
+    art: art('noodles'),
   },
-  6: { title: '第六课', words: '打电话 · 东西 · 怎么 · 出租车', art: taxiArt },
+  6: {
+    title: '第六课',
+    words: '打电话 · 东西 · 怎么 · 出租车',
+    art: art('taxi'),
+  },
 };
 
-const TOPIC_ART: Partial<Record<number, string>> = {
-  1: numbersArt,
-  2: peopleArt,
-  3: familyArt,
-  4: introductionsArt,
-  5: politenessArt,
-  6: quantityArt,
-  7: datesArt,
-  8: timeArt,
-  9: foodArt,
-  10: shoppingArt,
-  11: whereArt,
-  12: functionWordsArt,
-  13: schoolArt,
-  14: speakingArt,
-  15: homeArt,
-  16: activitiesArt,
-  17: roadArt,
-  18: leisureArt,
-  19: clothesArt,
-  20: feelingsArt,
-  21: animalsArt,
-};
+// Picture of each topic, in topic order (topic 1 first).
+const TOPIC_ART = [
+  'numbers',
+  'people',
+  'family',
+  'introductions',
+  'politeness',
+  'quantity',
+  'dates',
+  'time',
+  'food',
+  'shopping',
+  'where',
+  'function-words',
+  'school',
+  'speaking',
+  'home',
+  'activities',
+  'road',
+  'leisure',
+  'clothes',
+  'feelings',
+  'animals',
+].map(art);
 
 // URL value → tab; no or unknown value opens Topics (the themed list older links point to).
 const toTab = (raw: string | null): Tab =>
@@ -110,7 +96,7 @@ const toTab = (raw: string | null): Tab =>
 // One HSK level: lessons, its themed topics, or the full character list with Write / Print PDF.
 // The tab lives in the URL (?tab=lessons, ?tab=chars) so links can open it directly.
 export default function LevelPage() {
-  const level = levelData(useParams().level);
+  const level = useLevelParam();
   const [params, setParams] = useSearchParams();
   const tab = toTab(params.get('tab'));
   const writingOnly = tab === 'chars' && params.get('mode') === 'write';
@@ -229,7 +215,7 @@ export default function LevelPage() {
                         'topic-art' +
                         (l.id === 7 ? ' dates' : l.id >= 8 ? ' vignette' : '')
                       }
-                      src={TOPIC_ART[l.id] ?? hillsArt}
+                      src={TOPIC_ART[l.id - 1] ?? art('hills')}
                       alt=""
                       loading={i < 7 ? 'eager' : 'lazy'}
                     />

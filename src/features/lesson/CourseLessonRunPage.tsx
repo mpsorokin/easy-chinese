@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate, useLocation, useParams } from 'react-router';
-import { levelData } from '../../data/hsk.ts';
-import {
-  courseLesson,
-  exerciseLines,
-  isDialogueExercise,
-} from '../../data/courseLessons.ts';
+import { exerciseLines, isDialogueExercise } from '../../data/courseLessons.ts';
 import { t } from '../../shared/i18n/en.ts';
 import {
   FROM_JOURNEY,
@@ -14,6 +9,7 @@ import {
   fromJourney,
   journeyPath,
 } from './lessonNav.ts';
+import { useCourseParams } from './lessonRoute.ts';
 import { journeyKey } from '../progress/progress.ts';
 import { useProgress } from '../progress/useProgress.ts';
 import { clearStory, saveStory } from '../progress/sessionStore.ts';
@@ -23,10 +19,8 @@ import CourseExerciseView from './CourseExerciseView.tsx';
 // per page with a progress bar; each step has its own link
 // ('/hsk/<level>/lessons/<n>/play/<step>').
 export default function CourseLessonRunPage() {
-  const params = useParams();
-  const level = levelData(params.level);
-  const lesson = courseLesson(params.lesson);
-  const step = Number(params.step);
+  const { level, lesson } = useCourseParams();
+  const step = Number(useParams().step);
   const { search } = useLocation();
   const toMap = fromJourney(search);
   const { readStory } = useProgress();

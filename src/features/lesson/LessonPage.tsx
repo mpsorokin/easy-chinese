@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { Link, Navigate, useNavigate, useParams } from 'react-router';
+import { Link, Navigate, useNavigate } from 'react-router';
 import { lessonStore } from './lessonStore.ts';
-import { lessonChars, lessonWords, levelData } from '../../data/hsk.ts';
-import { EXERCISES } from '../../domain/exercises.ts';
+import { lessonChars, lessonWords } from '../../data/hsk.ts';
+import { availableExercises } from '../../domain/exercises.ts';
 import type { ExerciseId } from '../../domain/exercises.ts';
 import { lessonKey, lessonResults, PASS_GRADE } from '../progress/progress.ts';
 import { useProgress } from '../progress/useProgress.ts';
@@ -10,6 +10,7 @@ import { t } from '../../shared/i18n/en.ts';
 import ThemeControl from '../settings/ThemeControl.tsx';
 import Meter from '../../shared/ui/Meter.tsx';
 import LessonExerciseCards from './LessonExerciseCards.tsx';
+import { useOpenCopybook, useTopicParams } from './lessonRoute.ts';
 import {
   exercisePath,
   lessonPath,
@@ -21,14 +22,10 @@ import './lesson.css';
 
 // One lesson: its characters and words, and the four exercises with their best results.
 export default function LessonPage() {
-  const params = useParams();
-  const level = levelData(params.level);
-  const idx = level
-    ? level.lessons.findIndex((l) => String(l.id) === params.lesson)
-    : -1;
-  const lesson = level?.lessons[idx];
+  const { level, idx, lesson } = useTopicParams();
   const { progress, best } = useProgress();
   const navigate = useNavigate();
+  const openCopybook = useOpenCopybook();
 
   const key = level && lesson ? lessonKey(level.id, lesson.id) : '';
   useEffect(() => {
@@ -41,12 +38,10 @@ export default function LessonPage() {
   const chars = lessonChars(level, idx);
   const words = lessonWords(level, idx);
   const results = lessonResults(progress, key, lesson.chars);
-  const multiWords = words.filter((w) => [...w.w].length > 1);
-  const exercises = EXERCISES.filter(
-    (ex) =>
-      (ex !== 'words' || words.length > 0) &&
-      ((ex !== 'wordWrite' && ex !== 'pick') || multiWords.length > 0),
-  );
+  const exercises = availableExercises({
+    hasWords: words.length > 0,
+    hasMultiWords: words.some((w) => [...w.w].length > 1),
+  });
   const passed = exercises.filter(
     (ex) => (results[ex]?.best ?? 0) >= PASS_GRADE,
   ).length;
@@ -55,15 +50,9 @@ export default function LessonPage() {
   const next = level.lessons[idx + 1];
 
   // The topic's copybook has its own link; it starts at the first character not written yet.
-  const write = () => {
-    const first = lesson.chars.find((c) => !progress.chars[c]) ?? chars[0]?.c;
-    void navigate(topicWritePath(level.id, lesson.id), {
-      state: first ? { start: first } : null,
-    });
-  };
   const open = (ex: ExerciseId) =>
     ex === 'write'
-      ? write()
+      ? openCopybook(topicWritePath(level.id, lesson.id), lesson.chars)
       : void navigate(exercisePath(level.id, lesson.id, ex));
 
   return (

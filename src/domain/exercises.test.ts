@@ -12,8 +12,11 @@ import {
   wordWriteQuiz,
   pickQuiz,
   PICK_TILES,
+  EXERCISES,
+  availableExercises,
+  buildQuiz,
 } from './exercises.ts';
-import type { BuildQuestion, ChoiceQuestion } from './exercises.ts';
+import type { BuildQuestion, ChoiceQuestion, QuizId } from './exercises.ts';
 import { HSK1_LEVEL, lessonChars, lessonWords } from '../data/hsk.ts';
 
 // Deterministic generator (mulberry32) so runs can be compared.
@@ -214,5 +217,50 @@ describe('wordWriteQuiz', () => {
     expect(qs).toHaveLength(WORD_WRITE_MAX);
     for (const q of qs) expect([...q.answer].length).toBeGreaterThan(1);
     expect(wordWriteQuiz([{ w: '好', py: 'hǎo', en: 'good' }])).toEqual([]);
+  });
+});
+
+describe('buildQuiz', () => {
+  const idx = 2;
+  const chars = lessonChars(HSK1_LEVEL, idx);
+  const words = lessonWords(HSK1_LEVEL, idx);
+  const known = HSK1_LEVEL.lessons.slice(0, idx + 1).flatMap((l) => l.chars);
+  const input = { chars, words, pool: HSK1_LEVEL, known };
+
+  it('builds each quiz exactly as its generator does', () => {
+    const direct = {
+      meaning: meaningQuiz(chars, pool, seeded(5)),
+      pinyin: pinyinQuiz(chars, pool, seeded(5)),
+      pick: pickQuiz(
+        words,
+        chars.map((c) => c.c),
+        HSK1_LEVEL.words,
+        seeded(5),
+      ),
+      wordWrite: wordWriteQuiz(words, seeded(5)),
+      words: wordQuiz(words, HSK1_LEVEL.words, known, seeded(5)),
+    };
+    for (const [ex, questions] of Object.entries(direct))
+      expect(buildQuiz(ex as QuizId, input, seeded(5))).toEqual(questions);
+  });
+});
+
+describe('availableExercises', () => {
+  it('offers every exercise when there are multi-character words', () => {
+    expect(availableExercises({ hasWords: true, hasMultiWords: true })).toEqual(
+      [...EXERCISES],
+    );
+  });
+
+  it('drops word writing and picking without multi-character words', () => {
+    expect(
+      availableExercises({ hasWords: true, hasMultiWords: false }),
+    ).toEqual(['write', 'meaning', 'pinyin', 'words']);
+  });
+
+  it('drops every word exercise without words', () => {
+    expect(
+      availableExercises({ hasWords: false, hasMultiWords: false }),
+    ).toEqual(['write', 'meaning', 'pinyin']);
   });
 });

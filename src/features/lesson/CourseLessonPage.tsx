@@ -1,18 +1,17 @@
-import { Link, Navigate, useNavigate, useParams } from 'react-router';
-import { levelData } from '../../data/hsk.ts';
+import { Link, Navigate, useNavigate } from 'react-router';
 import {
-  courseLesson,
   courseParts,
   courseWords,
   isExerciseReady,
 } from '../../data/courseLessons.ts';
-import { EXERCISES } from '../../domain/exercises.ts';
+import { availableExercises } from '../../domain/exercises.ts';
 import type { ExerciseId } from '../../domain/exercises.ts';
 import { courseLessonKey, lessonResults } from '../progress/progress.ts';
 import { useProgress } from '../progress/useProgress.ts';
 import ThemeControl from '../settings/ThemeControl.tsx';
 import CourseCardArt from './CourseCardArt.tsx';
 import LessonExerciseCards from './LessonExerciseCards.tsx';
+import { useCourseParams, useOpenCopybook } from './lessonRoute.ts';
 import { t } from '../../shared/i18n/en.ts';
 import { courseExerciseArt, coursePracticeArt } from './courseExerciseArt.ts';
 import {
@@ -29,11 +28,10 @@ import volumeIcon from './icons/volume.svg';
 import './courseLesson.css';
 
 export default function CourseLessonPage() {
-  const params = useParams();
-  const level = levelData(params.level);
-  const lesson = courseLesson(params.lesson);
+  const { level, lesson } = useCourseParams();
   const { progress } = useProgress();
   const navigate = useNavigate();
+  const openCopybook = useOpenCopybook();
   if (!level) return <Navigate to="/" replace />;
   if (!lesson) return <Navigate to={levelLessonsPath(level.id)} replace />;
 
@@ -42,15 +40,6 @@ export default function CourseLessonPage() {
   const parts = courseParts(lesson)
     .map((p, i) => ({ part: i + 1, chars: p.map((c) => c.c) }))
     .filter(({ chars }) => chars.length > 0);
-
-  // Each part's copybook has its own link; it opens at the first character not
-  // written yet.
-  const write = (chars: string[], part: number) => {
-    const first = chars.find((c) => !progress.chars[c]) ?? chars[0];
-    void navigate(courseWritePath(level.id, lesson.id, part), {
-      state: first ? { start: first } : null,
-    });
-  };
 
   const levelTitle = t.levelTitle(level.id);
   const total = lesson.exercises.length;
@@ -103,7 +92,7 @@ export default function CourseLessonPage() {
         <ol className="course-lesson-exercises" role="list">
           {lesson.exercises.map((exercise) => {
             const ready = isExerciseReady(lesson, exercise);
-            const art = courseExerciseArt[lesson.id]?.[exercise];
+            const art = courseExerciseArt(lesson.id, exercise);
             const cardClass = ready
               ? 'course-lesson-card is-ready'
               : 'course-lesson-card';
@@ -158,12 +147,12 @@ export default function CourseLessonPage() {
       {parts.length > 0 && (
         <div id="course-practice" tabIndex={-1}>
           {parts.map(({ part, chars }) => {
+            // A part's words are all multi-character (see courseWords).
             const hasWords = courseWords(lesson, part).length > 0;
-            const practice = EXERCISES.filter(
-              (ex) =>
-                (ex !== 'words' && ex !== 'wordWrite' && ex !== 'pick') ||
-                hasWords,
-            );
+            const practice = availableExercises({
+              hasWords,
+              hasMultiWords: hasWords,
+            });
             return (
               <LessonExerciseCards
                 key={part}
@@ -185,8 +174,13 @@ export default function CourseLessonPage() {
                 written={chars.filter((c) => progress.chars[c]).length}
                 totalChars={chars.length}
                 onOpen={(ex: ExerciseId) =>
+                  // Each part's copybook has its own link; it opens at the
+                  // first character not written yet.
                   ex === 'write'
-                    ? write(chars, part)
+                    ? openCopybook(
+                        courseWritePath(level.id, lesson.id, part),
+                        chars,
+                      )
                     : void navigate(
                         courseQuizPath(level.id, lesson.id, part, ex),
                       )

@@ -1,5 +1,5 @@
 import type { PrintPreset } from '../../data/presets.ts';
-import { PrinterIcon } from '../../shared/ui/icons.tsx';
+import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 import { t } from '../../shared/i18n/en.ts';
 
 // Ready-made character set: a worksheet-style preview cell, title, size, a preview of its
@@ -37,7 +37,7 @@ export default function PresetCard({
         aria-haspopup="dialog"
         onClick={onPrint}
       >
-        <PrinterIcon />
+        <WriteIcon name="printer" strokeWidth={1.8} />
         <span>{t.presetPrint}</span>
       </button>
     </section>

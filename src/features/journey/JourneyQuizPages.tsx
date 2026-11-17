@@ -1,10 +1,10 @@
-import { Navigate, useParams } from 'react-router';
-import { levelData } from '../../data/hsk.ts';
-import { courseLesson, coursePart } from '../../data/courseLessons.ts';
+import { Navigate } from 'react-router';
+import { coursePart } from '../../data/courseLessons.ts';
 import type { Grade } from '../../domain/grading.ts';
 import { t } from '../../shared/i18n/en.ts';
 import QuizPage from '../lesson/QuizPage.tsx';
 import { journeyPath } from '../lesson/lessonNav.ts';
+import { useCourseParams, useLevelParam } from '../lesson/lessonRoute.ts';
 import { PASS_GRADE, XP, journeyKey } from '../progress/progress.ts';
 import { getProgress } from '../progress/progressStore.ts';
 import { useProgress } from '../progress/useProgress.ts';
@@ -21,10 +21,7 @@ const xpNote = (right: number, _total: number, grade: Grade) =>
 
 // '/hsk/<level>/journey/practice/<lesson>/<part>': a mixed round over one part.
 export function JourneyPracticePage() {
-  const params = useParams();
-  const level = levelData(params.level);
-  const lesson = courseLesson(params.lesson);
-  const part = Number(params.part);
+  const { level, lesson, part } = useCourseParams();
   const { recordStep } = useProgress();
   if (!level) return <Navigate to="/" replace />;
   const back = journeyPath(level.id);
@@ -48,9 +45,7 @@ export function JourneyPracticePage() {
 
 // '/hsk/<level>/journey/checkpoint/<lesson>': the whole lesson; two stars seal it.
 export function JourneyCheckpointPage() {
-  const params = useParams();
-  const level = levelData(params.level);
-  const lesson = courseLesson(params.lesson);
+  const { level, lesson } = useCourseParams();
   const { recordStep } = useProgress();
   if (!level) return <Navigate to="/" replace />;
   const back = journeyPath(level.id);
@@ -83,7 +78,7 @@ export function JourneyCheckpointPage() {
 
 // '/hsk/<level>/journey/review': the characters and words due, longest overdue first.
 export function JourneyReviewPage() {
-  const level = levelData(useParams().level);
+  const level = useLevelParam();
   if (!level) return <Navigate to="/" replace />;
   return (
     <QuizPage

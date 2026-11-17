@@ -15,6 +15,24 @@ export type ExerciseId = (typeof EXERCISES)[number];
 export const isExercise = (x: unknown): x is ExerciseId =>
   typeof x === 'string' && (EXERCISES as readonly string[]).includes(x);
 
+// Exercises run as a quiz; writing runs in the copybook instead.
+export type QuizId = Exclude<ExerciseId, 'write'>;
+
+// The exercises a set of characters offers. Without words there is no word quiz; without
+// multi-character words there is nothing to write as a word or to pick from tiles.
+export const availableExercises = ({
+  hasWords,
+  hasMultiWords,
+}: {
+  hasWords: boolean;
+  hasMultiWords: boolean;
+}): ExerciseId[] =>
+  EXERCISES.filter(
+    (ex) =>
+      (ex !== 'words' || hasWords) &&
+      ((ex !== 'wordWrite' && ex !== 'pick') || hasMultiWords),
+  );
+
 export type Rng = () => number;
 
 // What the speaker button pronounces. `afterAnswer`: only once answered, when hearing it
@@ -504,4 +522,38 @@ export function sentenceQuiz(
         audio: { text: zh, afterAnswer: true },
       };
     });
+}
+
+// What a quiz is built from: the characters and words practised, the level's characters
+// and words for distractors, and the characters already known (tiles of the word quiz).
+export type QuizInput = {
+  chars: readonly HskChar[];
+  words: readonly HskWord[];
+  pool: { chars: readonly HskChar[]; words: readonly HskWord[] };
+  known: readonly string[];
+};
+
+// Questions of one quiz exercise; distractors come from the practised set first, then the pool.
+export function buildQuiz(
+  ex: QuizId,
+  { chars, words, pool, known }: QuizInput,
+  rng: Rng = Math.random,
+): Question[] {
+  switch (ex) {
+    case 'meaning':
+      return meaningQuiz(chars, pool.chars, rng);
+    case 'pinyin':
+      return pinyinQuiz(chars, pool.chars, rng);
+    case 'pick':
+      return pickQuiz(
+        words,
+        chars.map((c) => c.c),
+        pool.words,
+        rng,
+      );
+    case 'wordWrite':
+      return wordWriteQuiz(words, rng);
+    case 'words':
+      return wordQuiz(words, pool.words, known, rng);
+  }
 }
