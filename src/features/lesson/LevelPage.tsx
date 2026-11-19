@@ -17,6 +17,7 @@ import {
   statusOf,
 } from './lessonNav.ts';
 import { art } from './art/index.ts';
+import LevelCard from './LevelCard.tsx';
 import { useLevelParam } from './lessonRoute.ts';
 import '../../shared/ui/page.css';
 import './level.css';
@@ -61,6 +62,11 @@ const COURSE_LESSON_PREVIEWS: Partial<
     title: '第六课',
     words: '打电话 · 东西 · 怎么 · 出租车',
     art: art('taxi'),
+  },
+  7: {
+    title: '第七课',
+    words: '现在 · 几点 · 分钟 · 电影院',
+    art: art('alarm-clock'),
   },
 };
 
@@ -159,15 +165,12 @@ export default function LevelPage() {
               const preview = COURSE_LESSON_PREVIEWS[lesson.id];
               return (
                 <li key={lesson.id}>
-                  <Link
-                    className="lesson-row course-lesson-row"
+                  <LevelCard
+                    variant="lesson"
                     to={courseLessonPath(level.id, lesson.id)}
-                  >
-                    <span className="lesson-num" aria-hidden="true">
-                      {lesson.id}
-                    </span>
-                    <span className="lesson-main">
-                      <span className="lesson-title">
+                    number={lesson.id}
+                    title={
+                      <>
                         {t.lessonN(lesson.id)}
                         {preview && (
                           <>
@@ -175,82 +178,40 @@ export default function LevelPage() {
                             <span lang="zh-Hans">{preview.title}</span>
                           </>
                         )}
-                      </span>
-                      {preview && (
-                        <span className="course-lesson-preview" lang="zh-Hans">
-                          {preview.words}
-                        </span>
-                      )}
-                    </span>
-                    {preview && (
-                      <img
-                        className="course-lesson-row-art"
-                        src={preview.art}
-                        alt=""
-                        decoding="async"
-                      />
-                    )}
-                    <span className="level-chevron" aria-hidden="true" />
-                  </Link>
+                      </>
+                    }
+                    preview={preview?.words}
+                    art={preview && { src: preview.art }}
+                  />
                 </li>
               );
             })}
           </ol>
         ) : (
           <ol className="lesson-list">
-            {level.lessons.map((l, i) => {
-              const s = statusOf(progress, level, i);
-              return (
-                <li key={l.id}>
-                  <Link
-                    className={
-                      'lesson-row topic-row' +
-                      (s.complete ? ' done' : '') +
-                      (i === next ? ' next' : '')
-                    }
-                    to={lessonPath(level.id, l.id)}
-                  >
-                    <img
-                      className={
-                        'topic-art' +
-                        (l.id === 7 ? ' dates' : l.id >= 8 ? ' vignette' : '')
-                      }
-                      src={TOPIC_ART[l.id - 1] ?? art('hills')}
-                      alt=""
-                      loading={i < 7 ? 'eager' : 'lazy'}
-                    />
-                    <span className="lesson-num">
-                      {s.complete ? '✓' : l.id}
-                    </span>
-                    <span className="lesson-main">
-                      <span className="lesson-title">
-                        {l.title}
-                        {i === next && (
-                          <span className="lesson-badge">{t.nextUp}</span>
-                        )}
-                      </span>
-                      <span className="lesson-chars" lang="zh-Hans">
-                        {l.chars.join('')}
-                      </span>
-                    </span>
-                    <span className="lesson-meta">
-                      <span className="lesson-count">
-                        {t.exercisesDone(s.done, s.total)}
-                      </span>
-                      <span className="level-chevron" aria-hidden="true" />
-                    </span>
-                    <span className="lesson-progress" aria-hidden="true">
-                      {Array.from({ length: s.total }, (_, segment) => (
-                        <span
-                          key={segment}
-                          className={segment < s.done ? 'filled' : undefined}
-                        />
-                      ))}
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
+            {level.lessons.map((topic, index) => (
+              <li key={topic.id}>
+                <LevelCard
+                  variant="topic"
+                  to={lessonPath(level.id, topic.id)}
+                  number={topic.id}
+                  title={topic.title}
+                  preview={topic.chars.join('')}
+                  art={{
+                    src: TOPIC_ART[topic.id - 1] ?? art('hills'),
+                    style:
+                      topic.id === 7
+                        ? 'dates'
+                        : topic.id >= 8
+                          ? 'vignette'
+                          : undefined,
+                    loading: index < 7 ? 'eager' : 'lazy',
+                  }}
+                  progress={statusOf(progress, level, index)}
+                  next={index === next}
+                />
+              </li>
+            ))}
           </ol>
         )}
       </div>
