@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Link,
   Navigate,
@@ -13,6 +13,7 @@ import CopybookSteps from '../features/copybook/CopybookSteps.tsx';
 import WritingCell from '../features/writer/WritingCell.tsx';
 import type { WriterHandle } from '../features/writer/types.ts';
 import SummaryOverlay from '../features/copybook/SummaryOverlay.tsx';
+import SetComplete from '../features/copybook/SetComplete.tsx';
 import WordContext from '../features/copybook/WordContext.tsx';
 import Controls from '../features/copybook/Controls.tsx';
 import SettingsPanel from '../features/settings/SettingsPanel.tsx';
@@ -51,6 +52,9 @@ import './write.css';
 
 // The stroke-order strip is shown unless the user hid it.
 const normalizeShown = (raw: unknown): boolean => raw !== false;
+// Open character of a finite set: checked against the set itself, '' when missing.
+const normalizeSetChar = (raw: unknown): string =>
+  typeof raw === 'string' ? raw : '';
 
 // What the copybook cycles through. Every set comes from the URL, so a page survives a
 // reload or a shared link, and keeps its own open character (lastKey).
@@ -61,6 +65,9 @@ type CopybookSet = {
   back: { to: string; label: string };
   level?: string; // HSK level shown next to the counter
   exitable: boolean; // a "leave the set" button that opens the deck copybook
+  // The decks go round and round; every other set ends with a summary after its last
+  // character instead of starting over from the first one.
+  wrap?: boolean;
   words?: readonly HskWord[]; // lesson words, to show which word a character belongs to
 };
 
@@ -81,6 +88,7 @@ export default function CopybookScreen() {
           lastKey: 'last',
           back: { to: '/', label: t.homeLabel },
           exitable: false,
+          wrap: true,
         }}
       />
     );
@@ -206,12 +214,15 @@ function CopybookPage({ set }: { set: CopybookSet }) {
   const location = useLocation();
   const navigate = useNavigate();
   const start = startChar(location.state, list);
+  const wrap = set.wrap ?? false;
   const [lastChar, setLastChar] = usePersistentState(
     copybookStore,
     set.lastKey,
-    normalizeLastChar,
+    wrap ? normalizeLastChar : normalizeSetChar,
     { sync: false, initial: start }, // each tab keeps its own open character
   );
+  // Every character of a finite set has been written: its summary replaces the cell.
+  const [complete, setComplete] = useState(false);
   // The start character is used once: drop it, so a reload keeps the current one.
   useEffect(() => {
     if (start)
@@ -233,10 +244,16 @@ function CopybookPage({ set }: { set: CopybookSet }) {
   const { best, record } = useProgress();
 
   const writerRef = useRef<WriterHandle>(null);
-  const idx = Math.max(
-    0,
-    list.findIndex((x) => x.c === lastChar),
+  // Without a stored character a set opens at its first character not written yet
+  // (chosen once: writing it must not move the page on by itself).
+  const [firstOpen] = useState(() =>
+    Math.max(
+      0,
+      list.findIndex((x) => !best[x.c]),
+    ),
   );
+  const stored = list.findIndex((x) => x.c === lastChar);
+  const idx = stored >= 0 ? stored : firstOpen;
   const item = wrapAt(list, idx);
   const charData = useCharData(item.c);
   const { data } = charData; // null while loading or after an error
@@ -271,7 +288,29 @@ function CopybookPage({ set }: { set: CopybookSet }) {
     setLastChar(c);
     copybook.reset();
   };
-  const go = (i: number) => show(wrapAt(list, i).c);
+  const isLast = idx === list.length - 1;
+  const go = (i: number) => {
+    if (!wrap && (i < 0 || i >= list.length)) return;
+    show(wrapAt(list, i).c);
+  };
+  // A character skipped earlier, to come back to after the last one.
+  const skipped = wrap
+    ? undefined
+    : list.find((x, i) => i !== idx && !best[x.c]);
+  // "Next" after a finished character: the next one, then any skipped one; after the
+  // last of a finite set the set is done (and opens at its start next time).
+  const advance = () => {
+    if (wrap || !isLast) return go(idx + 1);
+    if (skipped) return show(skipped.c);
+    setLastChar(list[0]!.c);
+    copybook.reset();
+    setComplete(true);
+  };
+  const writeAgain = () => {
+    setLastChar(list[0]!.c);
+    copybook.reset();
+    setComplete(false);
+  };
 
   return (
     <main className="page-frame write-page">
@@ -286,7 +325,11 @@ function CopybookPage({ set }: { set: CopybookSet }) {
           {set.level && (
             <span className="write-level">{t.levelTitle(set.level)}</span>
           )}
-          <span>{t.characterOf(idx + 1, list.length)}</span>
+          <span>
+            {complete
+              ? t.writeProgress(list.length, list.length)
+              : t.characterOf(idx + 1, list.length)}
+          </span>
           {set.exitable && (
             // A set lives in the URL, so leaving it means opening the deck copybook.
             <Link className="write-exit" to="/write">
@@ -296,68 +339,77 @@ function CopybookPage({ set }: { set: CopybookSet }) {
         </div>
       </div>
 
-      <Header
-        item={item}
-        stars={best[item.c]}
-        onPrev={() => go(idx - 1)}
-        onNext={() => go(idx + 1)}
-      />
+      {complete ? (
+        <SetComplete list={list} best={best} back={back} onAgain={writeAgain} />
+      ) : (
+        <>
+          <Header
+            item={item}
+            stars={best[item.c]}
+            onPrev={() => go(idx - 1)}
+            onNext={() => go(idx + 1)}
+            hasPrev={wrap || idx > 0}
+            hasNext={wrap || !isLast}
+          />
 
-      <WordContext char={item.c} words={set.words} />
+          <WordContext char={item.c} words={set.words} />
 
-      <StrokeOrder
-        data={data}
-        current={copybook.curStroke}
-        onPick={(i) => writerRef.current?.highlight(i)}
-        shown={strokeOrderShown}
-        onToggle={() => setStrokeOrderShown((v) => !v)}
-      />
+          <StrokeOrder
+            data={data}
+            current={copybook.curStroke}
+            onPick={(i) => writerRef.current?.highlight(i)}
+            shown={strokeOrderShown}
+            onToggle={() => setStrokeOrderShown((v) => !v)}
+          />
 
-      <CopybookSteps
-        data={data}
-        step={copybook.step}
-        results={copybook.results}
-        gridKind={settings.grid}
-      />
+          <CopybookSteps
+            data={data}
+            step={copybook.step}
+            results={copybook.results}
+            gridKind={settings.grid}
+          />
 
-      <WritingCell
-        ref={writerRef}
-        char={item.c}
-        gridKind={settings.grid}
-        outline={copybook.outline}
-        active={copybook.active}
-        quizKey={copybook.quizKey}
-        strict={settings.strict}
-        hint={settings.hint}
-        speed={settings.speed}
-        {...copybook.handlers}
-      >
-        <SummaryOverlay
-          item={item}
-          summary={copybook.summary}
-          onAgain={copybook.reset}
-          onNext={() => go(idx + 1)}
-        />
-      </WritingCell>
+          <WritingCell
+            ref={writerRef}
+            char={item.c}
+            gridKind={settings.grid}
+            outline={copybook.outline}
+            active={copybook.active}
+            quizKey={copybook.quizKey}
+            strict={settings.strict}
+            hint={settings.hint}
+            speed={settings.speed}
+            {...copybook.handlers}
+          >
+            <SummaryOverlay
+              item={item}
+              summary={copybook.summary}
+              onAgain={copybook.reset}
+              onNext={advance}
+              nextLabel={!wrap && isLast && !skipped ? t.finishSet : undefined}
+            />
+          </WritingCell>
 
-      {/* Only a failed load is reported here; stroke-by-stroke hints are not shown. */}
-      {charData.status === 'error' && (
-        <div className="status err" role="alert">
-          <WriteIcon name="info" />
-          <span>
-            {t.loadError}
-            <button className="retry" onClick={retryLoad}>
-              {t.retry}
-            </button>
-          </span>
-        </div>
+          {/* Only a failed load is reported here; stroke-by-stroke hints are not shown. */}
+          {charData.status === 'error' && (
+            <div className="status err" role="alert">
+              <WriteIcon name="info" />
+              <span>
+                {t.loadError}
+                <button className="retry" onClick={retryLoad}>
+                  {t.retry}
+                </button>
+              </span>
+            </div>
+          )}
+
+          <Controls
+            onShow={copybook.showAnimation}
+            onHint={copybook.showHint}
+            onRestart={copybook.reset}
+          />
+        </>
       )}
-
-      <Controls
-        onShow={copybook.showAnimation}
-        onHint={copybook.showHint}
-        onRestart={copybook.reset}
-      />
 
       <SettingsPanel settings={settings} onChange={setSettings} />
 

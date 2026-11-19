@@ -4,8 +4,7 @@
 import {
   COURSE_LESSONS,
   courseParts,
-  exerciseLines,
-  isDialogueExercise,
+  storySteps,
 } from '../../data/courseLessons.ts';
 import type { CourseLesson } from '../../data/courseLessons.ts';
 import type { Grade } from '../../domain/grading.ts';
@@ -52,11 +51,7 @@ export type NodeStatus = {
 
 const UNTOUCHED: NodeStatus = { state: 'untouched', stars: 0 };
 
-export const hasStory = (lesson: CourseLesson) =>
-  lesson.exercises.some(
-    (ex) =>
-      isDialogueExercise(ex) && (exerciseLines(lesson, ex)?.length ?? 0) > 0,
-  );
+export const hasStory = (lesson: CourseLesson) => storySteps(lesson).length > 0;
 
 export function buildJourney(
   level: string,

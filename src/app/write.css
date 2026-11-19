@@ -407,3 +407,9 @@
   color: var(--muted);
   font-size: 0.85em;
 }
+
+.write-nav:disabled {
+  opacity: 0.35;
+  cursor: default;
+  box-shadow: none;
+}

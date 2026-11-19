@@ -132,3 +132,52 @@
 [data-theme='dark'] .copybook-summary {
   background: rgb(35 31 29 / 97%);
 }
+
+/* end of a set: every character written */
+.set-complete {
+  display: grid;
+  gap: 14px;
+  margin-top: clamp(13px, 4.3cqi, 25px);
+  padding: clamp(18px, 5cqi, 28px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--write-surface);
+  box-shadow: var(--write-shadow);
+  text-align: center;
+}
+.set-complete h2 {
+  margin: 0;
+  font-size: clamp(19px, 4.4cqi, 24px);
+}
+.set-complete p {
+  margin: 0;
+  color: var(--muted);
+}
+.set-complete-chars {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.set-complete-chars li {
+  display: grid;
+  gap: 2px;
+  padding: 8px 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+.set-complete-glyph {
+  font-size: 30px;
+  line-height: 1.2;
+}
+.set-complete-stars {
+  color: var(--warn);
+  font-size: 12px;
+}
+.set-complete-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}

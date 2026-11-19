@@ -1,6 +1,0 @@
-dist
-node_modules
-public/hanzi
-package-lock.json
-.lesson-reference-tmp
-/design-qa.md

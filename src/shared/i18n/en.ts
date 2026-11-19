@@ -71,6 +71,8 @@ export const t = {
   partN: (n: number) => `Part ${n}`,
   studyLabel: 'Study',
   startLesson: 'Start lesson',
+  continueLesson: (step: number, total: number) =>
+    `Continue lesson · ${step} / ${total}`,
   nextExercise: 'Next',
   finishLesson: 'Finish lesson',
   stepOfTotal: (i: number, n: number) => `${i} / ${n}`,
@@ -237,6 +239,12 @@ export const t = {
   // Summary overlay
   again: '↺ Again',
   nextChar: 'Next ›',
+  finishSet: 'Finish ›',
+  // Shown when every character of a set has been written.
+  setDoneTitle: 'All characters written!',
+  setDoneDetails: (n: number) =>
+    `You wrote all ${n} character${n === 1 ? '' : 's'} of this set.`,
+  setWriteAgain: '↺ Write again',
   summaryTitle: (grade: Grade) =>
     grade === 3
       ? 'Excellent, your hand remembers it!'

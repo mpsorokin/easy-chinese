@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate, useLocation, useParams } from 'react-router';
-import { exerciseLines, isDialogueExercise } from '../../data/courseLessons.ts';
+import { storySteps } from '../../data/courseLessons.ts';
 import { t } from '../../shared/i18n/en.ts';
 import {
   FROM_JOURNEY,
@@ -31,12 +31,7 @@ export default function CourseLessonRunPage() {
     window.scrollTo(0, 0);
   }, [step]);
 
-  const steps = lesson
-    ? lesson.exercises.flatMap((ex) => {
-        const lines = isDialogueExercise(ex) ? exerciseLines(lesson, ex) : [];
-        return isDialogueExercise(ex) && lines?.length ? [{ ex, lines }] : [];
-      })
-    : [];
+  const steps = lesson ? storySteps(lesson) : [];
   const current = steps[step - 1];
   const storyKey =
     level && lesson ? journeyKey(level.id, lesson.id, 'story') : undefined;
@@ -48,8 +43,10 @@ export default function CourseLessonRunPage() {
       saveStory(storyKey, step, total);
   }, [storyKey, step, total]);
 
-  if (!level || !lesson || !current || !storyKey)
-    return <Navigate to="/" replace />;
+  if (!level || !lesson || !storyKey) return <Navigate to="/" replace />;
+  // A step out of range (an old link): back to the lesson.
+  if (!current)
+    return <Navigate to={courseLessonPath(level.id, lesson.id)} replace />;
 
   const lessonPath = courseLessonPath(level.id, lesson.id);
   const last = step === steps.length;

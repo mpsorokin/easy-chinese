@@ -74,6 +74,14 @@ export function exerciseLines(
 export const isExerciseReady = (lesson: CourseLesson, ex: CourseExercise) =>
   isLinesExercise(ex) && (exerciseLines(lesson, ex)?.length ?? 0) > 0;
 
+// The steps of "Start lesson": every dialogue exercise with lines (not the word list).
+export const storySteps = (lesson: CourseLesson) =>
+  lesson.exercises.flatMap((ex) => {
+    if (!isDialogueExercise(ex)) return [];
+    const lines = lesson.dialogues[ex];
+    return lines?.length ? [{ ex, lines }] : [];
+  });
+
 export const courseLesson = (id: string | undefined) =>
   COURSE_LESSONS.find((l) => String(l.id) === id);
 

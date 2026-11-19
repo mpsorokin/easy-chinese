@@ -12,7 +12,8 @@ const GRID_OPTIONS = [
 ] as const satisfies readonly (readonly [GridKind, string])[];
 
 export type PrintState =
-  { status: 'idle' | 'loading' | 'error' } | { status: 'done'; pages: number };
+  | { status: 'idle' | 'loading' | 'error' }
+  | { status: 'done'; pages: number };
 
 // Bottom sheet shown before printing: chosen characters, rows per character and grid type.
 // A native modal <dialog>: Esc closes it, focus stays inside, the page behind is inert;

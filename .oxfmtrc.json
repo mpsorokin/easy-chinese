@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "printWidth": 80,
+  "sortPackageJson": false,
+  "ignorePatterns": [
+    "dist",
+    "node_modules",
+    "public/hanzi",
+    "package-lock.json",
+    ".lesson-reference-tmp",
+    "/design-qa.md",
+    "src/data/lessons"
+  ]
+}

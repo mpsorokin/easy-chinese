@@ -10,11 +10,13 @@ export default function SummaryOverlay({
   summary,
   onAgain,
   onNext,
+  nextLabel = t.nextChar,
 }: {
   item: CharEntry;
   summary: FinalGrade | null;
   onAgain: () => void;
   onNext: () => void;
+  nextLabel?: string;
 }) {
   return (
     <div className={'copybook-summary' + (summary ? ' show' : '')}>
@@ -28,7 +30,7 @@ export default function SummaryOverlay({
               {t.again}
             </button>
             <button className="btn primary" onClick={onNext}>
-              {t.nextChar}
+              {nextLabel}
             </button>
           </div>
         </>

@@ -9,17 +9,23 @@ export default function Header({
   stars,
   onPrev,
   onNext,
+  hasPrev = true,
+  hasNext = true,
 }: {
   item: CharEntry;
   stars: Grade | undefined;
   onPrev: () => void;
   onNext: () => void;
+  // False at the ends of a set that does not wrap around.
+  hasPrev?: boolean;
+  hasNext?: boolean;
 }) {
   return (
     <div className="write-header">
       <button
         className="write-nav write-prev"
         onClick={onPrev}
+        disabled={!hasPrev}
         aria-label={t.prev}
       >
         <WriteIcon name="chevron" />
@@ -48,7 +54,12 @@ export default function Header({
           {stars && <span className="write-stars">{starString(stars)}</span>}
         </div>
       </div>
-      <button className="write-nav" onClick={onNext} aria-label={t.next}>
+      <button
+        className="write-nav"
+        onClick={onNext}
+        disabled={!hasNext}
+        aria-label={t.next}
+      >
         <WriteIcon name="chevron" />
       </button>
     </div>

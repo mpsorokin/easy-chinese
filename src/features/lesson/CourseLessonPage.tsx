@@ -3,10 +3,16 @@ import {
   courseParts,
   courseWords,
   isExerciseReady,
+  storySteps,
 } from '../../data/courseLessons.ts';
 import { availableExercises } from '../../domain/exercises.ts';
 import type { ExerciseId } from '../../domain/exercises.ts';
-import { courseLessonKey, lessonResults } from '../progress/progress.ts';
+import {
+  courseLessonKey,
+  journeyKey,
+  lessonResults,
+} from '../progress/progress.ts';
+import { loadSessions } from '../progress/sessionStore.ts';
 import { useProgress } from '../progress/useProgress.ts';
 import ThemeControl from '../settings/ThemeControl.tsx';
 import CourseCardArt from './CourseCardArt.tsx';
@@ -46,6 +52,11 @@ export default function CourseLessonPage() {
   const available = lesson.exercises.filter((exercise) =>
     isExerciseReady(lesson, exercise),
   ).length;
+  // The dialogues left mid-way (here or on the journey map) resume at the step reached.
+  // A saved step past the end (the dialogues changed since) starts over.
+  const stored = loadSessions().story[journeyKey(level.id, lesson.id, 'story')];
+  const steps = storySteps(lesson).length;
+  const saved = stored && stored.step <= steps ? stored : undefined;
 
   return (
     <main className="page-frame course-lesson">
@@ -72,9 +83,9 @@ export default function CourseLessonPage() {
         <div className="course-lesson-start">
           <Link
             className="course-lesson-start-button"
-            to={courseRunPath(level.id, lesson.id, 1)}
+            to={courseRunPath(level.id, lesson.id, saved?.step ?? 1)}
           >
-            {t.startLesson}
+            {saved ? t.continueLesson(saved.step, steps) : t.startLesson}
           </Link>
         </div>
       )}

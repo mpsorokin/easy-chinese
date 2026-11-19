@@ -17,6 +17,6 @@ jobs:
           node-version-file: package.json # engines.node
           cache: npm
       - run: npm ci
-      # lint, prettier, typecheck, tests (pretest generates stroke data)
+      # oxlint, oxfmt, typecheck, tests (pretest generates stroke data)
       - run: npm run check
       - run: npm run build
