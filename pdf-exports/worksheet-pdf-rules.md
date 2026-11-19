@@ -4,6 +4,10 @@ How the "Print worksheet (PDF)" feature builds its document. Source of truth:
 `src/features/hsk/worksheetPdf.ts` (layout), `textImage.ts` (text rendering),
 `printOptions.ts` (options, file name), `useWorksheetPrint.ts` (flow), `savePdf.ts` (download).
 
+The worksheets in this folder follow these rules. They differ from the app in four ways:
+one traced copy instead of five, word blocks, no level/lesson labels, and section breaks
+(see the last section).
+
 All sizes are in PDF points (1 pt = 1/72 in ≈ 0.353 mm). Vertical positions are measured
 from the top of the page.
 
@@ -61,10 +65,10 @@ Cells keep their size; only the spacing changes.
 - Text block: starts 10 pt to the right of the model cell, vertically centered on it.
   - Pinyin — 13 pt, bold (700), `#1f1a17`.
   - Meaning — 8.8 pt, `#6f6457`.
-  - HSK words with this character — 7.4 pt, `#9a8f82`, format
-    `HSK {level} words: w1 · w2 · …`; at most 6 words, then ` …`. Line omitted if there are no words.
+  - Words with this character — 7.4 pt, `#9a8f82`, format
+    `Words: 男人 nánrén · …`. Line omitted if there are no words.
 - Tag on the right edge (aligned to the right margin), vertically centered:
-  `HSK {level} · N STROKES`, uppercase, 7 pt, `#857a6c`, letter spacing 0.9.
+  `N STROKES`, uppercase, 7 pt, `#857a6c`, letter spacing 0.9. No level or lesson name.
 
 ### Stroke order
 
@@ -81,9 +85,22 @@ Cells keep their size; only the spacing changes.
 - 12 cells per row, gap 3 → cell size `(515.28 − 3 × 11) / 12 ≈ 40.19`.
   The row spans the full content width.
 - Rows are 3 pt apart.
-- First row only: cells 1–3 have a dark trace copy `rgb(0.66, 0.66, 0.66)`,
-  cells 4–5 a light one `rgb(0.84, 0.84, 0.84)`, cells 6–12 are empty.
+- First row only: cell 1 has one trace copy at 30 % intensity (the ink color at 30 % on white,
+  `rgb(0.736, 0.730, 0.727)`), cells 2–12 are empty.
 - All other rows are empty.
+
+### Word blocks
+
+Words are practiced in their own blocks, after the characters:
+
+- Header: one model cell per character (`head × head`, 3 pt apart), text block 10 pt to the
+  right of the last cell (pinyin, meaning), tag `WORD` on the right.
+- No stroke-order label or strip: `headGap`, then the practice rows.
+- Practice rows: the same 12-cell rows; the word is written character by character
+  (a 2-character word takes 2 cells).
+- First row only: one trace copy of the whole word (cells 1–2 for a 2-character word),
+  the rest empty.
+- Block height: `head + headGap + rows × (40.19 + 3) − 3` (≈ 176.6 with 3 rows, 4 per page).
 
 ### Block height
 
@@ -138,12 +155,29 @@ height = head + headGap + lbl
 - Identical text images (label, repeated tags) are embedded once and reused.
 - Numbers (stroke numbers, page numbers) use the built-in Helvetica — no font file is embedded.
 
-## Document metadata and file
+## Sections
 
-- Title: `HSK {level} Writing Worksheet` (shown in the viewer's title bar); language `en`.
-- File name: `hsk{level}-worksheet-{first 8 characters}.pdf`.
-- The PDF is downloaded directly; the dialog stays open and shows `Done: N pages`
-  or an error message.
+- Characters and words are grouped into sections (e.g. per lesson); each section starts
+  on a new page. There is no section heading — no lesson names are printed.
+- Order: the characters in the given order, then the word blocks.
+
+## Document metadata
+
+- Title: `Writing Worksheet` (shown in the viewer's title bar); language `en`.
+
+## Differences from the app
+
+The app's "Print worksheet (PDF)" (`src/features/hsk/worksheetPdf.ts`) currently differs:
+
+| Rule            | App                                   | This folder              |
+| --------------- | ------------------------------------- | ------------------------ |
+| Traced copies   | 3 dark + 2 light (cells 1–5)          | 1 at 30 % ink (cell 1)   |
+| Tag             | `HSK {level} · N STROKES`             | `N STROKES`              |
+| Words line      | `HSK {level} words: …` (max 6, ` …`)  | `Words: 男人 nánrén`      |
+| Word blocks     | none                                  | yes                      |
+| Sections        | none, one continuous flow             | each on a new page       |
+| Title           | `HSK {level} Writing Worksheet`       | `Writing Worksheet`      |
+| File name       | `hsk{level}-worksheet-{chars}.pdf`    | chosen per export        |
 
 ## Colors summary
 
@@ -154,8 +188,7 @@ height = head + headGap + lbl
 | Model glyph             | `rgb(0.12, 0.10, 0.09)`       |
 | Stroke order: previous  | `rgb(0.86, 0.80, 0.69)`       |
 | Stroke order: current   | `rgb(0.76, 0.16, 0.12)`       |
-| Trace copy, dark        | `rgb(0.66, 0.66, 0.66)`       |
-| Trace copy, light       | `rgb(0.84, 0.84, 0.84)`       |
+| Trace copy (30 % ink)   | `rgb(0.736, 0.730, 0.727)`    |
 | Numbers                 | `rgb(0.69, 0.60, 0.54)`       |
 | Pinyin                  | `#1f1a17`                     |
 | Meaning                 | `#6f6457`                     |
