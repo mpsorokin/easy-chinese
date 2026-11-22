@@ -12,6 +12,10 @@
     "package-lock.json",
     ".lesson-reference-tmp",
     "/design-qa.md",
-    "src/data/lessons"
+    "src/data/lessons",
+    ".vscode/settings.json",
+    "pdf-exports/worksheet-pdf-rules.md",
+    "private-lesson-content/lesson01.md",
+    "private-lesson-content/lesson02.md"
   ]
 }
