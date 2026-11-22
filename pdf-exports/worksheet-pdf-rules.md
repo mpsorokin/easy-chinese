@@ -38,7 +38,7 @@ from the top of the page.
 
 Each character is one block, top to bottom:
 
-1. **Header** — model cell, text block, stroke-count tag.
+1. **Header** — model cell, text block. No tag on the right.
 2. **Gap** `headGap`.
 3. **"STROKE ORDER" label** — height `lbl`.
 4. **Stroke-order strip** — one or more rows of small cells.
@@ -67,8 +67,6 @@ Cells keep their size; only the spacing changes.
   - Meaning — 8.8 pt, `#6f6457`.
   - Words with this character — 7.4 pt, `#9a8f82`, format
     `Words: 男人 nánrén · …`. Line omitted if there are no words.
-- Tag on the right edge (aligned to the right margin), vertically centered:
-  `N STROKES`, uppercase, 7 pt, `#857a6c`, letter spacing 0.9. No level or lesson name.
 
 ### Stroke order
 
@@ -94,13 +92,48 @@ Cells keep their size; only the spacing changes.
 Words are practiced in their own blocks, after the characters:
 
 - Header: one model cell per character (`head × head`, 3 pt apart), text block 10 pt to the
-  right of the last cell (pinyin, meaning), tag `WORD` on the right.
+  right of the last cell (pinyin, meaning), no tag on the right.
 - No stroke-order label or strip: `headGap`, then the practice rows.
 - Practice rows: the same 12-cell rows; the word is written character by character
   (a 2-character word takes 2 cells).
+- Row count: words of 3 or more characters get 3 practice rows instead of 2
+  (`max(rows, 3)`), e.g. 乌克兰; shorter words use the chosen row count.
 - First row only: one trace copy of the whole word (cells 1–2 for a 2-character word),
   the rest empty.
-- Block height: `head + headGap + rows × (40.19 + 3) − 3` (≈ 176.6 with 3 rows, 4 per page).
+- Block height: `head + headGap + rows × (40.19 + 3) − 3`
+  (rows per the rule above).
+- All word blocks form one section and flow continuously, so a page holds as many as fit:
+
+| Word rows | Block height | Per page |
+| --------- | ------------ | -------- |
+| 2 (compact preset) | ≈ 127.4 | 5 |
+| 3 (compact preset) | ≈ 170.6 | 4 |
+
+### Sentence exercise
+
+Free writing: the student writes their own sentences with given words. One section,
+always on its own page, after the character and word sections.
+
+1. **Task** at the left margin, no model cell:
+   - English — 13 pt, bold (700), `#1f1a17`, e.g. `Write three sentences with 谁 and three with 那.`
+   - Chinese — 10 pt, `#6f6457`, e.g. `用“谁”和“那”各写三个句子。`
+   - No tag on the right.
+   - Gap 12 to the first group.
+2. **Word group** (one per word, `blockGap` between groups):
+   - Header as in a character block: model cell, pinyin, meaning. No example line.
+     No tag on the right.
+   - `headGap`, then N sentence fields.
+3. **Sentence field** — compact cells, same cell style (border, 米/田 guides):
+   - Cell size 30 target, gap 2 → 16 cells per row (`floor((515.28 + 2) / 32)`),
+     cell `(515.28 − 2 × 15) / 16 ≈ 30.33`; the row spans the full content width.
+   - 1 row per sentence (16 cells, punctuation takes a cell).
+   - Sentences 7 pt apart.
+   - Sentence number (continuous across groups, 1…6) in the top-left corner of the first
+     cell, styled like stroke numbers (Helvetica 5.2 pt, `rgb(0.69, 0.60, 0.54)`).
+   - All cells are empty — no trace copies.
+- Height: task (≈ 32) + 12 + per group `head + headGap + N × 30.33 + (N − 1) × 7`.
+  With 2 words × 3 sentences ≈ 380 pt — fits one page.
+- Pinyin follows the standard readings (谁 = shéi).
 
 ### Block height
 
@@ -159,7 +192,8 @@ height = head + headGap + lbl
 
 - Characters and words are grouped into sections (e.g. per lesson); each section starts
   on a new page. There is no section heading — no lesson names are printed.
-- Order: the characters in the given order, then the word blocks.
+- Order: first all single characters (one section), then all words (one section, even if
+  they come from different lessons), then the sentence exercise as the last section.
 
 ## Document metadata
 
@@ -172,7 +206,7 @@ The app's "Print worksheet (PDF)" (`src/features/hsk/worksheetPdf.ts`) currently
 | Rule            | App                                   | This folder              |
 | --------------- | ------------------------------------- | ------------------------ |
 | Traced copies   | 3 dark + 2 light (cells 1–5)          | 1 at 30 % ink (cell 1)   |
-| Tag             | `HSK {level} · N STROKES`             | `N STROKES`              |
+| Tag             | `HSK {level} · N STROKES`             | none                     |
 | Words line      | `HSK {level} words: …` (max 6, ` …`)  | `Words: 男人 nánrén`      |
 | Word blocks     | none                                  | yes                      |
 | Sections        | none, one continuous flow             | each on a new page       |
@@ -193,5 +227,4 @@ The app's "Print worksheet (PDF)" (`src/features/hsk/worksheetPdf.ts`) currently
 | Pinyin                  | `#1f1a17`                     |
 | Meaning                 | `#6f6457`                     |
 | HSK words               | `#9a8f82`                     |
-| Stroke-count tag        | `#857a6c`                     |
 | "STROKE ORDER" label    | `#5a4a3e`                     |
