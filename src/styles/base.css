@@ -15,7 +15,6 @@
   --good: #2f8f5b;
   --good-soft: #e2f3e9;
   --warn: #c98a12;
-  --warn-soft: #fbf0d9;
   --radius: 16px;
   --radius-sm: 14px;
   --radius-pill: 999px;
@@ -54,7 +53,6 @@
   --error: #ffa49d;
   --error-soft: #452a28;
   --warn: #edc184;
-  --warn-soft: #41301f;
   --backdrop: rgb(7 6 5 / 70%);
   --shadow-accent: 0 4px 12px rgb(0 0 0 / 24%);
   --shadow-accent-lift: 0 6px 16px rgb(0 0 0 / 34%);

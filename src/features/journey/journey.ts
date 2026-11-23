@@ -29,7 +29,7 @@ import type { Sessions } from '../progress/sessionStore.ts';
 
 export type NodeKind = 'story' | 'learn' | 'practice' | 'checkpoint' | 'review';
 
-export type JourneyNode = {
+type JourneyNode = {
   id: string;
   kind: NodeKind;
   lesson: number;
@@ -39,11 +39,11 @@ export type JourneyNode = {
   count?: number; // review: items due
 };
 
-export type Region = { lesson: CourseLesson; nodes: JourneyNode[] };
+type Region = { lesson: CourseLesson; nodes: JourneyNode[] };
 
-export type NodeState = 'untouched' | 'started' | 'done' | 'mastered';
+type NodeState = 'untouched' | 'started' | 'done' | 'mastered';
 // `partial`: how far an unfinished round got (answers, dialogue steps, characters written).
-export type NodeStatus = {
+type NodeStatus = {
   state: NodeState;
   stars: 0 | Grade;
   partial?: { done: number; total: number };
@@ -51,7 +51,7 @@ export type NodeStatus = {
 
 const UNTOUCHED: NodeStatus = { state: 'untouched', stars: 0 };
 
-export const hasStory = (lesson: CourseLesson) => storySteps(lesson).length > 0;
+const hasStory = (lesson: CourseLesson) => storySteps(lesson).length > 0;
 
 export function buildJourney(
   level: string,
@@ -163,7 +163,7 @@ export const reviewItems = (p: Progress, now: number) =>
 
 export const reviewKey = (level: string) => `${level}:review`;
 
-export const reviewNode = (level: string, due: number): JourneyNode => ({
+const reviewNode = (level: string, due: number): JourneyNode => ({
   id: reviewKey(level),
   kind: 'review',
   lesson: 0,

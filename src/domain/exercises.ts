@@ -64,7 +64,7 @@ export type ChoiceQuestion = {
 //  reading — the word is given, tap its syllables in order (tone practice);
 //  gap     — pick the word's characters from 5–7 tiles, all slots empty;
 //  sentence — a short line of a lesson dialogue from its translation.
-export type BuildMode = 'build' | 'listen' | 'reading' | 'gap' | 'sentence';
+type BuildMode = 'build' | 'listen' | 'reading' | 'gap' | 'sentence';
 
 export type BuildQuestion = {
   kind: 'build';
@@ -488,7 +488,7 @@ export function mixedQuiz(
 // translation.
 export type SentenceLine = { chars: string[]; py: string; en: string };
 
-export const SENTENCE_CHARS = { min: 3, max: 7 } as const;
+const SENTENCE_CHARS = { min: 3, max: 7 } as const;
 
 // Up to `n` short dialogue lines to build from their translation; distractor tiles come
 // from `tilePool`.
@@ -526,7 +526,7 @@ export function sentenceQuiz(
 
 // What a quiz is built from: the characters and words practised, the level's characters
 // and words for distractors, and the characters already known (tiles of the word quiz).
-export type QuizInput = {
+type QuizInput = {
   chars: readonly HskChar[];
   words: readonly HskWord[];
   pool: { chars: readonly HskChar[]; words: readonly HskWord[] };

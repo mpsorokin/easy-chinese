@@ -15,7 +15,7 @@ const fmt = (d: Date) =>
 
 export const dayKey = (now: number) => fmt(new Date(now));
 
-export function yesterdayKey(now: number): string {
+function yesterdayKey(now: number): string {
   const d = new Date(now);
   return fmt(new Date(d.getFullYear(), d.getMonth(), d.getDate() - 1));
 }

@@ -9,7 +9,7 @@ const decks = import.meta.glob<CharGroup[]>('./decks/*.json', {
   import: 'default',
 });
 
-export type CharListItem = CharGroup['items'][number] & { g: number };
+type CharListItem = CharGroup['items'][number] & { g: number };
 
 export const CHAR_GROUPS: CharGroup[] = Object.keys(decks)
   .sort()
@@ -28,8 +28,6 @@ export function wrapAt<T>(list: readonly T[], i: number): T {
   const n = list.length;
   return list[((i % n) + n) % n]!;
 }
-
-export const charAt = (i: number): CharListItem => wrapAt(ALL, i);
 
 // Character opened on the very first launch.
 const DEFAULT_CHAR = '人';

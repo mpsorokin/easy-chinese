@@ -10,7 +10,7 @@ export default function SummaryOverlay({
   summary,
   onAgain,
   onNext,
-  nextLabel = t.nextChar,
+  nextLabel = t.nextArrow,
 }: {
   item: CharEntry;
   summary: FinalGrade | null;

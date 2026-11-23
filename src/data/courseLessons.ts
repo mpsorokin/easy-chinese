@@ -23,12 +23,12 @@ export {
 
 // One piece of a dialogue line: a character with its pinyin, or text without a reading
 // (punctuation, Latin letters such as "AI").
-export type Segment = { t: string; py?: string };
+type Segment = { t: string; py?: string };
 
 export type DialogueLine = { segments: readonly Segment[]; en: string };
 
 // A vocabulary entry of the "Words" exercise.
-export type CourseWord = { zh: string; py: string; en: string };
+type CourseWord = { zh: string; py: string; en: string };
 
 export type CourseLesson = {
   id: number;
@@ -53,7 +53,7 @@ export const COURSE_LESSONS: readonly CourseLesson[] = [
 ];
 
 // Exercises shown as a list of lines: the dialogues and the vocabulary.
-export type LinesExercise = DialogueExercise | 'words';
+type LinesExercise = DialogueExercise | 'words';
 
 export const isLinesExercise = (x: unknown): x is LinesExercise =>
   x === 'words' || isDialogueExercise(x);

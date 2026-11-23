@@ -1,9 +1,9 @@
 // Copybook steps: outline is the outline visibility (1 = solid, 0 = hidden).
 // One pass over a faint outline, one over a barely visible one, then solo repetitions.
 // Labels live in i18n (t.steps[id]).
-export type StepId = 'faint' | 'barely' | 'free';
+type StepId = 'faint' | 'barely' | 'free';
 
-export type Step = {
+type Step = {
   id: StepId;
   outline: number;
 };

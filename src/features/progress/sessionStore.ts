@@ -6,12 +6,12 @@ import { createStore } from '../../shared/lib/storage.ts';
 
 export type QuizAnswer = { right: boolean; reveal: string };
 
-export type SavedQuiz = {
+type SavedQuiz = {
   questions: Question[];
   answers: QuizAnswer[];
   at: number;
 };
-export type SavedStory = { step: number; total: number; at: number };
+type SavedStory = { step: number; total: number; at: number };
 
 export type Sessions = {
   quiz: Record<string, SavedQuiz>;
@@ -20,7 +20,7 @@ export type Sessions = {
 
 type SessionStorage = { sessions: Sessions };
 
-export const sessionStore = createStore<SessionStorage>('hanzi:');
+const sessionStore = createStore<SessionStorage>('hanzi:');
 
 // Unfinished work older than this is forgotten.
 export const SESSION_TTL_MS = 14 * 86_400_000;
@@ -103,7 +103,7 @@ const pick = <T>(
   return Object.fromEntries(out);
 };
 
-export const normalizeSessions =
+const normalizeSessions =
   (now: number) =>
   (raw: unknown): Sessions => ({
     quiz: pick(isObj(raw) ? raw.quiz : undefined, normalizeQuiz, now),

@@ -15,7 +15,7 @@ export type LevelData = {
 };
 
 // Syllabus figures for every level (《HSK 考试大纲》, 2025); `data` only where lessons exist.
-export type HskLevel = {
+type HskLevel = {
   id: string; // '1'…'6', '7-9'; used in URLs
   words: number;
   chars: number;

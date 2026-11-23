@@ -52,12 +52,12 @@ export default function StrokeOrder({
         <button
           type="button"
           className="order-toggle"
-          aria-label={`${shown ? t.strokeOrderHide : t.strokeOrderShow} ${t.strokeOrder.toLowerCase()}`}
+          aria-label={`${shown ? t.strokeOrderHide : t.show} ${t.strokeOrder.toLowerCase()}`}
           aria-expanded={shown}
           aria-controls="stroke-order-strip"
           onClick={onToggle}
         >
-          {data ? t.strokeCount(n) : t.strokeOrderShow}
+          {data ? t.strokeCount(n) : t.show}
           <WriteIcon name="chevron" />
         </button>
       </div>

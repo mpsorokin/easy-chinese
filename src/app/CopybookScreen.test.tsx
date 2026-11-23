@@ -108,7 +108,7 @@ describe('course copybook', () => {
       writeChar();
       const last = i === chars.length - 1;
       fireEvent.click(
-        screen.getByText(last ? t.finishSet : t.nextChar, {
+        screen.getByText(last ? t.finishSet : t.nextArrow, {
           selector: '.copybook-summary button',
         }),
       );
@@ -130,7 +130,7 @@ describe('course copybook', () => {
       expect(glyph(c)).toBe(ch);
       writeChar();
       fireEvent.click(
-        screen.getByText(t.nextChar, { selector: '.copybook-summary button' }),
+        screen.getByText(t.nextArrow, { selector: '.copybook-summary button' }),
       );
     }
     expect(glyph(c)).toBe(chars[0]);

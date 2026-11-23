@@ -104,7 +104,7 @@ export default function QuizRunner({
         )}
         <div className="quiz-result-actions">
           <button className="btn" onClick={onAgain}>
-            {t.quizAgain}
+            {t.again}
           </button>
           <button className="btn primary" onClick={onExit}>
             {exitLabel}
@@ -118,7 +118,7 @@ export default function QuizRunner({
     <div className="quiz">
       <div className="quiz-top">
         <Meter value={i + 1} max={questions.length} />
-        <span>{t.quizOf(i + 1, questions.length)}</span>
+        <span>{t.stepOfTotal(i + 1, questions.length)}</span>
       </div>
 
       {q.kind === 'choice' ? (
@@ -145,7 +145,7 @@ export default function QuizRunner({
 
       {current && (manualNext || !current.right) && (
         <button className="btn primary" onClick={goNext}>
-          {t.quizNext}
+          {t.nextArrow}
         </button>
       )}
     </div>

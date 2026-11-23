@@ -62,8 +62,6 @@ export const t = {
   topicsDone: (done: number, total: number) => `${done} of ${total} topics`,
   lessonsProgress: (done: number, total: number) =>
     `${done} / ${total} lessons`,
-  percent: (n: number) => `${n} %`,
-  completed: 'completed',
   soon: 'soon',
   freeWrite: 'Free writing',
   printPdf: 'Print PDF',
@@ -153,10 +151,8 @@ export const t = {
   charOfWord: (i: number, n: number) => `character ${i} of ${n}`,
 
   // Quiz
-  quizOf: (i: number, n: number) => `${i} / ${n}`,
   quizRight: 'Correct!',
   quizWrong: 'Not quite',
-  quizNext: 'Next ›',
   quizBuild: 'Build the word',
   quizListenBuild: 'Listen and build',
   quizReading: 'Build the reading',
@@ -172,7 +168,6 @@ export const t = {
     grade === 3 ? 'Excellent!' : grade === 2 ? 'Good job!' : 'Worth repeating',
   quizScore: (right: number, total: number) =>
     `Correct answers: ${right} of ${total}`,
-  quizAgain: '↺ Again',
   quizToLesson: 'To lesson',
   quizMistakes: 'Mistakes',
   quizExit: '✕',
@@ -221,14 +216,12 @@ export const t = {
     practiceTitle: (lesson: number, part: number) =>
       `Lesson ${lesson} · Part ${part} · Practice`,
     checkpointTitle: (lesson: number) => `Lesson ${lesson} · Checkpoint`,
-    reviewTitle: 'Review',
     xpGained: (xp: number) => `+${xp} XP`,
     sealed: 'Lesson sealed 印',
     notSealed: 'Two stars seal the lesson — try again soon',
   },
 
   // Character picker
-  pickerTitle: 'Choose a character',
   close: 'Close',
 
   // Strips
@@ -236,7 +229,6 @@ export const t = {
   strokeCount: (n: number) => count(n, 'stroke'),
   strokeTitle: (i: number) => `Stroke ${i}`,
   strokeOrderHide: 'Hide',
-  strokeOrderShow: 'Show',
   copybook: 'Copybook',
   // Copybook steps by id (features/copybook/steps.ts): badge in the cell.
   steps: {
@@ -254,7 +246,7 @@ export const t = {
 
   // Summary overlay
   again: '↺ Again',
-  nextChar: 'Next ›',
+  nextArrow: 'Next ›',
   finishSet: 'Finish ›',
   // Shown when every character of a set has been written.
   setDoneTitle: 'All characters written!',

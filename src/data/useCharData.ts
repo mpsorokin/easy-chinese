@@ -7,7 +7,7 @@ import {
   prefetchCharData,
 } from './charData.ts';
 
-export type CharDataState =
+type CharDataState =
   | { status: 'loading'; data: null }
   | { status: 'ready'; data: CharacterJson }
   | { status: 'error'; data: null };

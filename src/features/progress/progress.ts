@@ -18,7 +18,7 @@ export type AttemptResult = {
   at: number; // Date.now()
 };
 
-export type CharProgress = {
+type CharProgress = {
   best: Grade;
   attempts: number; // finished exercises
   mistakes: number; // total over all attempts
@@ -26,7 +26,7 @@ export type CharProgress = {
 };
 
 // Best result of each exercise of one lesson.
-export type ExerciseProgress = { best: Grade; at: number };
+type ExerciseProgress = { best: Grade; at: number };
 export type LessonProgress = Partial<Record<ExerciseId, ExerciseProgress>>;
 
 // v2 added `lessons`; v1 data is read as v2 with no lessons. The journey fields are optional
@@ -56,7 +56,7 @@ const LESSON_KEY = /^[0-9-]+:(\d+|c\d+(p\d+)?)$/;
 
 // Journey steps with a stored result: a lesson's dialogues, a part's practice round and the
 // lesson's checkpoint, "1:c3:story", "1:c3p2:practice", "1:c3:checkpoint".
-export type JourneyStep = 'story' | 'practice' | 'checkpoint';
+type JourneyStep = 'story' | 'practice' | 'checkpoint';
 export const journeyKey = (
   level: string,
   lesson: number,
@@ -276,7 +276,7 @@ export function lessonResults(
   return { ...p.lessons[key], ...(write ? { write } : {}) };
 }
 
-export type LessonStatus = {
+type LessonStatus = {
   done: number; // exercises passed
   total: number;
   complete: boolean;

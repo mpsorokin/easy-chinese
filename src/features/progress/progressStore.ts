@@ -10,7 +10,7 @@ type ProgressStorage = {
   best: BestGrades; // legacy (pre-v1): read once for migration, never written or deleted
 };
 
-export const progressStore = createStore<ProgressStorage>('hanzi:');
+const progressStore = createStore<ProgressStorage>('hanzi:');
 
 // Normalizer for the `progress` key: valid v1 data, otherwise migrated legacy best grades.
 export const loadProgress = (raw: unknown): Progress =>

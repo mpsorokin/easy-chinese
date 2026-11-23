@@ -15,7 +15,7 @@ const paths = {
     'M10 4h4l.6 2.5 2 .9 2.2-.9 2 3.5-1.6 1.7v1.6l1.6 1.7-2 3.5-2.2-.9-2 .9-.6 2.5h-4l-.6-2.5-2-.9-2.2.9-2-3.5 1.6-1.7v-1.6L3.2 10l2-3.5 2.2.9 2-.9L10 4zM9.5 12.5a2.5 2.5 0 1 0 5 0 2.5 2.5 0 0 0-5 0',
 };
 
-export type IconName = keyof typeof paths;
+type IconName = keyof typeof paths;
 
 export default function WriteIcon({
   name,

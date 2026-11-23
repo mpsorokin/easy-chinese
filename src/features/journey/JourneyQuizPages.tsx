@@ -84,7 +84,7 @@ export function JourneyReviewPage() {
     <QuizPage
       key={level.id}
       session={reviewKey(level.id)}
-      title={t.journey.reviewTitle}
+      title={t.journey.review}
       back={journeyPath(level.id)}
       exitLabel={t.journey.toMap}
       // Items due now (read at build time, so "again" takes the ones still due).
