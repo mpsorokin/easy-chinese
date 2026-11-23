@@ -201,6 +201,45 @@
     brightness(97%) contrast(88%);
 }
 
+.course-story .course-exercise-header {
+  min-height: 0;
+  padding-bottom: clamp(16px, 4cqi, 25px);
+}
+
+.course-story .course-exercise-subtitle span {
+  display: block;
+}
+
+.course-story .course-exercise-subtitle span + span {
+  margin-top: 3px;
+  color: var(--exercise-brown);
+  font-size: 0.85em;
+}
+
+.course-story .course-exercise-toggle {
+  position: sticky;
+  z-index: 1;
+  top: 8px;
+  margin: 0 0 12px;
+}
+
+.course-story .course-dialogue-row {
+  padding-block: clamp(14px, 3cqi, 22px);
+}
+
+.course-story .course-dialogue-zh {
+  font-size: clamp(22px, 5cqi, 34px);
+  line-break: strict;
+  overflow-wrap: anywhere;
+}
+
+.course-dialogue-pinyin {
+  margin: 0 0 4px;
+  color: var(--exercise-red);
+  font-size: clamp(14px, 3.6cqi, 18px);
+  line-height: 1.4;
+}
+
 .course-exercise-back:focus-visible,
 .course-dialogue-audio:focus-visible,
 .course-exercise-toggle:focus-visible {

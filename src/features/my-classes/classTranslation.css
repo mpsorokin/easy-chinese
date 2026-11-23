@@ -1,0 +1,46 @@
+.app.class-translation-page {
+  gap: 12px;
+  padding-block-start: 14px;
+}
+
+.class-translation-page .quiz-head {
+  min-height: 52px;
+}
+
+.class-translation-lesson,
+.class-translation-instruction {
+  margin: 0;
+  color: var(--quiz-muted);
+}
+
+.class-translation-lesson {
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+
+.class-translation-instruction {
+  text-align: center;
+}
+
+.class-translation-page .quiz-prompt {
+  min-height: clamp(110px, 30vw, 165px);
+}
+
+.class-translation-page .quiz-prompt > .label {
+  display: none;
+}
+
+.class-translation-page .quiz-option {
+  min-height: clamp(60px, 13vw, 76px);
+  font-size: clamp(16px, 4vw, 22px);
+}
+
+.class-translation-page .quiz-option-zh {
+  font-size: clamp(23px, 6vw, 32px);
+}
+
+.class-translation-page .quiz-option.right {
+  border-color: var(--good);
+  background: var(--good-soft);
+  color: var(--ink);
+}

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Link, Navigate, useLocation, useParams } from 'react-router';
+import { OPTIONS } from '../../domain/exercises.ts';
 import { t } from '../../shared/i18n/en.ts';
 import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 import ThemeControl from '../settings/ThemeControl.tsx';
@@ -9,13 +10,19 @@ import hills from '../lesson/art/level/hills.webp';
 import grammar from '../lesson/art/level/function-words.webp';
 import speaking from '../lesson/art/level/speaking.webp';
 import writing from '../lesson/art/exercises/calligraphy.webp';
+import { readingPath } from '../reading/readingNav.ts';
 import ClassLessonContent, { classText } from './ClassLessonContent.tsx';
 import ClassSectionNav from './ClassSectionNav.tsx';
 import { classLessons, type ClassLesson } from './classLessons.ts';
+import {
+  classPath,
+  classesPath,
+  classTranslationPath,
+  translationDirections,
+} from './classRoutes.ts';
+import { classTranslationWords } from './classTranslation.ts';
 import './myClasses.css';
 
-const classesPath = '/my-classes';
-const classPath = (lesson: ClassLesson) => `${classesPath}/${lesson.id}`;
 const covers = new Map([
   [1, greetings],
   [2, family],
@@ -37,6 +44,53 @@ function ClassCover({ lesson }: { lesson: ClassLesson }) {
   );
 }
 
+function ClassCatalogCard({ lesson }: { lesson: ClassLesson }) {
+  const canPractice =
+    new Set(classTranslationWords(lesson).map(({ en }) => en)).size >= OPTIONS;
+  const titleId = `class-title-${lesson.id}`;
+
+  return (
+    <article className="class-card" aria-labelledby={titleId}>
+      <div className="class-card-scene">
+        <ClassCover lesson={lesson} />
+      </div>
+      <div className="class-card-copy" lang="ru">
+        <p className="class-label" id={`class-number-${lesson.id}`}>
+          {lesson.label}
+        </p>
+        {lesson.chineseTitle && (
+          <p className="class-topic" lang="zh-Hans">
+            {lesson.chineseTitle}
+          </p>
+        )}
+        <h2 id={titleId}>{classText(lesson.title)}</h2>
+      </div>
+      <nav
+        className="class-card-actions"
+        aria-labelledby={`class-number-${lesson.id}`}
+      >
+        <Link
+          className="class-action class-action-lesson"
+          to={classPath(lesson.id)}
+        >
+          <WriteIcon name="layers" />
+          {t.classLessonMaterial}
+        </Link>
+        {canPractice &&
+          translationDirections.map((direction) => (
+            <Link
+              className="class-action"
+              to={classTranslationPath(lesson.id, direction)}
+              key={direction}
+            >
+              {t.classTranslation[direction]}
+            </Link>
+          ))}
+      </nav>
+    </article>
+  );
+}
+
 function ClassCatalog() {
   return (
     <>
@@ -48,31 +102,7 @@ function ClassCatalog() {
         <ul className="class-list" role="list">
           {classLessons.map((lesson) => (
             <li key={lesson.id}>
-              <Link
-                className="class-card"
-                to={classPath(lesson)}
-                aria-labelledby={`class-title-${lesson.id} class-number-${lesson.id}`}
-              >
-                <div className="class-card-scene">
-                  <ClassCover lesson={lesson} />
-                </div>
-                <div className="class-card-copy" lang="ru">
-                  <p className="class-label" id={`class-number-${lesson.id}`}>
-                    {lesson.label}
-                  </p>
-                  {lesson.chineseTitle && (
-                    <p className="class-topic" lang="zh-Hans">
-                      {lesson.chineseTitle}
-                    </p>
-                  )}
-                  <h2 id={`class-title-${lesson.id}`}>
-                    {classText(lesson.title)}
-                  </h2>
-                  <span className="class-card-action" lang="en">
-                    {t.openLesson}
-                  </span>
-                </div>
-              </Link>
+              <ClassCatalogCard lesson={lesson} />
             </li>
           ))}
         </ul>
@@ -152,12 +182,12 @@ function ClassLessonView({ lesson }: { lesson: ClassLesson }) {
       {(previous || next) && (
         <nav className="class-neighbors" aria-label="Соседние уроки" lang="ru">
           {previous && (
-            <Link to={classPath(previous)}>
+            <Link to={classPath(previous.id)}>
               {previous.label} · {previous.chineseTitle ?? previous.title}
             </Link>
           )}
           {next && (
-            <Link to={classPath(next)}>
+            <Link to={classPath(next.id)}>
               {next.label} · {next.chineseTitle ?? next.title}
             </Link>
           )}
@@ -179,6 +209,11 @@ export default function MyClassesPage() {
           <WriteIcon name="back" />
           {lesson ? t.myClasses : t.homeLabel}
         </Link>
+        {!lesson && (
+          <Link className="classes-back classes-reading-link" to={readingPath}>
+            {t.reading} <span lang="zh-Hans">阅读</span>
+          </Link>
+        )}
         <ThemeControl />
       </div>
       {lesson ? (

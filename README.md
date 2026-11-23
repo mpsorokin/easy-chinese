@@ -98,6 +98,9 @@ second-level heading for the lesson card. Other second-level headings become sec
 Use paragraphs, lists and pipe tables for the material, and `### Ответы` to fold away
 the answer key. Static builds include these materials in the app.
 
+Translation practice uses the words and pinyin in the `Основная лексика` section.
+Add precise English glosses in `src/features/my-classes/classTranslation.ts` to include new words.
+
 ## Add a lesson or an exercise
 
 A lesson is `src/data/lessons/lesson<N>.ts`, exporting a `CourseLesson`; list it in `COURSE_LESSONS`

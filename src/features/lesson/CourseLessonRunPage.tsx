@@ -13,7 +13,7 @@ import { useCourseParams } from './lessonRoute.ts';
 import { journeyKey } from '../progress/progress.ts';
 import { useProgress } from '../progress/useProgress.ts';
 import { clearStory, saveStory } from '../progress/sessionStore.ts';
-import CourseExerciseView from './CourseExerciseView.tsx';
+import DialogueReader from './DialogueReader.tsx';
 
 // "Start lesson": every dialogue exercise of the lesson (not the word list) in a row, one
 // per page with a progress bar; each step has its own link
@@ -55,8 +55,11 @@ export default function CourseLessonRunPage() {
   const nextTo = courseRunPath(level.id, lesson.id, step + 1);
 
   return (
-    <CourseExerciseView
-      exercise={current.ex}
+    <DialogueReader
+      title={t.courseExercises(current.ex)}
+      subtitle={
+        <span lang="zh-Hans">{t.courseExerciseChinese(current.ex)}</span>
+      }
       lines={current.lines}
       backTo={backTo}
       backLabel={toMap ? t.journey.toMap : t.lessonN(lesson.id)}

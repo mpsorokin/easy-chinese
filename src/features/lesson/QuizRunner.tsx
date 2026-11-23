@@ -23,7 +23,7 @@ import { normalizeSettings } from '../settings/settings.ts';
 import type { QuizAnswer } from '../progress/sessionStore.ts';
 import './quiz.css';
 
-// A right answer moves on by itself after this delay; a wrong one waits for "Next".
+// By default a right answer moves on after this delay.
 const AUTO_NEXT_MS = 700;
 
 type Answer = QuizAnswer;
@@ -42,16 +42,18 @@ export default function QuizRunner({
   onExit,
   exitLabel = t.quizToLesson,
   resultNote,
+  manualNext = false,
 }: {
   questions: Question[];
   initialAnswers?: Answer[];
   onProgress?: (answers: Answer[]) => void;
-  onFinish: (grade: Grade) => void;
+  onFinish?: (grade: Grade) => void;
   onAnswer?: (q: Question, right: boolean) => void;
   onAgain: () => void;
   onExit: () => void;
   exitLabel?: string;
   resultNote?: (right: number, total: number, grade: Grade) => ReactNode;
+  manualNext?: boolean;
 }) {
   const [i, setI] = useState(initialAnswers.length);
   const [answers, setAnswers] = useState<Answer[]>(initialAnswers);
@@ -66,15 +68,15 @@ export default function QuizRunner({
     onAnswer?.(q, right);
     onProgress?.(next);
     if (next.length === questions.length)
-      onFinish(quizGrade(next.filter((a) => a.right).length, next.length));
+      onFinish?.(quizGrade(next.filter((a) => a.right).length, next.length));
   };
   const goNext = () => setI((n) => n + 1);
 
   useEffect(() => {
-    if (!current?.right) return;
+    if (manualNext || !current?.right) return;
     const id = setTimeout(() => setI((n) => n + 1), AUTO_NEXT_MS);
     return () => clearTimeout(id);
-  }, [current]);
+  }, [current, manualNext]);
 
   if (!q) {
     const right = answers.filter((a) => a.right).length;
@@ -141,7 +143,7 @@ export default function QuizRunner({
         )}
       </div>
 
-      {current && !current.right && (
+      {current && (manualNext || !current.right) && (
         <button className="btn primary" onClick={goNext}>
           {t.quizNext}
         </button>

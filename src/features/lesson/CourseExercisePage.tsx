@@ -4,7 +4,7 @@ import { exerciseLines, isLinesExercise } from '../../data/courseLessons.ts';
 import { t } from '../../shared/i18n/en.ts';
 import { courseLessonPath } from './lessonNav.ts';
 import { useCourseParams } from './lessonRoute.ts';
-import CourseExerciseView from './CourseExerciseView.tsx';
+import DialogueReader from './DialogueReader.tsx';
 
 export default function CourseExercisePage() {
   const { level, lesson } = useCourseParams();
@@ -19,8 +19,9 @@ export default function CourseExercisePage() {
     return <Navigate to="/" replace />;
 
   return (
-    <CourseExerciseView
-      exercise={exercise}
+    <DialogueReader
+      title={t.courseExercises(exercise)}
+      subtitle={<span lang="zh-Hans">{t.courseExerciseChinese(exercise)}</span>}
       lines={lines}
       backTo={courseLessonPath(level.id, lesson.id)}
       backLabel={t.lessonN(lesson.id)}

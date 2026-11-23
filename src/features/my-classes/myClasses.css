@@ -29,6 +29,10 @@
   height: 18px;
 }
 
+.classes-reading-link {
+  padding-inline: 8px;
+}
+
 .classes-banner,
 .class-card,
 .class-section {
@@ -43,7 +47,7 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: clamp(22px, 5vw, 40px) var(--class-pad);
+  padding: clamp(19px, 4vw, 31px) var(--class-pad);
   background: var(--class-art-surface);
 }
 
@@ -91,7 +95,6 @@
 
 .class-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 285px), 1fr));
   gap: clamp(12px, 2.4vw, 18px);
   margin: 0;
   padding: 0;
@@ -99,26 +102,24 @@
 }
 
 .class-card {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
+  --class-pad: clamp(12px, 2.4vw, 20px);
+  display: grid;
+  grid-template: 'cover copy' auto 'cover actions' auto / minmax(
+      135px,
+      28%
+    ) minmax(0, 1fr);
   overflow: hidden;
-  color: inherit;
-  text-decoration: none;
-}
-
-.class-card:hover,
-.class-card:focus-visible {
-  border-color: var(--accent);
 }
 
 .class-card-scene {
   display: grid;
-  height: clamp(116px, 20vw, 155px);
+  grid-area: cover;
+  min-width: 0;
+  min-height: 100px;
   place-items: center;
   overflow: hidden;
-  padding: 6px 12px 0;
-  border-bottom: 1px solid var(--line);
+  padding: 10px 8px;
+  border-inline-end: 1px solid var(--line);
   background:
     url('../lesson/art/level/hills.webp') center bottom / 95% auto no-repeat,
     linear-gradient(var(--class-art-surface), var(--class-accent-wash));
@@ -140,7 +141,7 @@
 }
 
 .class-card-scene .class-cover {
-  max-width: 250px;
+  max-height: 160px;
 }
 
 [data-theme='dark'] .class-cover,
@@ -149,11 +150,10 @@
 }
 
 .class-card-copy {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 6px;
-  padding: var(--class-pad);
+  display: grid;
+  grid-area: copy;
+  gap: 4px;
+  padding: var(--class-pad) var(--class-pad) 0;
 }
 
 .class-label {
@@ -186,17 +186,73 @@
   line-height: 1.28;
 }
 
-.class-card-action {
-  width: fit-content;
-  margin-top: auto;
-  padding-top: 10px;
-  color: var(--accent-strong);
-  font-weight: 700;
+.class-card-actions {
+  display: grid;
+  grid-area: actions;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(6px, 1.4vw, 10px);
+  padding: 14px var(--class-pad) var(--class-pad);
 }
 
-.class-card:hover .class-card-action {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.class-action {
+  display: flex;
+  min-height: 60px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: clamp(14px, 2.3vw, 15px);
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  text-decoration: none;
+}
+
+.class-action-lesson {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.class-action:hover {
+  border-color: var(--accent);
+}
+
+.class-action svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+
+@media (width < 560px) {
+  .class-card {
+    grid-template: 'cover copy' auto 'actions actions' auto / minmax(
+        80px,
+        28%
+      ) minmax(0, 1fr);
+  }
+
+  .class-card-scene {
+    border-bottom: 1px solid var(--line);
+    border-end-end-radius: 12px;
+  }
+
+  .class-card-copy {
+    align-content: center;
+    gap: 3px;
+    padding: var(--class-pad) 12px;
+  }
+
+  .class-card h2 {
+    font-size: 1rem;
+  }
+
+  .class-card-actions {
+    padding: 10px 10px 12px;
+  }
 }
 
 .class-intro {

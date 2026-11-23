@@ -5,6 +5,7 @@ import {
   isExerciseReady,
   storySteps,
 } from '../../data/courseLessons.ts';
+import { readingStories } from '../../data/readingStories.ts';
 import { availableExercises } from '../../domain/exercises.ts';
 import type { ExerciseId } from '../../domain/exercises.ts';
 import {
@@ -14,6 +15,7 @@ import {
 } from '../progress/progress.ts';
 import { loadSessions } from '../progress/sessionStore.ts';
 import { useProgress } from '../progress/useProgress.ts';
+import { readingStoryPath } from '../reading/readingNav.ts';
 import ThemeControl from '../settings/ThemeControl.tsx';
 import CourseCardArt from './CourseCardArt.tsx';
 import LessonExerciseCards from './LessonExerciseCards.tsx';
@@ -57,6 +59,13 @@ export default function CourseLessonPage() {
   const stored = loadSessions().story[journeyKey(level.id, lesson.id, 'story')];
   const steps = storySteps(lesson).length;
   const saved = stored && stored.step <= steps ? stored : undefined;
+  const stories =
+    level.id === '1'
+      ? readingStories.filter(
+          ({ lessons }) =>
+            lessons && lesson.id >= lessons[0] && lesson.id <= lessons[1],
+        )
+      : [];
 
   return (
     <main className="page-frame course-lesson">
@@ -154,6 +163,44 @@ export default function CourseLessonPage() {
           })}
         </ol>
       </section>
+
+      {stories.length > 0 && (
+        <section aria-labelledby="course-reading-title">
+          <div className="course-lesson-section-heading">
+            <h2
+              className="course-lesson-section-title"
+              id="course-reading-title"
+            >
+              {t.reading} <span lang="zh-Hans">阅读</span>
+            </h2>
+          </div>
+          <ul className="course-lesson-exercises" role="list">
+            {stories.map((story) => (
+              <li key={story.id}>
+                <Link
+                  className="course-lesson-card is-ready"
+                  to={readingStoryPath(story.id)}
+                >
+                  <span className="course-lesson-tile" aria-hidden="true">
+                    <img src={bookIcon} alt="" />
+                  </span>
+                  <span className="course-lesson-copy">
+                    <span className="course-lesson-card-title" lang="zh-Hans">
+                      {story.titleZh}
+                    </span>
+                    <span className="course-lesson-description">
+                      {story.titleEn}
+                    </span>
+                  </span>
+                  <span className="course-lesson-arrow" aria-hidden="true">
+                    <img src={chevronIcon} alt="" />
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {parts.length > 0 && (
         <div id="course-practice" tabIndex={-1}>

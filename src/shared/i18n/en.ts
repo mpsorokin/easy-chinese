@@ -42,9 +42,21 @@ export const t = {
   openLesson: 'Open lesson',
   viewCourse: 'View course',
   myClasses: 'My Classes',
+  reading: 'Reading',
+  readingDescription: 'Short Chinese stories with audio for each line',
+  viewStories: 'View stories',
+  readingLines: (n: number) => count(n, 'line'),
+  readingLessons: (first: number, last: number) =>
+    `HSK Lessons ${first}–${last}`,
   myClassesDescription: 'Materials from lessons with your teacher',
   viewClasses: 'View classes',
   noClasses: 'No class materials yet.',
+  classLessonMaterial: 'Lesson',
+  classTranslation: {
+    'zh-en': 'Chinese → English',
+    'en-zh': 'English → Chinese',
+  },
+  classChooseTranslation: 'Choose the correct translation.',
   levelMeta: (chars: number, words: number) =>
     `${count(chars, 'character')} · ${count(words, 'word')}`,
   topicsDone: (done: number, total: number) => `${done} of ${total} topics`,

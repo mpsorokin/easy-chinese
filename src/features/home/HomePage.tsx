@@ -18,6 +18,7 @@ import {
 import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 import ThemeControl from '../settings/ThemeControl.tsx';
 import JourneyCard from '../journey/JourneyCard.tsx';
+import { readingPath } from '../reading/readingNav.ts';
 import mistyPavilion from './art/misty-pavilion.webp';
 import './home.css';
 
@@ -125,6 +126,19 @@ export default function HomePage() {
         </span>
         <span className="home-panel-action">
           {t.viewClasses}
+          <span className="home-chevron" aria-hidden />
+        </span>
+      </Link>
+
+      <Link className="home-level home-panel" to={readingPath}>
+        <span className="home-level-info">
+          <b>
+            {t.reading} <span lang="zh-Hans">阅读</span>
+          </b>
+          <span className="home-level-meta">{t.readingDescription}</span>
+        </span>
+        <span className="home-panel-action">
+          {t.viewStories}
           <span className="home-chevron" aria-hidden />
         </span>
       </Link>
