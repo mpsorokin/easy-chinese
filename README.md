@@ -24,9 +24,9 @@ npm run preview   # serve the build locally
 
 ```bash
 npm run check         # lint, format:check, typecheck and test
-npm run lint          # ESLint
-npm run format:check  # Prettier (no writes)
-npm run typecheck     # TypeScript
+npm run lint          # oxlint
+npm run format:check  # oxfmt (no writes)
+npm run typecheck     # TypeScript (tsc -b)
 npm test              # Vitest
 ```
 
@@ -43,8 +43,11 @@ src/
     RootLayout.tsx        — page outlet and scroll restoration
     CopybookScreen.tsx    — copybook pages; the character set always comes from the URL, Header.tsx
   domain/                 — pure TypeScript, no React
-    types.ts              — CharEntry, CharGroup, GridKind, StrokePaths
+    types.ts              — CharEntry, CharGroup, GridKind, StrokePaths, HskChar, HskWord
     grading.ts            — Grade, score per attempt and per copybook, normalizeBest
+    exercises.ts          — topic exercise ids and question generators
+    srs.ts                — spaced repetition (Leitner boxes) for quiz items
+    daily.ts              — daily XP goal and streak
     charFile.ts           — stroke-data file name (shared with scripts/)
   data/
     decks/*.json          — which characters exist, one file per deck (edit this)
@@ -53,14 +56,17 @@ src/
     useCharData.ts        — loading/ready/error state + retry, prefetch of neighbors
     hsk.ts, hsk/<level>/  — HSK characters, words and topic lessons
     courseLessons.ts      — Lessons tab: types, the lesson list (COURSE_LESSONS) and helpers
+    courseExercise.ts     — Lessons tab exercise ids, without the lesson data
     lessons/lesson<N>.ts  — one lesson each: exercise list, card subtitles, dialogues, words, parts
+    presets.ts, presets/  — ready-made printable character sets (extra-chars.json for non-HSK ones)
+    readingStories.ts     — stories of the Reading page
   features/               — one folder per feature, with its own CSS
     writer/               — WritingCell (HanziWriter wrapper) and its contract (types.ts)
     copybook/             — copybook mode: useCopybook, steps, CopybookSteps, SummaryOverlay, Controls,
                             copybookStore (open character per set, settings)
     stroke-order/         — "Stroke order" strip
-    picker/               — character picker sheet
-    settings/             — settings model (settings.ts) and SettingsPanel
+    settings/             — settings model (settings.ts), SettingsPanel, theme (ThemeProvider,
+                            ThemeControl) and PageToolbar (back link + theme control)
     progress/             — per-character and per-lesson progress (v2 schema, migration); one shared
                             in-memory copy per tab (progressStore + useSyncExternalStore)
     home/                 — home page
@@ -68,17 +74,26 @@ src/
     lesson/               — level page, topics ('/hsk/<level>/topics/<n>', words grouped by theme),
                             lessons of the Lessons tab ('/hsk/<level>/lessons/<n>', parts),
                             quizzes (QuizPage, QuizRunner)
+    journey/              — Journey tab: map of lesson steps, practice, checkpoints, SRS review
+    reading/              — Reading page ('/reading/<story>')
+    my-classes/           — My Classes: teacher's notes from private-lesson-content/, translation practice
   shared/                 — reusable, knows nothing about features
-    ui/                   — CanvasCell, Seg
+    ui/                   — CanvasCell, Seg, Meter, BackLink, WriteIcon, page.css
     lib/                  — draw, storage (createStore), haptics, plural, speech
     hooks/                — useCellSize, usePersistentState
     i18n/en.ts            — all interface strings (English only)
+    paths.ts              — every app URL as a plain function (safe to import from the entry chunk)
     theme.ts              — canvas/HanziWriter colors, layout width
   styles/base.css         — CSS variables, reset, .label/.status/.btn
 public/icon.svg           — PWA icon source; raster icons are generated at build
 public/hanzi/<code>.json  — stroke data, one file per character (generated, not in git)
 scripts/build-data.ts     — generator for public/hanzi/
+scripts/import-hsk.ts     — one-off import of an HSK level from the official syllabus CSVs
+private-lesson-content/   — teacher's lesson notes (Markdown) for My Classes
 ```
+
+Imports inside `src/` use the `@/` alias for `src/` (`@/data/hsk.ts`), set in `vite.config.ts` and
+`tsconfig.app.json`; `scripts/` uses relative paths.
 
 Dependency direction: `app → features → data/shared → domain`. A feature may use `writer` (other
 modes drive it through `features/writer/types.ts`); `shared` and `domain` never import from features.
