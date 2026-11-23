@@ -17,7 +17,7 @@ import {
   lessonPath,
   levelPath,
   topicWritePath,
-} from './lessonNav.ts';
+} from '../../shared/paths.ts';
 import '../../shared/ui/page.css';
 import './lesson.css';
 

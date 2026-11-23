@@ -8,10 +8,9 @@ import Seg from '../../shared/ui/Seg.tsx';
 import { t } from '../../shared/i18n/en.ts';
 import { COURSE_LESSONS } from '../../data/courseLessons.ts';
 import JourneyMap from '../journey/JourneyMap.tsx';
+import { courseLessonPath, lessonPath } from '../../shared/paths.ts';
 import {
   continueIndex,
-  courseLessonPath,
-  lessonPath,
   lessonsDone,
   normalizeLessonKey,
   statusOf,

@@ -19,7 +19,7 @@ import SelectionTray from './SelectionTray.tsx';
 import PrintDialog from './PrintDialog.tsx';
 import PresetCard from './PresetCard.tsx';
 import { useWorksheetPrint } from './useWorksheetPrint.ts';
-import { selectionWritePath } from '../lesson/lessonNav.ts';
+import { selectionWritePath } from '../../shared/paths.ts';
 import './hsk.css';
 
 const HAN = /\p{Script=Han}/u;

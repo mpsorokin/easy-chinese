@@ -15,14 +15,6 @@ import {
 } from '../progress/progress.ts';
 import { loadSessions } from '../progress/sessionStore.ts';
 import { useProgress } from '../progress/useProgress.ts';
-import { readingStoryPath } from '../reading/readingNav.ts';
-import PageToolbar from '../settings/PageToolbar.tsx';
-import WriteIcon from '../../shared/ui/WriteIcon.tsx';
-import CourseCardArt from './CourseCardArt.tsx';
-import LessonExerciseCards from './LessonExerciseCards.tsx';
-import { useCourseParams, useOpenCopybook } from './lessonRoute.ts';
-import { t } from '../../shared/i18n/en.ts';
-import { courseExerciseArt, coursePracticeArt } from './courseExerciseArt.ts';
 import {
   COURSE_LEVEL,
   courseExercisePath,
@@ -30,7 +22,15 @@ import {
   courseRunPath,
   courseWritePath,
   levelLessonsPath,
-} from './lessonNav.ts';
+  readingStoryPath,
+} from '../../shared/paths.ts';
+import PageToolbar from '../settings/PageToolbar.tsx';
+import WriteIcon from '../../shared/ui/WriteIcon.tsx';
+import CourseCardArt from './CourseCardArt.tsx';
+import LessonExerciseCards from './LessonExerciseCards.tsx';
+import { useCourseParams, useOpenCopybook } from './lessonRoute.ts';
+import { t } from '../../shared/i18n/en.ts';
+import { courseExerciseArt, coursePracticeArt } from './courseExerciseArt.ts';
 import './courseLesson.css';
 
 export default function CourseLessonPage() {

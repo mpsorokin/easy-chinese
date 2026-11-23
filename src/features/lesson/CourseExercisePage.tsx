@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Navigate, useParams } from 'react-router';
 import { exerciseLines, isLinesExercise } from '../../data/courseLessons.ts';
 import { t } from '../../shared/i18n/en.ts';
-import { courseLessonPath } from './lessonNav.ts';
+import { courseLessonPath } from '../../shared/paths.ts';
 import { useCourseParams } from './lessonRoute.ts';
 import DialogueReader from './DialogueReader.tsx';
 

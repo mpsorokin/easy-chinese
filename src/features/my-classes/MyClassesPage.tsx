@@ -9,7 +9,13 @@ import hills from '../lesson/art/level/hills.webp';
 import grammar from '../lesson/art/level/function-words.webp';
 import speaking from '../lesson/art/level/speaking.webp';
 import writing from '../lesson/art/exercises/calligraphy.webp';
-import { readingPath } from '../reading/readingNav.ts';
+import {
+  classesPath,
+  classPath,
+  classTranslationPath,
+  readingPath,
+  translationDirections,
+} from '../../shared/paths.ts';
 import ClassBlocks from './ClassBlocks.tsx';
 import ClassSectionNav from './ClassSectionNav.tsx';
 import ClassText from './ClassText.tsx';
@@ -19,12 +25,6 @@ import {
   type ClassLesson,
   type SectionKind,
 } from './classLessons.ts';
-import {
-  classPath,
-  classesPath,
-  classTranslationPath,
-  translationDirections,
-} from './classRoutes.ts';
 import { canPracticeClass, classTranslationWords } from './classTranslation.ts';
 import './myClasses.css';
 

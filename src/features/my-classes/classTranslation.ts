@@ -6,7 +6,7 @@ import {
 import { HSK1_LEVEL } from '../../data/hsk.ts';
 import type { HskWord } from '../../domain/types.ts';
 import type { ClassLesson } from './classLessons.ts';
-import type { TranslationDirection } from './classRoutes.ts';
+import { type TranslationDirection } from '../../shared/paths.ts';
 
 // Keep the English glosses specific enough to work in both directions.
 const english: Readonly<Record<string, string>> = {

@@ -47,7 +47,7 @@ import {
   levelCharsPath,
   levelLessonsPath,
   levelPath,
-} from '../features/lesson/lessonNav.ts';
+} from '../shared/paths.ts';
 import './write.css';
 
 // The stroke-order strip is shown unless the user hid it.

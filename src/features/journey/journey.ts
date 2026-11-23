@@ -10,13 +10,13 @@ import type { CourseLesson } from '../../data/courseLessons.ts';
 import type { Grade } from '../../domain/grading.ts';
 import { dueItems } from '../../domain/srs.ts';
 import {
-  FROM_JOURNEY,
   courseRunPath,
   courseWritePath,
+  FROM_JOURNEY,
   journeyCheckpointPath,
   journeyPracticePath,
   journeyReviewPath,
-} from '../lesson/lessonNav.ts';
+} from '../../shared/paths.ts';
 import {
   PASS_GRADE,
   courseLessonKey,

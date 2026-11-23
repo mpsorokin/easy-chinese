@@ -4,7 +4,7 @@ import type { LevelData } from '../../data/hsk.ts';
 import { DAILY_GOAL, currentStreak, todayXp } from '../../domain/daily.ts';
 import { t } from '../../shared/i18n/en.ts';
 import Meter from '../../shared/ui/Meter.tsx';
-import { journeyPath } from '../lesson/lessonNav.ts';
+import { journeyPath } from '../../shared/paths.ts';
 import type { Progress } from '../progress/progress.ts';
 import { loadSessions } from '../progress/sessionStore.ts';
 import { isDone, placeJourney } from './journey.ts';

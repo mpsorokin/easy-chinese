@@ -5,7 +5,7 @@ import { courseLessonKey } from '../progress/progress.ts';
 import { useProgress } from '../progress/useProgress.ts';
 import { t } from '../../shared/i18n/en.ts';
 import { useCourseParams } from './lessonRoute.ts';
-import { courseLessonPath, levelLessonsPath } from './lessonNav.ts';
+import { courseLessonPath, levelLessonsPath } from '../../shared/paths.ts';
 import QuizPage from './QuizPage.tsx';
 
 // A quiz exercise of a lesson in the Lessons tab (writing runs in the copybook instead).

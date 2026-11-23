@@ -13,7 +13,7 @@ import phone from '../lesson/art/exercises/smartphone.webp';
 import groceries from '../lesson/art/exercises/groceries.webp';
 import shopping from '../lesson/art/level/shopping.webp';
 import PageToolbar from '../settings/PageToolbar.tsx';
-import { readingPath, readingStoryPath } from './readingNav.ts';
+import { readingPath, readingStoryPath } from '../../shared/paths.ts';
 import './reading.css';
 
 const covers = new Map([

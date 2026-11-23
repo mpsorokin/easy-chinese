@@ -8,18 +8,20 @@ import { usePersistentState } from '../../shared/hooks/usePersistentState.ts';
 import Meter from '../../shared/ui/Meter.tsx';
 import { t } from '../../shared/i18n/en.ts';
 import {
-  continueIndex,
-  levelCharsPath,
+  classesPath,
   lessonPath,
-  lessonsDone,
+  levelCharsPath,
   levelPath,
+  readingPath,
+} from '../../shared/paths.ts';
+import {
+  continueIndex,
+  lessonsDone,
   normalizeLessonKey,
 } from '../lesson/lessonNav.ts';
 import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 import ThemeControl from '../settings/ThemeControl.tsx';
 import JourneyCard from '../journey/JourneyCard.tsx';
-import { classesPath } from '../my-classes/classRoutes.ts';
-import { readingPath } from '../reading/readingNav.ts';
 import mistyPavilion from './art/misty-pavilion.webp';
 import './home.css';
 

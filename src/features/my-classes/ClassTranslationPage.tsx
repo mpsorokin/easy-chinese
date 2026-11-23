@@ -5,11 +5,11 @@ import QuizRunner from '../lesson/QuizRunner.tsx';
 import ThemeControl from '../settings/ThemeControl.tsx';
 import { classLesson, type ClassLesson } from './classLessons.ts';
 import {
-  classPath,
   classesPath,
+  classPath,
   isTranslationDirection,
   type TranslationDirection,
-} from './classRoutes.ts';
+} from '../../shared/paths.ts';
 import {
   canPracticeClass,
   classTranslationQuestions,

@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Link } from 'react-router';
-import { COURSE_LEVEL, courseLessonPath } from '../lesson/lessonNav.ts';
+import { COURSE_LEVEL, courseLessonPath } from '../../shared/paths.ts';
 
 const CHINESE = /([\p{Script=Han}，。！？、；：]+)/u;
 const INLINE = /(\*\*[^*]+\*\*|\*[^*]+\*|\[[^\]]+\]\([^)]+\))/g;

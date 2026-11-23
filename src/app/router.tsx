@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react';
 import { Navigate, createBrowserRouter } from 'react-router';
+import { COURSE_LEVEL, levelPath } from '../shared/paths.ts';
 import RootLayout from './RootLayout.tsx';
 import { JourneyTab, LessonsTab, OldTopic, TopicsTab } from './redirects.tsx';
 
@@ -57,7 +58,10 @@ export const router = createBrowserRouter(
           ),
         },
         { path: 'write/:level?', lazy: page(copybook) },
-        { path: 'hsk', element: <Navigate to="/hsk/1" replace /> },
+        {
+          path: 'hsk',
+          element: <Navigate to={levelPath(COURSE_LEVEL)} replace />,
+        },
         {
           path: 'hsk/:level',
           lazy: page(() => import('../features/lesson/LevelPage.tsx')),

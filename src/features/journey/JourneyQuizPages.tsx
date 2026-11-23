@@ -3,7 +3,7 @@ import { coursePart } from '../../data/courseLessons.ts';
 import type { Grade } from '../../domain/grading.ts';
 import { t } from '../../shared/i18n/en.ts';
 import QuizPage from '../lesson/QuizPage.tsx';
-import { journeyPath } from '../lesson/lessonNav.ts';
+import { journeyPath } from '../../shared/paths.ts';
 import { useCourseParams, useLevelParam } from '../lesson/lessonRoute.ts';
 import { PASS_GRADE, XP, journeyKey } from '../progress/progress.ts';
 import { getProgress } from '../progress/progressStore.ts';

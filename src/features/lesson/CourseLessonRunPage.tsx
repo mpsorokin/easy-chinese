@@ -3,12 +3,12 @@ import { Link, Navigate, useLocation, useParams } from 'react-router';
 import { storySteps } from '../../data/courseLessons.ts';
 import { t } from '../../shared/i18n/en.ts';
 import {
-  FROM_JOURNEY,
   courseLessonPath,
   courseRunPath,
+  FROM_JOURNEY,
   fromJourney,
   journeyPath,
-} from './lessonNav.ts';
+} from '../../shared/paths.ts';
 import { useCourseParams } from './lessonRoute.ts';
 import { journeyKey } from '../progress/progress.ts';
 import { useProgress } from '../progress/useProgress.ts';
