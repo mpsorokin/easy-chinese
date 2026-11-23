@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Normalizer, Store } from '../lib/storage.ts';
+import type { Normalizer, Store } from '@/shared/lib/storage.ts';
 
 // useState backed by a store key: read (and normalized) once, written back on every change,
 // and (with sync) re-read when another tab writes the key, so tabs don't overwrite each

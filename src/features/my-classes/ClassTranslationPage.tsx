@@ -1,21 +1,24 @@
 import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router';
-import { t } from '../../shared/i18n/en.ts';
-import QuizRunner from '../lesson/QuizRunner.tsx';
-import ThemeControl from '../settings/ThemeControl.tsx';
-import { classLesson, type ClassLesson } from './classLessons.ts';
+import { t } from '@/shared/i18n/en.ts';
+import QuizRunner from '@/features/lesson/QuizRunner.tsx';
+import ThemeControl from '@/features/settings/ThemeControl.tsx';
+import {
+  classLesson,
+  type ClassLesson,
+} from '@/features/my-classes/classLessons.ts';
 import {
   classesPath,
   classPath,
   isTranslationDirection,
   type TranslationDirection,
-} from '../../shared/paths.ts';
+} from '@/shared/paths.ts';
 import {
   canPracticeClass,
   classTranslationQuestions,
   classTranslationWords,
-} from './classTranslation.ts';
-import './classTranslation.css';
+} from '@/features/my-classes/classTranslation.ts';
+import '@/features/my-classes/classTranslation.css';
 
 function ClassTranslationRound({
   lesson,

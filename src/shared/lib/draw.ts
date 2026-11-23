@@ -1,6 +1,6 @@
 // Canvas drawing in the character data coordinate space (1024×1024, Y axis up).
-import type { GridKind, StrokePaths } from '../../domain/types.ts';
-import { rgba } from '../theme.ts';
+import type { GridKind, StrokePaths } from '@/domain/types.ts';
+import { rgba } from '@/shared/theme.ts';
 
 // hanzi-writer-data glyphs live in a 1024 box with the baseline offset by 124,
 // so the top of the em box is at y = 900.

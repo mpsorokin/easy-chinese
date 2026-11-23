@@ -1,19 +1,19 @@
 import type { CSSProperties } from 'react';
 import type { CharacterJson } from 'hanzi-writer';
-import CanvasCell from '../../shared/ui/CanvasCell.tsx';
+import CanvasCell from '@/shared/ui/CanvasCell.tsx';
 import {
   drawGrid,
   toCharSpace,
   fillStrokes,
   drawUserPaths,
-} from '../../shared/lib/draw.ts';
-import { STEPS } from './steps.ts';
-import type { GridKind } from '../../domain/types.ts';
-import { rgba, writingColors } from '../../shared/theme.ts';
-import { useTheme } from '../settings/useTheme.ts';
-import { t } from '../../shared/i18n/en.ts';
-import type { StepResult } from '../../domain/grading.ts';
-import './copybook.css';
+} from '@/shared/lib/draw.ts';
+import { STEPS } from '@/features/copybook/steps.ts';
+import type { GridKind } from '@/domain/types.ts';
+import { rgba, writingColors } from '@/shared/theme.ts';
+import { useTheme } from '@/features/settings/useTheme.ts';
+import { t } from '@/shared/i18n/en.ts';
+import type { StepResult } from '@/domain/grading.ts';
+import '@/features/copybook/copybook.css';
 
 const FILL: CSSProperties = { width: '100%', height: '100%', display: 'block' };
 const CELL_SIZE = 64;

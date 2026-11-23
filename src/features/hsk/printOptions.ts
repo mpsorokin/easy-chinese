@@ -1,5 +1,5 @@
 // Worksheet settings chosen in the print dialog; persisted in hskStore.ts.
-import type { GridKind } from '../../domain/types.ts';
+import type { GridKind } from '@/domain/types.ts';
 
 export type PrintOptions = { rows: number; grid: GridKind };
 

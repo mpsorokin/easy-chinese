@@ -2,11 +2,11 @@
 import { fireEvent, render } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router';
 import { afterEach, describe, expect, it } from 'vitest';
-import { COURSE_LESSONS, storySteps } from '../../data/courseLessons.ts';
-import { t } from '../../shared/i18n/en.ts';
-import { journeyKey } from '../progress/progress.ts';
-import { saveStory } from '../progress/sessionStore.ts';
-import CourseLessonPage from './CourseLessonPage.tsx';
+import { COURSE_LESSONS, storySteps } from '@/data/courseLessons.ts';
+import { t } from '@/shared/i18n/en.ts';
+import { journeyKey } from '@/features/progress/progress.ts';
+import { saveStory } from '@/features/progress/sessionStore.ts';
+import CourseLessonPage from '@/features/lesson/CourseLessonPage.tsx';
 
 function renderLesson(id: number) {
   const router = createMemoryRouter(

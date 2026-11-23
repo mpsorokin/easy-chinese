@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
@@ -46,6 +47,9 @@ export default defineConfig({
       },
     }),
   ],
+  resolve: {
+    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
+  },
   build: {
     // Raster images stay separate files: inlined as base64 into CSS they are copied once per
     // url() (lesson.css uses hills.webp three times) and cannot be cached on their own.

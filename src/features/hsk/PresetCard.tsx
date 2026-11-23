@@ -1,6 +1,6 @@
-import type { PrintPreset } from '../../data/presets.ts';
-import WriteIcon from '../../shared/ui/WriteIcon.tsx';
-import { t } from '../../shared/i18n/en.ts';
+import type { PrintPreset } from '@/data/presets.ts';
+import WriteIcon from '@/shared/ui/WriteIcon.tsx';
+import { t } from '@/shared/i18n/en.ts';
 
 // Ready-made character set: a worksheet-style preview cell, title, size, a preview of its
 // characters and a Print button that opens the print dialog for the whole set

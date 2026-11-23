@@ -1,5 +1,5 @@
-import type { HskWord } from '../../domain/types.ts';
-import { t } from '../../shared/i18n/en.ts';
+import type { HskWord } from '@/domain/types.ts';
+import { t } from '@/shared/i18n/en.ts';
 
 const MAX_WORDS = 3;
 

@@ -1,5 +1,5 @@
-import { HSK_MAX } from '../../data/hsk.ts';
-import { t } from '../../shared/i18n/en.ts';
+import { HSK_MAX } from '@/data/hsk.ts';
+import { t } from '@/shared/i18n/en.ts';
 
 // Sticky bottom bar: chosen characters as removable chips, count, Write and Print PDF
 // (which opens the print dialog).

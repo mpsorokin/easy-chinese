@@ -1,7 +1,7 @@
-import { stars, t } from '../../shared/i18n/en.ts';
-import type { CharEntry } from '../../domain/types.ts';
-import type { FinalGrade } from '../../domain/grading.ts';
-import './copybook.css';
+import { stars, t } from '@/shared/i18n/en.ts';
+import type { CharEntry } from '@/domain/types.ts';
+import type { FinalGrade } from '@/domain/grading.ts';
+import '@/features/copybook/copybook.css';
 
 // Result card shown over the writing cell after the last step.
 // The wrapper is always rendered so the CSS fade-in transition can run.

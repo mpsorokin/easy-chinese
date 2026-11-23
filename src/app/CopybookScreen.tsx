@@ -7,18 +7,18 @@ import {
   useParams,
   useSearchParams,
 } from 'react-router';
-import Header from './Header.tsx';
-import StrokeOrder from '../features/stroke-order/StrokeOrder.tsx';
-import CopybookSteps from '../features/copybook/CopybookSteps.tsx';
-import WritingCell from '../features/writer/WritingCell.tsx';
-import type { WriterHandle } from '../features/writer/types.ts';
-import SummaryOverlay from '../features/copybook/SummaryOverlay.tsx';
-import SetComplete from '../features/copybook/SetComplete.tsx';
-import WordContext from '../features/copybook/WordContext.tsx';
-import Controls from '../features/copybook/Controls.tsx';
-import SettingsPanel from '../features/settings/SettingsPanel.tsx';
-import PageToolbar from '../features/settings/PageToolbar.tsx';
-import { ALL, normalizeLastChar, wrapAt } from '../data/chars.ts';
+import Header from '@/app/Header.tsx';
+import StrokeOrder from '@/features/stroke-order/StrokeOrder.tsx';
+import CopybookSteps from '@/features/copybook/CopybookSteps.tsx';
+import WritingCell from '@/features/writer/WritingCell.tsx';
+import type { WriterHandle } from '@/features/writer/types.ts';
+import SummaryOverlay from '@/features/copybook/SummaryOverlay.tsx';
+import SetComplete from '@/features/copybook/SetComplete.tsx';
+import WordContext from '@/features/copybook/WordContext.tsx';
+import Controls from '@/features/copybook/Controls.tsx';
+import SettingsPanel from '@/features/settings/SettingsPanel.tsx';
+import PageToolbar from '@/features/settings/PageToolbar.tsx';
+import { ALL, normalizeLastChar, wrapAt } from '@/data/chars.ts';
 import {
   hskCharEntry,
   lessonChars,
@@ -26,19 +26,19 @@ import {
   levelData,
   normalizeHskChars,
   selectableEntry,
-} from '../data/hsk.ts';
-import { courseLesson, coursePart } from '../data/courseLessons.ts';
-import type { CharEntry, HskChar, HskWord } from '../domain/types.ts';
-import type { FinalGrade } from '../domain/grading.ts';
-import { copybookStore } from '../features/copybook/copybookStore.ts';
-import type { LastKey } from '../features/copybook/copybookStore.ts';
-import { useProgress } from '../features/progress/useProgress.ts';
-import { normalizeSettings } from '../features/settings/settings.ts';
-import { usePersistentState } from '../shared/hooks/usePersistentState.ts';
-import { useCharData } from '../data/useCharData.ts';
-import { useCopybook } from '../features/copybook/useCopybook.ts';
-import { t } from '../shared/i18n/en.ts';
-import WriteIcon from '../shared/ui/WriteIcon.tsx';
+} from '@/data/hsk.ts';
+import { courseLesson, coursePart } from '@/data/courseLessons.ts';
+import type { CharEntry, HskChar, HskWord } from '@/domain/types.ts';
+import type { FinalGrade } from '@/domain/grading.ts';
+import { copybookStore } from '@/features/copybook/copybookStore.ts';
+import type { LastKey } from '@/features/copybook/copybookStore.ts';
+import { useProgress } from '@/features/progress/useProgress.ts';
+import { normalizeSettings } from '@/features/settings/settings.ts';
+import { usePersistentState } from '@/shared/hooks/usePersistentState.ts';
+import { useCharData } from '@/data/useCharData.ts';
+import { useCopybook } from '@/features/copybook/useCopybook.ts';
+import { t } from '@/shared/i18n/en.ts';
+import WriteIcon from '@/shared/ui/WriteIcon.tsx';
 import {
   courseLessonPath,
   fromJourney,
@@ -47,8 +47,8 @@ import {
   levelCharsPath,
   levelLessonsPath,
   levelPath,
-} from '../shared/paths.ts';
-import './write.css';
+} from '@/shared/paths.ts';
+import '@/app/write.css';
 
 // The stroke-order strip is shown unless the user hid it.
 const normalizeShown = (raw: unknown): boolean => raw !== false;

@@ -9,9 +9,9 @@
 // (cells keep their size), so five or four characters fit a page.
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import type { PDFFont, PDFImage, PDFPage, RGB } from 'pdf-lib';
-import type { GridKind, HskChar } from '../../domain/types.ts';
-import { t } from '../../shared/i18n/en.ts';
-import type { PrintOptions } from './printOptions.ts';
+import type { GridKind, HskChar } from '@/domain/types.ts';
+import { t } from '@/shared/i18n/en.ts';
+import type { PrintOptions } from '@/features/hsk/printOptions.ts';
 
 // words: HSK words with the character, printed under its meaning.
 export type WorksheetRow = {

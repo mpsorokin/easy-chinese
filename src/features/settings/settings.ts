@@ -1,6 +1,6 @@
 // User settings: defaults, allowed options and normalization of stored values.
 // Option labels live in i18n (t.options).
-import type { GridKind } from '../../domain/types.ts';
+import type { GridKind } from '@/domain/types.ts';
 
 export type Settings = {
   grid: GridKind;

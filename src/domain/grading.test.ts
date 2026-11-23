@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { finalGrade, gradeFor, normalizeBest } from './grading.ts';
-import type { Grade } from './grading.ts';
+import { finalGrade, gradeFor, normalizeBest } from '@/domain/grading.ts';
+import type { Grade } from '@/domain/grading.ts';
 
 describe('gradeFor', () => {
   it('gives 3 stars when there are no mistakes', () => {

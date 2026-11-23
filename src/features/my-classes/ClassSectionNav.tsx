@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { t } from '../../shared/i18n/en.ts';
-import type { ClassLesson } from './classLessons.ts';
-import ClassText from './ClassText.tsx';
+import { t } from '@/shared/i18n/en.ts';
+import type { ClassLesson } from '@/features/my-classes/classLessons.ts';
+import ClassText from '@/features/my-classes/ClassText.tsx';
 
 export default function ClassSectionNav({ lesson }: { lesson: ClassLesson }) {
   const nav = useRef<HTMLElement>(null);

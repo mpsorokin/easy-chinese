@@ -1,24 +1,24 @@
 // Question sets of the journey's own rounds: a part's practice, a lesson's checkpoint and
 // the review of due characters and words. Built from course data with the pure
 // generators of domain/exercises.ts.
-import { hskEntry } from '../../data/hsk.ts';
-import type { LevelData } from '../../data/hsk.ts';
+import { hskEntry } from '@/data/hsk.ts';
+import type { LevelData } from '@/data/hsk.ts';
 import {
   COURSE_LESSONS,
   courseParts,
   courseWords,
   exerciseLines,
   isDialogueExercise,
-} from '../../data/courseLessons.ts';
-import type { CourseLesson } from '../../data/courseLessons.ts';
+} from '@/data/courseLessons.ts';
+import type { CourseLesson } from '@/data/courseLessons.ts';
 import {
   mixedQuiz,
   sentenceQuiz,
   shuffle,
   wordWriteQuiz,
-} from '../../domain/exercises.ts';
-import type { Question, Rng, SentenceLine } from '../../domain/exercises.ts';
-import type { HskWord } from '../../domain/types.ts';
+} from '@/domain/exercises.ts';
+import type { Question, Rng, SentenceLine } from '@/domain/exercises.ts';
+import type { HskWord } from '@/domain/types.ts';
 
 export const PRACTICE_SIZE = 14;
 export const CHECKPOINT = { chars: 12, words: 5, sentences: 3 } as const;

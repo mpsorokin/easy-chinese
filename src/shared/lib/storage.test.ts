@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { createStore, migratePrefix } from './storage.ts';
+import { createStore, migratePrefix } from '@/shared/lib/storage.ts';
 
 function memoryStorage() {
   const data = new Map<string, string>();

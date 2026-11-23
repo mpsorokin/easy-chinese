@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { _resetCharDataCache } from './charData.ts';
-import { useCharData } from './useCharData.ts';
+import { _resetCharDataCache } from '@/data/charData.ts';
+import { useCharData } from '@/data/useCharData.ts';
 
 const DATA = { strokes: ['M0 0'], medians: [[[0, 0]]] };
 const ok = () => ({

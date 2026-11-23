@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import type { CharacterJson } from 'hanzi-writer';
-import { hskStore } from './hskStore.ts';
-import { wordsWith } from '../../data/hsk.ts';
-import type { LevelData } from '../../data/hsk.ts';
-import { presetEntry } from '../../data/presets.ts';
-import { t } from '../../shared/i18n/en.ts';
-import { loadCharData } from '../../data/charData.ts';
-import { usePersistentState } from '../../shared/hooks/usePersistentState.ts';
-import { normalizePrintOptions, worksheetFileName } from './printOptions.ts';
-import type { PrintState } from './PrintDialog.tsx';
+import { hskStore } from '@/features/hsk/hskStore.ts';
+import { wordsWith } from '@/data/hsk.ts';
+import type { LevelData } from '@/data/hsk.ts';
+import { presetEntry } from '@/data/presets.ts';
+import { t } from '@/shared/i18n/en.ts';
+import { loadCharData } from '@/data/charData.ts';
+import { usePersistentState } from '@/shared/hooks/usePersistentState.ts';
+import {
+  normalizePrintOptions,
+  worksheetFileName,
+} from '@/features/hsk/printOptions.ts';
+import type { PrintState } from '@/features/hsk/PrintDialog.tsx';
 
 // What the print dialog is open for: the characters and the level label used in the PDF.
 type PrintJob = { chars: string[]; level: string; meta: string };
@@ -42,9 +45,9 @@ export function useWorksheetPrint(level: LevelData) {
     try {
       const [data, pdf, save, text] = await Promise.all([
         Promise.all<CharacterJson>(job.chars.map(loadCharData)),
-        import('./worksheetPdf.ts'),
-        import('./savePdf.ts'),
-        import('./textImage.ts'),
+        import('@/features/hsk/worksheetPdf.ts'),
+        import('@/features/hsk/savePdf.ts'),
+        import('@/features/hsk/textImage.ts'),
       ]);
       const rows = job.chars.flatMap((c, i) => {
         const entry = presetEntry(c);

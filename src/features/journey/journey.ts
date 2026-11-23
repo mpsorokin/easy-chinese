@@ -5,10 +5,10 @@ import {
   COURSE_LESSONS,
   courseParts,
   storySteps,
-} from '../../data/courseLessons.ts';
-import type { CourseLesson } from '../../data/courseLessons.ts';
-import type { Grade } from '../../domain/grading.ts';
-import { dueItems } from '../../domain/srs.ts';
+} from '@/data/courseLessons.ts';
+import type { CourseLesson } from '@/data/courseLessons.ts';
+import type { Grade } from '@/domain/grading.ts';
+import { dueItems } from '@/domain/srs.ts';
 import {
   courseRunPath,
   courseWritePath,
@@ -16,16 +16,16 @@ import {
   journeyCheckpointPath,
   journeyPracticePath,
   journeyReviewPath,
-} from '../../shared/paths.ts';
+} from '@/shared/paths.ts';
 import {
   PASS_GRADE,
   courseLessonKey,
   journeyKey,
   lessonResults,
   writeResult,
-} from '../progress/progress.ts';
-import type { Progress } from '../progress/progress.ts';
-import type { Sessions } from '../progress/sessionStore.ts';
+} from '@/features/progress/progress.ts';
+import type { Progress } from '@/features/progress/progress.ts';
+import type { Sessions } from '@/features/progress/sessionStore.ts';
 
 export type NodeKind = 'story' | 'learn' | 'practice' | 'checkpoint' | 'review';
 

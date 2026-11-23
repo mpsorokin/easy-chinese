@@ -1,16 +1,20 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties, RefObject } from 'react';
-import Meter from '../../shared/ui/Meter.tsx';
+import Meter from '@/shared/ui/Meter.tsx';
 import { Link } from 'react-router';
-import type { LevelData } from '../../data/hsk.ts';
-import { DAILY_GOAL, currentStreak, todayXp } from '../../domain/daily.ts';
-import { stars, t } from '../../shared/i18n/en.ts';
-import type { Progress } from '../progress/progress.ts';
-import { loadSessions } from '../progress/sessionStore.ts';
-import { isDone, placeJourney } from './journey.ts';
-import type { PlacedNode, PlacedRegion } from './journey.ts';
-import { GLYPH, continueLabel, stepTitle } from './journeyLabels.ts';
-import './journey.css';
+import type { LevelData } from '@/data/hsk.ts';
+import { DAILY_GOAL, currentStreak, todayXp } from '@/domain/daily.ts';
+import { stars, t } from '@/shared/i18n/en.ts';
+import type { Progress } from '@/features/progress/progress.ts';
+import { loadSessions } from '@/features/progress/sessionStore.ts';
+import { isDone, placeJourney } from '@/features/journey/journey.ts';
+import type { PlacedNode, PlacedRegion } from '@/features/journey/journey.ts';
+import {
+  GLYPH,
+  continueLabel,
+  stepTitle,
+} from '@/features/journey/journeyLabels.ts';
+import '@/features/journey/journey.css';
 
 const STEP_GAP = 102;
 const FIRST_STOP = 62;

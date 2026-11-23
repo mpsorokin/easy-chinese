@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it, vi, afterEach } from 'vitest';
-import type { ChoiceQuestion } from '../../domain/exercises.ts';
+import type { ChoiceQuestion } from '@/domain/exercises.ts';
 import {
   SESSION_TTL_MS,
   clearQuiz,
@@ -10,7 +10,7 @@ import {
   loadSessions,
   saveQuiz,
   saveStory,
-} from './sessionStore.ts';
+} from '@/features/progress/sessionStore.ts';
 
 const q = (prompt: string): ChoiceQuestion => ({
   kind: 'choice',

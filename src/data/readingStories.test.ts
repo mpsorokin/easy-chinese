@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
-import { COURSE_LESSONS } from './courseLessons.ts';
-import { readingStories } from './readingStories.ts';
+import { COURSE_LESSONS } from '@/data/courseLessons.ts';
+import { readingStories } from '@/data/readingStories.ts';
 
 const HAN = /\p{Script=Han}/u;
 

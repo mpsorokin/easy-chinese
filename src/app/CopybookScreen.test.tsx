@@ -9,16 +9,16 @@ import {
 import type { ReactNode } from 'react';
 import { createMemoryRouter, RouterProvider } from 'react-router';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { coursePart, courseLesson } from '../data/courseLessons.ts';
-import { STEPS } from '../features/copybook/steps.ts';
-import { NEXT_STEP_DELAY } from '../features/copybook/useCopybook.ts';
-import type { AttemptComplete } from '../features/writer/types.ts';
-import { _resetProgressCache } from '../features/progress/progressStore.ts';
-import { t } from '../shared/i18n/en.ts';
-import { CourseCopybookScreen } from './CopybookScreen.tsx';
+import { coursePart, courseLesson } from '@/data/courseLessons.ts';
+import { STEPS } from '@/features/copybook/steps.ts';
+import { NEXT_STEP_DELAY } from '@/features/copybook/useCopybook.ts';
+import type { AttemptComplete } from '@/features/writer/types.ts';
+import { _resetProgressCache } from '@/features/progress/progressStore.ts';
+import { t } from '@/shared/i18n/en.ts';
+import { CourseCopybookScreen } from '@/app/CopybookScreen.tsx';
 
 // The writing cell is replaced by a button that reports a clean attempt.
-vi.mock('../features/writer/WritingCell.tsx', () => ({
+vi.mock('@/features/writer/WritingCell.tsx', () => ({
   default: ({
     onComplete,
     children,
@@ -37,13 +37,13 @@ vi.mock('../features/writer/WritingCell.tsx', () => ({
   ),
 }));
 // jsdom has no canvas: the stroke drawings are left out.
-vi.mock('../features/copybook/CopybookSteps.tsx', () => ({
+vi.mock('@/features/copybook/CopybookSteps.tsx', () => ({
   default: () => null,
 }));
-vi.mock('../features/stroke-order/StrokeOrder.tsx', () => ({
+vi.mock('@/features/stroke-order/StrokeOrder.tsx', () => ({
   default: () => null,
 }));
-vi.mock('../data/useCharData.ts', () => ({
+vi.mock('@/data/useCharData.ts', () => ({
   useCharData: () => ({
     status: 'ready',
     data: { strokes: ['M0 0'], medians: [[]] },

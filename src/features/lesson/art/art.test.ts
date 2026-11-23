@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { COURSE_LESSONS } from '../../../data/courseLessons.ts';
-import { courseExerciseArt } from '../courseExerciseArt.ts';
-import { art, artPaths } from './index.ts';
+import { COURSE_LESSONS } from '@/data/courseLessons.ts';
+import { courseExerciseArt } from '@/features/lesson/courseExerciseArt.ts';
+import { art, artPaths } from '@/features/lesson/art/index.ts';
 
 describe('lesson art', () => {
   it('has a unique name for every picture', () => {

@@ -1,6 +1,6 @@
 // localStorage keys owned by the HSK character list (same `hanzi:` prefix as the rest of the app).
-import type { PrintOptions } from './printOptions.ts';
-import { createStore } from '../../shared/lib/storage.ts';
+import type { PrintOptions } from '@/features/hsk/printOptions.ts';
+import { createStore } from '@/shared/lib/storage.ts';
 
 type HskStorage = {
   hskSelection: string[]; // characters chosen on the HSK 1 list

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import type { CharacterJson } from 'hanzi-writer';
-import { ALL, indexOfChar } from './chars.ts';
+import { ALL, indexOfChar } from '@/data/chars.ts';
 import {
   getCachedCharData,
   loadCharData,
   prefetchCharData,
-} from './charData.ts';
+} from '@/data/charData.ts';
 
 type CharDataState =
   | { status: 'loading'; data: null }

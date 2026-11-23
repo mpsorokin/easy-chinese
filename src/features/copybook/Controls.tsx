@@ -1,6 +1,6 @@
-import { t } from '../../shared/i18n/en.ts';
-import WriteIcon from '../../shared/ui/WriteIcon.tsx';
-import './copybook.css';
+import { t } from '@/shared/i18n/en.ts';
+import WriteIcon from '@/shared/ui/WriteIcon.tsx';
+import '@/features/copybook/copybook.css';
 
 export default function Controls({
   onShow,

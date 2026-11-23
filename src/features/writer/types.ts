@@ -1,6 +1,6 @@
 // Contract between the writing cell and the exercise modes that drive it.
 import type { StrokeData } from 'hanzi-writer';
-import type { StrokePaths } from '../../domain/types.ts';
+import type { StrokePaths } from '@/domain/types.ts';
 
 // Imperative API of WritingCell, available through its ref.
 export type WriterHandle = {

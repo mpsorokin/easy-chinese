@@ -1,8 +1,8 @@
 import { Link } from 'react-router';
-import { stars, t } from '../../shared/i18n/en.ts';
-import type { BestGrades } from '../../domain/grading.ts';
-import type { CharEntry } from '../../domain/types.ts';
-import './copybook.css';
+import { stars, t } from '@/shared/i18n/en.ts';
+import type { BestGrades } from '@/domain/grading.ts';
+import type { CharEntry } from '@/domain/types.ts';
+import '@/features/copybook/copybook.css';
 
 // Shown instead of the writing cell once every character of a set is written, so the
 // copybook ends rather than starting over from the first character.

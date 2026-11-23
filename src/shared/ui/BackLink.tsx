@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router';
-import WriteIcon from './WriteIcon.tsx';
+import WriteIcon from '@/shared/ui/WriteIcon.tsx';
 
 // The link at the top of a page back to where it was opened from. Pages tune its look
 // with a class of their own (see .back-link in base.css).

@@ -1,8 +1,13 @@
 import type { ComponentType } from 'react';
 import { Navigate, createBrowserRouter } from 'react-router';
-import { COURSE_LEVEL, levelPath } from '../shared/paths.ts';
-import RootLayout from './RootLayout.tsx';
-import { JourneyTab, LessonsTab, OldTopic, TopicsTab } from './redirects.tsx';
+import { COURSE_LEVEL, levelPath } from '@/shared/paths.ts';
+import RootLayout from '@/app/RootLayout.tsx';
+import {
+  JourneyTab,
+  LessonsTab,
+  OldTopic,
+  TopicsTab,
+} from '@/app/redirects.tsx';
 
 // Old links and installed PWAs may still open '#/hsk'; rewrite them to the path form
 // before the router below reads the URL.
@@ -25,8 +30,8 @@ const page =
     Component: (await load())[name] as ComponentType,
   });
 
-const copybook = () => import('./CopybookScreen.tsx');
-const journey = () => import('../features/journey/JourneyQuizPages.tsx');
+const copybook = () => import('@/app/CopybookScreen.tsx');
+const journey = () => import('@/features/journey/JourneyQuizPages.tsx');
 // '/' home; '/write[/<level>]' the copybook; '/hsk/<level>' a level ('/hsk' alone opens
 // HSK 1) with the tabs Lessons, Topics and All characters;
 // '/hsk/<level>/topics/<n>[/<exercise>|/write]' a themed topic;
@@ -41,20 +46,20 @@ export const router = createBrowserRouter(
       children: [
         {
           index: true,
-          lazy: page(() => import('../features/home/HomePage.tsx')),
+          lazy: page(() => import('@/features/home/HomePage.tsx')),
         },
         {
           path: 'my-classes/:lesson?',
-          lazy: page(() => import('../features/my-classes/MyClassesPage.tsx')),
+          lazy: page(() => import('@/features/my-classes/MyClassesPage.tsx')),
         },
         {
           path: 'reading/:story?',
-          lazy: page(() => import('../features/reading/ReadingPage.tsx')),
+          lazy: page(() => import('@/features/reading/ReadingPage.tsx')),
         },
         {
           path: 'my-classes/:lesson/practice/:direction',
           lazy: page(
-            () => import('../features/my-classes/ClassTranslationPage.tsx'),
+            () => import('@/features/my-classes/ClassTranslationPage.tsx'),
           ),
         },
         { path: 'write/:level?', lazy: page(copybook) },
@@ -64,13 +69,13 @@ export const router = createBrowserRouter(
         },
         {
           path: 'hsk/:level',
-          lazy: page(() => import('../features/lesson/LevelPage.tsx')),
+          lazy: page(() => import('@/features/lesson/LevelPage.tsx')),
         },
 
         { path: 'hsk/:level/topics', element: <TopicsTab /> },
         {
           path: 'hsk/:level/topics/:lesson',
-          lazy: page(() => import('../features/lesson/LessonPage.tsx')),
+          lazy: page(() => import('@/features/lesson/LessonPage.tsx')),
         },
         {
           path: 'hsk/:level/topics/:lesson/write',
@@ -78,23 +83,21 @@ export const router = createBrowserRouter(
         },
         {
           path: 'hsk/:level/topics/:lesson/:exercise',
-          lazy: page(() => import('../features/lesson/ExercisePage.tsx')),
+          lazy: page(() => import('@/features/lesson/ExercisePage.tsx')),
         },
 
         { path: 'hsk/:level/lessons', element: <LessonsTab /> },
         {
           path: 'hsk/:level/lessons/:lesson',
-          lazy: page(() => import('../features/lesson/CourseLessonPage.tsx')),
+          lazy: page(() => import('@/features/lesson/CourseLessonPage.tsx')),
         },
         {
           path: 'hsk/:level/lessons/:lesson/:exercise',
-          lazy: page(() => import('../features/lesson/CourseExercisePage.tsx')),
+          lazy: page(() => import('@/features/lesson/CourseExercisePage.tsx')),
         },
         {
           path: 'hsk/:level/lessons/:lesson/play/:step',
-          lazy: page(
-            () => import('../features/lesson/CourseLessonRunPage.tsx'),
-          ),
+          lazy: page(() => import('@/features/lesson/CourseLessonRunPage.tsx')),
         },
         {
           path: 'hsk/:level/lessons/:lesson/write/:part',
@@ -102,7 +105,7 @@ export const router = createBrowserRouter(
         },
         {
           path: 'hsk/:level/lessons/:lesson/quiz/:part/:exercise',
-          lazy: page(() => import('../features/lesson/CourseQuizPage.tsx')),
+          lazy: page(() => import('@/features/lesson/CourseQuizPage.tsx')),
         },
 
         { path: 'hsk/:level/journey', element: <JourneyTab /> },

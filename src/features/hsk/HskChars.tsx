@@ -1,26 +1,26 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { hskSelectionKey, hskStore } from './hskStore.ts';
+import { hskSelectionKey, hskStore } from '@/features/hsk/hskStore.ts';
 import {
   HSK_MAX,
   byLetter,
   normalizeHskChars,
   searchHsk,
   unknownChars,
-} from '../../data/hsk.ts';
-import type { LevelData } from '../../data/hsk.ts';
-import { PRINT_PRESETS } from '../../data/presets.ts';
-import type { HskChar } from '../../domain/types.ts';
-import type { BestGrades } from '../../domain/grading.ts';
-import { useProgress } from '../progress/useProgress.ts';
-import { usePersistentState } from '../../shared/hooks/usePersistentState.ts';
-import { t } from '../../shared/i18n/en.ts';
-import SelectionTray from './SelectionTray.tsx';
-import PrintDialog from './PrintDialog.tsx';
-import PresetCard from './PresetCard.tsx';
-import { useWorksheetPrint } from './useWorksheetPrint.ts';
-import { selectionWritePath } from '../../shared/paths.ts';
-import './hsk.css';
+} from '@/data/hsk.ts';
+import type { LevelData } from '@/data/hsk.ts';
+import { PRINT_PRESETS } from '@/data/presets.ts';
+import type { HskChar } from '@/domain/types.ts';
+import type { BestGrades } from '@/domain/grading.ts';
+import { useProgress } from '@/features/progress/useProgress.ts';
+import { usePersistentState } from '@/shared/hooks/usePersistentState.ts';
+import { t } from '@/shared/i18n/en.ts';
+import SelectionTray from '@/features/hsk/SelectionTray.tsx';
+import PrintDialog from '@/features/hsk/PrintDialog.tsx';
+import PresetCard from '@/features/hsk/PresetCard.tsx';
+import { useWorksheetPrint } from '@/features/hsk/useWorksheetPrint.ts';
+import { selectionWritePath } from '@/shared/paths.ts';
+import '@/features/hsk/hsk.css';
 
 const HAN = /\p{Script=Han}/u;
 

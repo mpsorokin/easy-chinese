@@ -1,20 +1,17 @@
 import { useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router';
-import {
-  readingStories,
-  type ReadingStory,
-} from '../../data/readingStories.ts';
-import { t } from '../../shared/i18n/en.ts';
-import DialogueReader from '../lesson/DialogueReader.tsx';
-import classmates from '../lesson/art/lesson-3/classmates.webp';
-import family from '../lesson/art/level/family.webp';
-import dinner from '../lesson/art/exercises/dinner.webp';
-import phone from '../lesson/art/exercises/smartphone.webp';
-import groceries from '../lesson/art/exercises/groceries.webp';
-import shopping from '../lesson/art/level/shopping.webp';
-import PageToolbar from '../settings/PageToolbar.tsx';
-import { readingPath, readingStoryPath } from '../../shared/paths.ts';
-import './reading.css';
+import { readingStories, type ReadingStory } from '@/data/readingStories.ts';
+import { t } from '@/shared/i18n/en.ts';
+import DialogueReader from '@/features/lesson/DialogueReader.tsx';
+import classmates from '@/features/lesson/art/lesson-3/classmates.webp';
+import family from '@/features/lesson/art/level/family.webp';
+import dinner from '@/features/lesson/art/exercises/dinner.webp';
+import phone from '@/features/lesson/art/exercises/smartphone.webp';
+import groceries from '@/features/lesson/art/exercises/groceries.webp';
+import shopping from '@/features/lesson/art/level/shopping.webp';
+import PageToolbar from '@/features/settings/PageToolbar.tsx';
+import { readingPath, readingStoryPath } from '@/shared/paths.ts';
+import '@/features/reading/reading.css';
 
 const covers = new Map([
   ['my-new-friend', classmates],

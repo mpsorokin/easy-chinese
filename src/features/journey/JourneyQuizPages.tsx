@@ -1,16 +1,27 @@
 import { Navigate } from 'react-router';
-import { coursePart } from '../../data/courseLessons.ts';
-import type { Grade } from '../../domain/grading.ts';
-import { t } from '../../shared/i18n/en.ts';
-import QuizPage from '../lesson/QuizPage.tsx';
-import { journeyPath } from '../../shared/paths.ts';
-import { useCourseParams, useLevelParam } from '../lesson/lessonRoute.ts';
-import { PASS_GRADE, XP, journeyKey } from '../progress/progress.ts';
-import { getProgress } from '../progress/progressStore.ts';
-import { useProgress } from '../progress/useProgress.ts';
-import { REVIEW_MAX, reviewItems, reviewKey } from './journey.ts';
-import { checkpointQuiz, practiceQuiz, reviewQuiz } from './journeyQuiz.ts';
-import './journey.css';
+import { coursePart } from '@/data/courseLessons.ts';
+import type { Grade } from '@/domain/grading.ts';
+import { t } from '@/shared/i18n/en.ts';
+import QuizPage from '@/features/lesson/QuizPage.tsx';
+import { journeyPath } from '@/shared/paths.ts';
+import {
+  useCourseParams,
+  useLevelParam,
+} from '@/features/lesson/lessonRoute.ts';
+import { PASS_GRADE, XP, journeyKey } from '@/features/progress/progress.ts';
+import { getProgress } from '@/features/progress/progressStore.ts';
+import { useProgress } from '@/features/progress/useProgress.ts';
+import {
+  REVIEW_MAX,
+  reviewItems,
+  reviewKey,
+} from '@/features/journey/journey.ts';
+import {
+  checkpointQuiz,
+  practiceQuiz,
+  reviewQuiz,
+} from '@/features/journey/journeyQuiz.ts';
+import '@/features/journey/journey.css';
 
 // XP of a finished round: one per right answer, plus the bonus for passing.
 const roundXp = (right: number, grade: Grade) =>

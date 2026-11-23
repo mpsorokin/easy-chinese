@@ -1,13 +1,13 @@
 // Learning progress per character and per lesson exercise: pure data operations,
 // no React or storage.
-import { isGrade } from '../../domain/grading.ts';
-import type { BestGrades, Grade } from '../../domain/grading.ts';
-import { EXERCISES, isExercise } from '../../domain/exercises.ts';
-import type { ExerciseId } from '../../domain/exercises.ts';
-import { isSrsEntry, srsAnswer } from '../../domain/srs.ts';
-import type { SrsEntry } from '../../domain/srs.ts';
-import { addXp, isDaily } from '../../domain/daily.ts';
-import type { Daily } from '../../domain/daily.ts';
+import { isGrade } from '@/domain/grading.ts';
+import type { BestGrades, Grade } from '@/domain/grading.ts';
+import { EXERCISES, isExercise } from '@/domain/exercises.ts';
+import type { ExerciseId } from '@/domain/exercises.ts';
+import { isSrsEntry, srsAnswer } from '@/domain/srs.ts';
+import type { SrsEntry } from '@/domain/srs.ts';
+import { addXp, isDaily } from '@/domain/daily.ts';
+import type { Daily } from '@/domain/daily.ts';
 
 // One finished exercise on a character, reported by an exercise mode.
 export type AttemptResult = {

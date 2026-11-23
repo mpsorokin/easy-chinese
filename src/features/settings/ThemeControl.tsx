@@ -1,5 +1,5 @@
-import { t } from '../../shared/i18n/en.ts';
-import { useTheme } from './useTheme.ts';
+import { t } from '@/shared/i18n/en.ts';
+import { useTheme } from '@/features/settings/useTheme.ts';
 
 const icons = {
   light: (

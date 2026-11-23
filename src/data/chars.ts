@@ -1,5 +1,5 @@
-import type { CharGroup } from '../domain/types.ts';
-import { extraEntry, hskEntry } from './hsk.ts';
+import type { CharGroup } from '@/domain/types.ts';
+import { extraEntry, hskEntry } from '@/data/hsk.ts';
 
 // Every JSON file in ./decks is a deck: an array of groups (picker tabs).
 // Decks are concatenated in file-name order, hence the numeric prefixes.

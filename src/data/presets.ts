@@ -1,8 +1,8 @@
 // Ready-made character sets that can be printed in one click (they ignore HSK_MAX).
 // Characters missing from the loaded HSK levels get their entry from presets/extra-chars.json;
 // scripts/build-data.ts generates stroke data for those too.
-import type { HskChar } from '../domain/types.ts';
-import { EXTRA_CHARS, extraEntry, hskEntry } from './hsk.ts';
+import type { HskChar } from '@/domain/types.ts';
+import { EXTRA_CHARS, extraEntry, hskEntry } from '@/data/hsk.ts';
 
 export type PrintPreset = {
   id: string;

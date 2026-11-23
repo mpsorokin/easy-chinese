@@ -6,8 +6,8 @@ import {
   lessonPath,
   levelLessonsPath,
   levelPath,
-} from '../shared/paths.ts';
-import { isExercise } from '../domain/exercises.ts';
+} from '@/shared/paths.ts';
+import { isExercise } from '@/domain/exercises.ts';
 
 // '/hsk/<level>/lessons' alone is the Lessons tab of the level page.
 export function LessonsTab() {

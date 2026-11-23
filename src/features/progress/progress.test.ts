@@ -11,9 +11,9 @@ import {
   recordJourney,
   recordLesson,
   writeResult,
-} from './progress.ts';
-import type { AttemptResult } from './progress.ts';
-import { loadProgress } from './progressStore.ts';
+} from '@/features/progress/progress.ts';
+import type { AttemptResult } from '@/features/progress/progress.ts';
+import { loadProgress } from '@/features/progress/progressStore.ts';
 
 const attempt = (over: Partial<AttemptResult> = {}): AttemptResult => ({
   char: '人',

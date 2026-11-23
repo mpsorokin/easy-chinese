@@ -1,9 +1,9 @@
-import { SETTING_OPTIONS } from './settings.ts';
-import type { Settings } from './settings.ts';
-import Seg from '../../shared/ui/Seg.tsx';
-import { t } from '../../shared/i18n/en.ts';
-import WriteIcon from '../../shared/ui/WriteIcon.tsx';
-import './SettingsPanel.css';
+import { SETTING_OPTIONS } from '@/features/settings/settings.ts';
+import type { Settings } from '@/features/settings/settings.ts';
+import Seg from '@/shared/ui/Seg.tsx';
+import { t } from '@/shared/i18n/en.ts';
+import WriteIcon from '@/shared/ui/WriteIcon.tsx';
+import '@/features/settings/SettingsPanel.css';
 
 // [value, label] pairs; indexing t.options by the value type keeps labels complete.
 const GRID = SETTING_OPTIONS.grid.map((v) => [v, t.options.grid[v]] as const);

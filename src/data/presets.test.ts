@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { PRESET_EXTRA_CHARS, PRINT_PRESETS, presetEntry } from './presets.ts';
-import { hskEntry } from './hsk.ts';
+import {
+  PRESET_EXTRA_CHARS,
+  PRINT_PRESETS,
+  presetEntry,
+} from '@/data/presets.ts';
+import { hskEntry } from '@/data/hsk.ts';
 
 describe('print presets', () => {
   it('has the 99-character HSK 1-2 set', () => {

@@ -1,12 +1,8 @@
-import {
-  OPTIONS,
-  shuffle,
-  type ChoiceQuestion,
-} from '../../domain/exercises.ts';
-import { HSK1_LEVEL } from '../../data/hsk.ts';
-import type { HskWord } from '../../domain/types.ts';
-import type { ClassLesson } from './classLessons.ts';
-import { type TranslationDirection } from '../../shared/paths.ts';
+import { OPTIONS, shuffle, type ChoiceQuestion } from '@/domain/exercises.ts';
+import { HSK1_LEVEL } from '@/data/hsk.ts';
+import type { HskWord } from '@/domain/types.ts';
+import type { ClassLesson } from '@/features/my-classes/classLessons.ts';
+import { type TranslationDirection } from '@/shared/paths.ts';
 
 // Keep the English glosses specific enough to work in both directions.
 const english: Readonly<Record<string, string>> = {

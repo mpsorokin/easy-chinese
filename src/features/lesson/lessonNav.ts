@@ -1,7 +1,7 @@
 // The choice of the lesson to continue with (URLs are in shared/paths.ts).
-import type { LevelData } from '../../data/hsk.ts';
-import { lessonKey, lessonStatus } from '../progress/progress.ts';
-import type { Progress } from '../progress/progress.ts';
+import type { LevelData } from '@/data/hsk.ts';
+import { lessonKey, lessonStatus } from '@/features/progress/progress.ts';
+import type { Progress } from '@/features/progress/progress.ts';
 
 // Stored last lesson key: "1:3"-like strings only.
 export const normalizeLessonKey = (raw: unknown): string =>

@@ -1,9 +1,9 @@
 import { useLayoutEffect, useSyncExternalStore } from 'react';
 import type { ReactNode } from 'react';
-import { usePersistentState } from '../../shared/hooks/usePersistentState.ts';
-import { createStore } from '../../shared/lib/storage.ts';
-import { normalizeTheme, ThemeContext } from './useTheme.ts';
-import type { ThemePreference } from './useTheme.ts';
+import { usePersistentState } from '@/shared/hooks/usePersistentState.ts';
+import { createStore } from '@/shared/lib/storage.ts';
+import { normalizeTheme, ThemeContext } from '@/features/settings/useTheme.ts';
+import type { ThemePreference } from '@/features/settings/useTheme.ts';
 
 const store = createStore<{ theme: ThemePreference }>('hanzi:');
 const systemScheme = '(prefers-color-scheme: dark)';

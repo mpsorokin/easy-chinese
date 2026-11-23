@@ -4,17 +4,17 @@ import {
   courseWords,
   isExerciseReady,
   storySteps,
-} from '../../data/courseLessons.ts';
-import { readingStories } from '../../data/readingStories.ts';
-import { availableExercises } from '../../domain/exercises.ts';
-import type { ExerciseId } from '../../domain/exercises.ts';
+} from '@/data/courseLessons.ts';
+import { readingStories } from '@/data/readingStories.ts';
+import { availableExercises } from '@/domain/exercises.ts';
+import type { ExerciseId } from '@/domain/exercises.ts';
 import {
   courseLessonKey,
   journeyKey,
   lessonResults,
-} from '../progress/progress.ts';
-import { loadSessions } from '../progress/sessionStore.ts';
-import { useProgress } from '../progress/useProgress.ts';
+} from '@/features/progress/progress.ts';
+import { loadSessions } from '@/features/progress/sessionStore.ts';
+import { useProgress } from '@/features/progress/useProgress.ts';
 import {
   COURSE_LEVEL,
   courseExercisePath,
@@ -23,15 +23,21 @@ import {
   courseWritePath,
   levelLessonsPath,
   readingStoryPath,
-} from '../../shared/paths.ts';
-import PageToolbar from '../settings/PageToolbar.tsx';
-import WriteIcon from '../../shared/ui/WriteIcon.tsx';
-import CourseCardArt from './CourseCardArt.tsx';
-import LessonExerciseCards from './LessonExerciseCards.tsx';
-import { useCourseParams, useOpenCopybook } from './lessonRoute.ts';
-import { t } from '../../shared/i18n/en.ts';
-import { courseExerciseArt, coursePracticeArt } from './courseExerciseArt.ts';
-import './courseLesson.css';
+} from '@/shared/paths.ts';
+import PageToolbar from '@/features/settings/PageToolbar.tsx';
+import WriteIcon from '@/shared/ui/WriteIcon.tsx';
+import CourseCardArt from '@/features/lesson/CourseCardArt.tsx';
+import LessonExerciseCards from '@/features/lesson/LessonExerciseCards.tsx';
+import {
+  useCourseParams,
+  useOpenCopybook,
+} from '@/features/lesson/lessonRoute.ts';
+import { t } from '@/shared/i18n/en.ts';
+import {
+  courseExerciseArt,
+  coursePracticeArt,
+} from '@/features/lesson/courseExerciseArt.ts';
+import '@/features/lesson/courseLesson.css';
 
 export default function CourseLessonPage() {
   const { level, lesson } = useCourseParams();

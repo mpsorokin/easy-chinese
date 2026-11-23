@@ -1,13 +1,13 @@
 import type { CSSProperties, ReactNode } from 'react';
-import type { DialogueLine } from '../../data/courseLessons.ts';
-import type { ReadingLine } from '../../data/readingStories.ts';
-import { t } from '../../shared/i18n/en.ts';
-import { canSpeak, speakChinese } from '../../shared/lib/speech.ts';
-import PageToolbar from '../settings/PageToolbar.tsx';
-import WriteIcon from '../../shared/ui/WriteIcon.tsx';
-import blossomsArt from './art/dialogue-blossoms.webp';
-import hillsArt from './art/dialogue-hills.webp';
-import './courseExercise.css';
+import type { DialogueLine } from '@/data/courseLessons.ts';
+import type { ReadingLine } from '@/data/readingStories.ts';
+import { t } from '@/shared/i18n/en.ts';
+import { canSpeak, speakChinese } from '@/shared/lib/speech.ts';
+import PageToolbar from '@/features/settings/PageToolbar.tsx';
+import WriteIcon from '@/shared/ui/WriteIcon.tsx';
+import blossomsArt from '@/features/lesson/art/dialogue-blossoms.webp';
+import hillsArt from '@/features/lesson/art/dialogue-hills.webp';
+import '@/features/lesson/courseExercise.css';
 
 const dialogueArt = {
   '--dialogue-blossoms': `url("${blossomsArt}")`,

@@ -3,10 +3,10 @@ import {
   COURSE_LESSONS,
   courseParts,
   coursePart,
-} from '../../data/courseLessons.ts';
-import { HSK1_LEVEL } from '../../data/hsk.ts';
-import type { Question } from '../../domain/exercises.ts';
-import { DAY_MS } from '../../domain/srs.ts';
+} from '@/data/courseLessons.ts';
+import { HSK1_LEVEL } from '@/data/hsk.ts';
+import type { Question } from '@/domain/exercises.ts';
+import { DAY_MS } from '@/domain/srs.ts';
 import {
   courseLessonKey,
   emptyProgress,
@@ -15,14 +15,14 @@ import {
   recordAttempt,
   recordJourney,
   recordLesson,
-} from '../progress/progress.ts';
-import type { Progress } from '../progress/progress.ts';
+} from '@/features/progress/progress.ts';
+import type { Progress } from '@/features/progress/progress.ts';
 import {
   REVIEW_MIN,
   buildJourney,
   nodeStatus,
   placeJourney,
-} from './journey.ts';
+} from '@/features/journey/journey.ts';
 import {
   CHECKPOINT,
   PRACTICE_SIZE,
@@ -30,7 +30,7 @@ import {
   practiceQuiz,
   reviewQuiz,
   sentenceLines,
-} from './journeyQuiz.ts';
+} from '@/features/journey/journeyQuiz.ts';
 
 // Deterministic rng.
 const seeded =

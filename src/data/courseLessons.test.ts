@@ -6,8 +6,8 @@ import {
   exerciseLines,
   isExerciseReady,
   isLinesExercise,
-} from './courseLessons.ts';
-import { hskEntry } from './hsk.ts';
+} from '@/data/courseLessons.ts';
+import { hskEntry } from '@/data/hsk.ts';
 
 describe('COURSE_LESSONS', () => {
   it('has unique lesson ids', () => {

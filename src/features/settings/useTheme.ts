@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { ColorScheme } from '../../shared/theme.ts';
+import type { ColorScheme } from '@/shared/theme.ts';
 
 export type ThemePreference = ColorScheme | 'system';
 

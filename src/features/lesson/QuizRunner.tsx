@@ -1,27 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import { WORD_PASSES } from '../../domain/exercises.ts';
+import { WORD_PASSES } from '@/domain/exercises.ts';
 import type {
   Audio,
   BuildQuestion,
   ChoiceQuestion,
   Question,
   WriteQuestion,
-} from '../../domain/exercises.ts';
-import { gradeFor, quizGrade } from '../../domain/grading.ts';
-import type { Grade } from '../../domain/grading.ts';
-import Meter from '../../shared/ui/Meter.tsx';
-import { stars, t } from '../../shared/i18n/en.ts';
-import { canSpeak, speakChinese } from '../../shared/lib/speech.ts';
-import { vibrate } from '../../shared/lib/haptics.ts';
-import { usePersistentState } from '../../shared/hooks/usePersistentState.ts';
-import { useCharData } from '../../data/useCharData.ts';
-import WritingCell from '../writer/WritingCell.tsx';
-import type { AttemptComplete, WriterHandle } from '../writer/types.ts';
-import { copybookStore } from '../copybook/copybookStore.ts';
-import { normalizeSettings } from '../settings/settings.ts';
-import type { QuizAnswer } from '../progress/sessionStore.ts';
-import './quiz.css';
+} from '@/domain/exercises.ts';
+import { gradeFor, quizGrade } from '@/domain/grading.ts';
+import type { Grade } from '@/domain/grading.ts';
+import Meter from '@/shared/ui/Meter.tsx';
+import { stars, t } from '@/shared/i18n/en.ts';
+import { canSpeak, speakChinese } from '@/shared/lib/speech.ts';
+import { vibrate } from '@/shared/lib/haptics.ts';
+import { usePersistentState } from '@/shared/hooks/usePersistentState.ts';
+import { useCharData } from '@/data/useCharData.ts';
+import WritingCell from '@/features/writer/WritingCell.tsx';
+import type { AttemptComplete, WriterHandle } from '@/features/writer/types.ts';
+import { copybookStore } from '@/features/copybook/copybookStore.ts';
+import { normalizeSettings } from '@/features/settings/settings.ts';
+import type { QuizAnswer } from '@/features/progress/sessionStore.ts';
+import '@/features/lesson/quiz.css';
 
 // By default a right answer moves on after this delay.
 const AUTO_NEXT_MS = 700;

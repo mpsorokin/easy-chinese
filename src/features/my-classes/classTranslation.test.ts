@@ -1,11 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { OPTIONS } from '../../domain/exercises.ts';
-import { classLessons, parseClassLesson } from './classLessons.ts';
+import { OPTIONS } from '@/domain/exercises.ts';
+import {
+  classLessons,
+  parseClassLesson,
+} from '@/features/my-classes/classLessons.ts';
 import {
   canPracticeClass,
   classTranslationQuestions,
   classTranslationWords,
-} from './classTranslation.ts';
+} from '@/features/my-classes/classTranslation.ts';
 
 const lesson = parseClassLesson(
   1,

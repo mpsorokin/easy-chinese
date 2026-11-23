@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react';
 import type { CharacterJson } from 'hanzi-writer';
-import CanvasCell from '../../shared/ui/CanvasCell.tsx';
-import { toCharSpace, fillStrokes } from '../../shared/lib/draw.ts';
-import { writingColors } from '../../shared/theme.ts';
-import { useTheme } from '../settings/useTheme.ts';
-import { t } from '../../shared/i18n/en.ts';
-import WriteIcon from '../../shared/ui/WriteIcon.tsx';
-import './StrokeOrder.css';
+import CanvasCell from '@/shared/ui/CanvasCell.tsx';
+import { toCharSpace, fillStrokes } from '@/shared/lib/draw.ts';
+import { writingColors } from '@/shared/theme.ts';
+import { useTheme } from '@/features/settings/useTheme.ts';
+import { t } from '@/shared/i18n/en.ts';
+import WriteIcon from '@/shared/ui/WriteIcon.tsx';
+import '@/features/stroke-order/StrokeOrder.css';
 
 const CELL = 64;
 

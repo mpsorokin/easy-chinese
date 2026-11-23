@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   DEFAULT_PRINT_OPTIONS,
   normalizePrintOptions,
-} from './printOptions.ts';
+} from '@/features/hsk/printOptions.ts';
 
 describe('normalizePrintOptions', () => {
   it('keeps valid options', () => {

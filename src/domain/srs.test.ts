@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { DAY_MS, SRS_DAYS, dueItems, isSrsEntry, srsAnswer } from './srs.ts';
+import {
+  DAY_MS,
+  SRS_DAYS,
+  dueItems,
+  isSrsEntry,
+  srsAnswer,
+} from '@/domain/srs.ts';
 
 describe('srsAnswer', () => {
   const now = 10 * DAY_MS;

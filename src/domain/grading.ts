@@ -1,5 +1,5 @@
 // Grades are 1..3 stars.
-import type { StrokePaths } from './types.ts';
+import type { StrokePaths } from '@/domain/types.ts';
 
 export type Grade = 1 | 2 | 3;
 

@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { DEFAULT_SETTINGS, normalizeSettings } from './settings.ts';
+import {
+  DEFAULT_SETTINGS,
+  normalizeSettings,
+} from '@/features/settings/settings.ts';
 
 describe('normalizeSettings', () => {
   it('returns defaults for empty stored object', () => {

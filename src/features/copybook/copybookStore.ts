@@ -1,6 +1,6 @@
 // localStorage keys owned by the copybook (same `hanzi:` prefix as the rest of the app).
-import type { Settings } from '../settings/settings.ts';
-import { createStore } from '../../shared/lib/storage.ts';
+import type { Settings } from '@/features/settings/settings.ts';
+import { createStore } from '@/shared/lib/storage.ts';
 
 type CopybookStorage = {
   last: string; // open character of the deck copybook ('/write')

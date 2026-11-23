@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
-import { t } from './en.ts';
-import { isDialogueExercise } from '../../data/courseLessons.ts';
+import { t } from '@/shared/i18n/en.ts';
+import { isDialogueExercise } from '@/data/courseLessons.ts';
 
 test('exercise titles are generated for any number', () => {
   expect(t.courseExercises('exercise1')).toBe('Exercise 1');

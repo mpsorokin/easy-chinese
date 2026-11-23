@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { fireEvent, render, screen } from '@testing-library/react';
 import { expect, it, vi } from 'vitest';
-import type { Question } from '../../domain/exercises.ts';
-import QuizRunner from './QuizRunner.tsx';
+import type { Question } from '@/domain/exercises.ts';
+import QuizRunner from '@/features/lesson/QuizRunner.tsx';
 
 const run = (q: Question) => {
   const onFinish = vi.fn();

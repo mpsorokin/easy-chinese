@@ -1,12 +1,12 @@
 import { Navigate, useParams } from 'react-router';
-import { lessonChars, lessonWords } from '../../data/hsk.ts';
-import { buildQuiz, isExercise } from '../../domain/exercises.ts';
-import { lessonKey } from '../progress/progress.ts';
-import { useProgress } from '../progress/useProgress.ts';
-import { t } from '../../shared/i18n/en.ts';
-import { useTopicParams } from './lessonRoute.ts';
-import { lessonPath, levelPath } from '../../shared/paths.ts';
-import QuizPage from './QuizPage.tsx';
+import { lessonChars, lessonWords } from '@/data/hsk.ts';
+import { buildQuiz, isExercise } from '@/domain/exercises.ts';
+import { lessonKey } from '@/features/progress/progress.ts';
+import { useProgress } from '@/features/progress/useProgress.ts';
+import { t } from '@/shared/i18n/en.ts';
+import { useTopicParams } from '@/features/lesson/lessonRoute.ts';
+import { lessonPath, levelPath } from '@/shared/paths.ts';
+import QuizPage from '@/features/lesson/QuizPage.tsx';
 
 // A quiz exercise of a topic lesson (the writing exercise runs in the copybook instead).
 export default function ExercisePage() {

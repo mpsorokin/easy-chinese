@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { act, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { useProgress } from './useProgress.ts';
-import { _resetProgressCache } from './progressStore.ts';
+import { useProgress } from '@/features/progress/useProgress.ts';
+import { _resetProgressCache } from '@/features/progress/progressStore.ts';
 
 const attempt = (char: string) => ({
   char,

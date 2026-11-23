@@ -1,29 +1,29 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router';
-import { hskSelectionKey, hskStore } from '../hsk/hskStore.ts';
-import { lessonStore } from '../lesson/lessonStore.ts';
-import { HSK_LEVELS, HSK1_LEVEL } from '../../data/hsk.ts';
-import { useProgress } from '../progress/useProgress.ts';
-import { usePersistentState } from '../../shared/hooks/usePersistentState.ts';
-import Meter from '../../shared/ui/Meter.tsx';
-import { t } from '../../shared/i18n/en.ts';
+import { hskSelectionKey, hskStore } from '@/features/hsk/hskStore.ts';
+import { lessonStore } from '@/features/lesson/lessonStore.ts';
+import { HSK_LEVELS, HSK1_LEVEL } from '@/data/hsk.ts';
+import { useProgress } from '@/features/progress/useProgress.ts';
+import { usePersistentState } from '@/shared/hooks/usePersistentState.ts';
+import Meter from '@/shared/ui/Meter.tsx';
+import { t } from '@/shared/i18n/en.ts';
 import {
   classesPath,
   lessonPath,
   levelCharsPath,
   levelPath,
   readingPath,
-} from '../../shared/paths.ts';
+} from '@/shared/paths.ts';
 import {
   continueIndex,
   lessonsDone,
   normalizeLessonKey,
-} from '../lesson/lessonNav.ts';
-import WriteIcon from '../../shared/ui/WriteIcon.tsx';
-import ThemeControl from '../settings/ThemeControl.tsx';
-import JourneyCard from '../journey/JourneyCard.tsx';
-import mistyPavilion from './art/misty-pavilion.webp';
-import './home.css';
+} from '@/features/lesson/lessonNav.ts';
+import WriteIcon from '@/shared/ui/WriteIcon.tsx';
+import ThemeControl from '@/features/settings/ThemeControl.tsx';
+import JourneyCard from '@/features/journey/JourneyCard.tsx';
+import mistyPavilion from '@/features/home/art/misty-pavilion.webp';
+import '@/features/home/home.css';
 
 const HERO_CHARS = 4;
 

@@ -1,4 +1,4 @@
-import './Seg.css';
+import '@/shared/ui/Seg.css';
 
 // Segmented control: options are [value, label] pairs.
 export default function Seg<T extends string | number>({

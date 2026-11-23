@@ -2,11 +2,11 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { PDFDocument } from 'pdf-lib';
 import type { CharacterJson } from 'hanzi-writer';
-import { hskEntry, wordsWith } from '../../data/hsk.ts';
-import { charFile } from '../../domain/charFile.ts';
-import { buildWorksheetPdf } from './worksheetPdf.ts';
-import type { RenderText, WorksheetRow } from './worksheetPdf.ts';
-import type { PrintOptions } from './printOptions.ts';
+import { hskEntry, wordsWith } from '@/data/hsk.ts';
+import { charFile } from '@/domain/charFile.ts';
+import { buildWorksheetPdf } from '@/features/hsk/worksheetPdf.ts';
+import type { RenderText, WorksheetRow } from '@/features/hsk/worksheetPdf.ts';
+import type { PrintOptions } from '@/features/hsk/printOptions.ts';
 
 // renderText runs in the browser (canvas); a 1x1 PNG stands in for it here.
 const PNG = Uint8Array.from(

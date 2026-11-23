@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react';
-import type { ExerciseId } from '../../domain/exercises.ts';
-import type { LessonProgress } from '../progress/progress.ts';
-import { PASS_GRADE } from '../progress/progress.ts';
-import { stars, t } from '../../shared/i18n/en.ts';
-import CourseCardArt from './CourseCardArt.tsx';
-import './lesson.css';
-import WriteIcon from '../../shared/ui/WriteIcon.tsx';
+import type { ExerciseId } from '@/domain/exercises.ts';
+import type { LessonProgress } from '@/features/progress/progress.ts';
+import { PASS_GRADE } from '@/features/progress/progress.ts';
+import { stars, t } from '@/shared/i18n/en.ts';
+import CourseCardArt from '@/features/lesson/CourseCardArt.tsx';
+import '@/features/lesson/lesson.css';
+import WriteIcon from '@/shared/ui/WriteIcon.tsx';
 
 const EXERCISE_ICONS: Record<
   ExerciseId,

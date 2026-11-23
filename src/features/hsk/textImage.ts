@@ -1,6 +1,6 @@
 // Renders worksheet text with the browser's system fonts into a PNG (as in the original
 // single-file worksheet): pinyin tone marks and Chinese words need no embedded font.
-import type { TextImage, TextLine } from './worksheetPdf.ts';
+import type { TextImage, TextLine } from '@/features/hsk/worksheetPdf.ts';
 
 const SCALE = 5; // canvas pixels per pt: sharp in print
 const FONT_FAMILY =

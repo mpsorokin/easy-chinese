@@ -15,9 +15,13 @@ import {
   EXERCISES,
   availableExercises,
   buildQuiz,
-} from './exercises.ts';
-import type { BuildQuestion, ChoiceQuestion, QuizId } from './exercises.ts';
-import { HSK1_LEVEL, lessonChars, lessonWords } from '../data/hsk.ts';
+} from '@/domain/exercises.ts';
+import type {
+  BuildQuestion,
+  ChoiceQuestion,
+  QuizId,
+} from '@/domain/exercises.ts';
+import { HSK1_LEVEL, lessonChars, lessonWords } from '@/data/hsk.ts';
 
 // Deterministic generator (mulberry32) so runs can be compared.
 function seeded(seed: number) {

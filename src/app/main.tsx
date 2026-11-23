@@ -1,10 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router/dom';
-import ThemeProvider from '../features/settings/ThemeProvider.tsx';
-import '../styles/base.css';
-import { migratePrefix } from '../shared/lib/storage.ts';
-import { router } from './router.tsx';
+import ThemeProvider from '@/features/settings/ThemeProvider.tsx';
+import '@/styles/base.css';
+import { migratePrefix } from '@/shared/lib/storage.ts';
+import { router } from '@/app/router.tsx';
 
 // Storage prefix was renamed from `propis:` to `hanzi:`; carry over existing data.
 migratePrefix('propis:', 'hanzi:');

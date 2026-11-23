@@ -1,8 +1,8 @@
 // Unfinished work, so leaving a page mid-way and coming back resumes it: the questions and
 // answers of a quiz round, and the step reached in a lesson's dialogues. Stored under one
 // key, `hanzi:sessions`; old entries are dropped.
-import type { Question } from '../../domain/exercises.ts';
-import { createStore } from '../../shared/lib/storage.ts';
+import type { Question } from '@/domain/exercises.ts';
+import { createStore } from '@/shared/lib/storage.ts';
 
 export type QuizAnswer = { right: boolean; reveal: string };
 

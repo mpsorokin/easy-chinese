@@ -1,15 +1,15 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router';
-import type { LevelData } from '../../data/hsk.ts';
-import { DAILY_GOAL, currentStreak, todayXp } from '../../domain/daily.ts';
-import { t } from '../../shared/i18n/en.ts';
-import Meter from '../../shared/ui/Meter.tsx';
-import { journeyPath } from '../../shared/paths.ts';
-import type { Progress } from '../progress/progress.ts';
-import { loadSessions } from '../progress/sessionStore.ts';
-import { isDone, placeJourney } from './journey.ts';
-import { continueLabel, stepTitle } from './journeyLabels.ts';
-import './journeyCard.css';
+import type { LevelData } from '@/data/hsk.ts';
+import { DAILY_GOAL, currentStreak, todayXp } from '@/domain/daily.ts';
+import { t } from '@/shared/i18n/en.ts';
+import Meter from '@/shared/ui/Meter.tsx';
+import { journeyPath } from '@/shared/paths.ts';
+import type { Progress } from '@/features/progress/progress.ts';
+import { loadSessions } from '@/features/progress/sessionStore.ts';
+import { isDone, placeJourney } from '@/features/journey/journey.ts';
+import { continueLabel, stepTitle } from '@/features/journey/journeyLabels.ts';
+import '@/features/journey/journeyCard.css';
 
 // Home page card: the next journey step (resumed where it was left), the streak, today's
 // XP and how much of the journey is done.

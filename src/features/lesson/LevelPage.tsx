@@ -1,25 +1,25 @@
 import { Navigate, useSearchParams } from 'react-router';
-import { lessonStore } from './lessonStore.ts';
-import HskChars from '../hsk/HskChars.tsx';
-import { useProgress } from '../progress/useProgress.ts';
-import PageToolbar from '../settings/PageToolbar.tsx';
-import { usePersistentState } from '../../shared/hooks/usePersistentState.ts';
-import Seg from '../../shared/ui/Seg.tsx';
-import { t } from '../../shared/i18n/en.ts';
-import { COURSE_LESSONS } from '../../data/courseLessons.ts';
-import JourneyMap from '../journey/JourneyMap.tsx';
-import { courseLessonPath, lessonPath } from '../../shared/paths.ts';
+import { lessonStore } from '@/features/lesson/lessonStore.ts';
+import HskChars from '@/features/hsk/HskChars.tsx';
+import { useProgress } from '@/features/progress/useProgress.ts';
+import PageToolbar from '@/features/settings/PageToolbar.tsx';
+import { usePersistentState } from '@/shared/hooks/usePersistentState.ts';
+import Seg from '@/shared/ui/Seg.tsx';
+import { t } from '@/shared/i18n/en.ts';
+import { COURSE_LESSONS } from '@/data/courseLessons.ts';
+import JourneyMap from '@/features/journey/JourneyMap.tsx';
+import { courseLessonPath, lessonPath } from '@/shared/paths.ts';
 import {
   continueIndex,
   lessonsDone,
   normalizeLessonKey,
   statusOf,
-} from './lessonNav.ts';
-import { art } from './art/index.ts';
-import LevelCard from './LevelCard.tsx';
-import { useLevelParam } from './lessonRoute.ts';
-import '../../shared/ui/page.css';
-import './level.css';
+} from '@/features/lesson/lessonNav.ts';
+import { art } from '@/features/lesson/art/index.ts';
+import LevelCard from '@/features/lesson/LevelCard.tsx';
+import { useLevelParam } from '@/features/lesson/lessonRoute.ts';
+import '@/shared/ui/page.css';
+import '@/features/lesson/level.css';
 
 type Tab = 'journey' | 'lessons' | 'topics' | 'chars';
 const TABS = [

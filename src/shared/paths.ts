@@ -1,7 +1,7 @@
 // Every URL of the app, as plain functions with no other dependencies, so any module (even
 // the router in the entry chunk) can build links without loading data or progress code.
-import type { CourseExercise } from '../data/courseLessons.ts';
-import type { ExerciseId } from '../domain/exercises.ts';
+import type { CourseExercise } from '@/data/courseLessons.ts';
+import type { ExerciseId } from '@/domain/exercises.ts';
 
 export const levelPath = (level: string) => `/hsk/${level}`;
 export const levelCharsPath = (level: string, mode?: 'write') =>

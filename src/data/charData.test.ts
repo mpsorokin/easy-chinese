@@ -1,11 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { charFile } from '../domain/charFile.ts';
+import { charFile } from '@/domain/charFile.ts';
 import {
   _resetCharDataCache,
   charUrl,
   getCachedCharData,
   loadCharData,
-} from './charData.ts';
+} from '@/data/charData.ts';
 
 const DATA = { strokes: ['M0 0'], medians: [[[0, 0]]] };
 const response = (

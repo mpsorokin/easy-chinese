@@ -7,16 +7,16 @@ import {
 } from 'react';
 import type { ReactNode, Ref } from 'react';
 import HanziWriter from 'hanzi-writer';
-import CanvasCell from '../../shared/ui/CanvasCell.tsx';
-import { drawGrid } from '../../shared/lib/draw.ts';
-import { loadCharData } from '../../data/charData.ts';
-import type { GridKind, StrokePaths } from '../../domain/types.ts';
-import { rgba, writingColors } from '../../shared/theme.ts';
-import type { WritingColors } from '../../shared/theme.ts';
-import { vibrate } from '../../shared/lib/haptics.ts';
-import { useTheme } from '../settings/useTheme.ts';
-import type { QuizCallbacks, WriterHandle } from './types.ts';
-import './WritingCell.css';
+import CanvasCell from '@/shared/ui/CanvasCell.tsx';
+import { drawGrid } from '@/shared/lib/draw.ts';
+import { loadCharData } from '@/data/charData.ts';
+import type { GridKind, StrokePaths } from '@/domain/types.ts';
+import { rgba, writingColors } from '@/shared/theme.ts';
+import type { WritingColors } from '@/shared/theme.ts';
+import { vibrate } from '@/shared/lib/haptics.ts';
+import { useTheme } from '@/features/settings/useTheme.ts';
+import type { QuizCallbacks, WriterHandle } from '@/features/writer/types.ts';
+import '@/features/writer/WritingCell.css';
 
 const writerColors = (colors: WritingColors, outline: number) => ({
   strokeColor: colors.ink,

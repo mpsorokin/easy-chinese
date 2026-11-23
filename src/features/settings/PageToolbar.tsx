@@ -1,6 +1,6 @@
 import type { ComponentProps, ReactNode } from 'react';
-import BackLink from '../../shared/ui/BackLink.tsx';
-import ThemeControl from './ThemeControl.tsx';
+import BackLink from '@/shared/ui/BackLink.tsx';
+import ThemeControl from '@/features/settings/ThemeControl.tsx';
 
 // The row at the top of most pages: a back link, optional extra links and the theme control.
 export default function PageToolbar({

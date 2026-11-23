@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { plural } from './plural.ts';
+import { plural } from '@/shared/lib/plural.ts';
 
 describe('plural', () => {
   it('uses the singular only for 1', () => {

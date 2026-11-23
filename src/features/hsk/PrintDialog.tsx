@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
-import Seg from '../../shared/ui/Seg.tsx';
-import { t } from '../../shared/i18n/en.ts';
-import { PRINT_ROWS } from './printOptions.ts';
-import type { PrintOptions } from './printOptions.ts';
-import type { GridKind } from '../../domain/types.ts';
+import Seg from '@/shared/ui/Seg.tsx';
+import { t } from '@/shared/i18n/en.ts';
+import { PRINT_ROWS } from '@/features/hsk/printOptions.ts';
+import type { PrintOptions } from '@/features/hsk/printOptions.ts';
+import type { GridKind } from '@/domain/types.ts';
 
 const ROW_OPTIONS = PRINT_ROWS.map((n) => [n, String(n)] as const);
 const GRID_OPTIONS = [

@@ -8,15 +8,15 @@ import {
   recordAttempt,
   recordJourney,
   recordLesson,
-} from './progress.ts';
-import type { AttemptResult } from './progress.ts';
-import type { ExerciseId } from '../../domain/exercises.ts';
-import type { Grade } from '../../domain/grading.ts';
+} from '@/features/progress/progress.ts';
+import type { AttemptResult } from '@/features/progress/progress.ts';
+import type { ExerciseId } from '@/domain/exercises.ts';
+import type { Grade } from '@/domain/grading.ts';
 import {
   getProgress,
   subscribeProgress,
   updateProgress,
-} from './progressStore.ts';
+} from '@/features/progress/progressStore.ts';
 
 // Persistent learning progress: per-character stats, best grades for the UI, lesson
 // exercise results, journey steps, review boxes and daily XP. Every caller sees the same

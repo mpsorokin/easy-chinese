@@ -1,9 +1,9 @@
 // Hooks shared by the HSK pages: reading the level, topic or course lesson from the URL,
 // and opening a copybook. Pages redirect themselves when a value is missing.
 import { useNavigate, useParams } from 'react-router';
-import { levelData } from '../../data/hsk.ts';
-import { courseLesson } from '../../data/courseLessons.ts';
-import { useProgress } from '../progress/useProgress.ts';
+import { levelData } from '@/data/hsk.ts';
+import { courseLesson } from '@/data/courseLessons.ts';
+import { useProgress } from '@/features/progress/useProgress.ts';
 
 // '/hsk/:level/…': the level, undefined for an unknown id.
 export const useLevelParam = () => levelData(useParams().level);

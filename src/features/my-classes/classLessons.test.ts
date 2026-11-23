@@ -4,7 +4,7 @@ import {
   parseClassContent,
   parseClassLesson,
   type ClassBlock,
-} from './classLessons.ts';
+} from '@/features/my-classes/classLessons.ts';
 
 const NOTES = `# 第一课 · Dì yī kè · Урок 1
 

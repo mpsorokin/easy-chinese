@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { RefObject } from 'react';
 import type { CharacterJson, StrokeData } from 'hanzi-writer';
-import { STEPS } from './steps.ts';
-import type { Settings } from '../settings/settings.ts';
-import { finalGrade, gradeFor } from '../../domain/grading.ts';
-import type { FinalGrade, StepResult } from '../../domain/grading.ts';
-import type { CharEntry } from '../../domain/types.ts';
-import { vibrate } from '../../shared/lib/haptics.ts';
-import { t } from '../../shared/i18n/en.ts';
-import type { AttemptComplete, WriterHandle } from '../writer/types.ts';
+import { STEPS } from '@/features/copybook/steps.ts';
+import type { Settings } from '@/features/settings/settings.ts';
+import { finalGrade, gradeFor } from '@/domain/grading.ts';
+import type { FinalGrade, StepResult } from '@/domain/grading.ts';
+import type { CharEntry } from '@/domain/types.ts';
+import { vibrate } from '@/shared/lib/haptics.ts';
+import { t } from '@/shared/i18n/en.ts';
+import type { AttemptComplete, WriterHandle } from '@/features/writer/types.ts';
 
 export const NEXT_STEP_DELAY = 1100; // ms between finishing a step and starting the next one
 export const AFTER_ANIMATION_DELAY = 500;

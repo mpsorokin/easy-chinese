@@ -1,10 +1,10 @@
 // HSK levels and their data: characters, words and themed lessons (src/data/hsk/<level>/*.json,
 // imported from the official 2025 syllabus by scripts/import-hsk.ts), plus lookups.
-import type { CharEntry, HskChar, HskWord, Lesson } from '../domain/types.ts';
-import hsk1Chars from './hsk/1/chars.json';
-import hsk1Words from './hsk/1/words.json';
-import hsk1Lessons from './hsk/1/lessons.json';
-import extraChars from './presets/extra-chars.json';
+import type { CharEntry, HskChar, HskWord, Lesson } from '@/domain/types.ts';
+import hsk1Chars from '@/data/hsk/1/chars.json';
+import hsk1Words from '@/data/hsk/1/words.json';
+import hsk1Lessons from '@/data/hsk/1/lessons.json';
+import extraChars from '@/data/presets/extra-chars.json';
 
 // Everything the app knows about one level.
 export type LevelData = {

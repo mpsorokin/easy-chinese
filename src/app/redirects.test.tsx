@@ -2,7 +2,7 @@
 import { render } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider, useLocation } from 'react-router';
 import { describe, expect, it } from 'vitest';
-import { LessonsTab, OldTopic, TopicsTab } from './redirects.tsx';
+import { LessonsTab, OldTopic, TopicsTab } from '@/app/redirects.tsx';
 
 function Where() {
   const { pathname, search } = useLocation();

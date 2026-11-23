@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { addXp, currentStreak, dayKey, isDaily, todayXp } from './daily.ts';
+import {
+  addXp,
+  currentStreak,
+  dayKey,
+  isDaily,
+  todayXp,
+} from '@/domain/daily.ts';
 
 const at = (y: number, m: number, d: number, h = 12) =>
   new Date(y, m - 1, d, h).getTime();

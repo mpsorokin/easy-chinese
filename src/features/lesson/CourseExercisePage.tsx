@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Navigate, useParams } from 'react-router';
-import { exerciseLines, isLinesExercise } from '../../data/courseLessons.ts';
-import { t } from '../../shared/i18n/en.ts';
-import { courseLessonPath } from '../../shared/paths.ts';
-import { useCourseParams } from './lessonRoute.ts';
-import DialogueReader from './DialogueReader.tsx';
+import { exerciseLines, isLinesExercise } from '@/data/courseLessons.ts';
+import { t } from '@/shared/i18n/en.ts';
+import { courseLessonPath } from '@/shared/paths.ts';
+import { useCourseParams } from '@/features/lesson/lessonRoute.ts';
+import DialogueReader from '@/features/lesson/DialogueReader.tsx';
 
 export default function CourseExercisePage() {
   const { level, lesson } = useCourseParams();

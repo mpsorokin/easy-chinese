@@ -1,7 +1,7 @@
-import type { CourseExercise } from '../../data/courseLessons.ts';
-import { exerciseNumber } from '../../data/courseLessons.ts';
-import type { ExerciseId } from '../../domain/exercises.ts';
-import { art } from './art/index.ts';
+import type { CourseExercise } from '@/data/courseLessons.ts';
+import { exerciseNumber } from '@/data/courseLessons.ts';
+import type { ExerciseId } from '@/domain/exercises.ts';
+import { art } from '@/features/lesson/art/index.ts';
 
 // Card pictures of each lesson's exercises (file names in ./art), exercise 1 first; they
 // repeat across lessons and illustrate each lesson's own topics. `words` is the Words card.

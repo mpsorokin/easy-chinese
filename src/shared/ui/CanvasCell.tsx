@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import type { ComponentProps } from 'react';
-import { prepCanvas } from '../lib/draw.ts';
+import { prepCanvas } from '@/shared/lib/draw.ts';
 
 type CanvasCellProps = Omit<ComponentProps<'canvas'>, 'size' | 'height'> & {
   size: number;

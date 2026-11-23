@@ -1,11 +1,8 @@
 // All user-facing strings (English). Keep UI text here rather than in components.
-import type { CharEntry } from '../../domain/types.ts';
-import { plural } from '../lib/plural.ts';
-import type { Grade } from '../../domain/grading.ts';
-import {
-  exerciseNumber,
-  type CourseExercise,
-} from '../../data/courseExercise.ts';
+import type { CharEntry } from '@/domain/types.ts';
+import { plural } from '@/shared/lib/plural.ts';
+import type { Grade } from '@/domain/grading.ts';
+import { exerciseNumber, type CourseExercise } from '@/data/courseExercise.ts';
 
 // A number written in Chinese characters, up to 99: 1 → 一, 12 → 十二, 27 → 二十七.
 const CN_DIGITS = '零一二三四五六七八九';

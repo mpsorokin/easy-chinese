@@ -1,25 +1,32 @@
 import { useEffect } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router';
-import { lessonStore } from './lessonStore.ts';
-import { lessonChars, lessonWords } from '../../data/hsk.ts';
-import { availableExercises } from '../../domain/exercises.ts';
-import type { ExerciseId } from '../../domain/exercises.ts';
-import { lessonKey, lessonResults, PASS_GRADE } from '../progress/progress.ts';
-import { useProgress } from '../progress/useProgress.ts';
-import { t } from '../../shared/i18n/en.ts';
-import PageToolbar from '../settings/PageToolbar.tsx';
-import WriteIcon from '../../shared/ui/WriteIcon.tsx';
-import Meter from '../../shared/ui/Meter.tsx';
-import LessonExerciseCards from './LessonExerciseCards.tsx';
-import { useOpenCopybook, useTopicParams } from './lessonRoute.ts';
+import { lessonStore } from '@/features/lesson/lessonStore.ts';
+import { lessonChars, lessonWords } from '@/data/hsk.ts';
+import { availableExercises } from '@/domain/exercises.ts';
+import type { ExerciseId } from '@/domain/exercises.ts';
+import {
+  lessonKey,
+  lessonResults,
+  PASS_GRADE,
+} from '@/features/progress/progress.ts';
+import { useProgress } from '@/features/progress/useProgress.ts';
+import { t } from '@/shared/i18n/en.ts';
+import PageToolbar from '@/features/settings/PageToolbar.tsx';
+import WriteIcon from '@/shared/ui/WriteIcon.tsx';
+import Meter from '@/shared/ui/Meter.tsx';
+import LessonExerciseCards from '@/features/lesson/LessonExerciseCards.tsx';
+import {
+  useOpenCopybook,
+  useTopicParams,
+} from '@/features/lesson/lessonRoute.ts';
 import {
   exercisePath,
   lessonPath,
   levelPath,
   topicWritePath,
-} from '../../shared/paths.ts';
-import '../../shared/ui/page.css';
-import './lesson.css';
+} from '@/shared/paths.ts';
+import '@/shared/ui/page.css';
+import '@/features/lesson/lesson.css';
 
 // One lesson: its characters and words, and the four exercises with their best results.
 export default function LessonPage() {

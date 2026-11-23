@@ -1,32 +1,35 @@
 import { useEffect } from 'react';
 import { Link, Navigate, useLocation, useParams } from 'react-router';
-import { t } from '../../shared/i18n/en.ts';
-import WriteIcon from '../../shared/ui/WriteIcon.tsx';
-import PageToolbar from '../settings/PageToolbar.tsx';
-import family from '../lesson/art/level/family.webp';
-import greetings from '../lesson/art/level/introductions.webp';
-import hills from '../lesson/art/level/hills.webp';
-import grammar from '../lesson/art/level/function-words.webp';
-import speaking from '../lesson/art/level/speaking.webp';
-import writing from '../lesson/art/exercises/calligraphy.webp';
+import { t } from '@/shared/i18n/en.ts';
+import WriteIcon from '@/shared/ui/WriteIcon.tsx';
+import PageToolbar from '@/features/settings/PageToolbar.tsx';
+import family from '@/features/lesson/art/level/family.webp';
+import greetings from '@/features/lesson/art/level/introductions.webp';
+import hills from '@/features/lesson/art/level/hills.webp';
+import grammar from '@/features/lesson/art/level/function-words.webp';
+import speaking from '@/features/lesson/art/level/speaking.webp';
+import writing from '@/features/lesson/art/exercises/calligraphy.webp';
 import {
   classesPath,
   classPath,
   classTranslationPath,
   readingPath,
   translationDirections,
-} from '../../shared/paths.ts';
-import ClassBlocks from './ClassBlocks.tsx';
-import ClassSectionNav from './ClassSectionNav.tsx';
-import ClassText from './ClassText.tsx';
+} from '@/shared/paths.ts';
+import ClassBlocks from '@/features/my-classes/ClassBlocks.tsx';
+import ClassSectionNav from '@/features/my-classes/ClassSectionNav.tsx';
+import ClassText from '@/features/my-classes/ClassText.tsx';
 import {
   classLesson,
   classLessons,
   type ClassLesson,
   type SectionKind,
-} from './classLessons.ts';
-import { canPracticeClass, classTranslationWords } from './classTranslation.ts';
-import './myClasses.css';
+} from '@/features/my-classes/classLessons.ts';
+import {
+  canPracticeClass,
+  classTranslationWords,
+} from '@/features/my-classes/classTranslation.ts';
+import '@/features/my-classes/myClasses.css';
 
 const covers = new Map([
   [1, greetings],

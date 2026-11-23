@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate, useLocation, useParams } from 'react-router';
-import { storySteps } from '../../data/courseLessons.ts';
-import { t } from '../../shared/i18n/en.ts';
+import { storySteps } from '@/data/courseLessons.ts';
+import { t } from '@/shared/i18n/en.ts';
 import {
   courseLessonPath,
   courseRunPath,
   FROM_JOURNEY,
   fromJourney,
   journeyPath,
-} from '../../shared/paths.ts';
-import { useCourseParams } from './lessonRoute.ts';
-import { journeyKey } from '../progress/progress.ts';
-import { useProgress } from '../progress/useProgress.ts';
-import { clearStory, saveStory } from '../progress/sessionStore.ts';
-import DialogueReader from './DialogueReader.tsx';
+} from '@/shared/paths.ts';
+import { useCourseParams } from '@/features/lesson/lessonRoute.ts';
+import { journeyKey } from '@/features/progress/progress.ts';
+import { useProgress } from '@/features/progress/useProgress.ts';
+import { clearStory, saveStory } from '@/features/progress/sessionStore.ts';
+import DialogueReader from '@/features/lesson/DialogueReader.tsx';
 
 // "Start lesson": every dialogue exercise of the lesson (not the word list) in a row, one
 // per page with a progress bar; each step has its own link

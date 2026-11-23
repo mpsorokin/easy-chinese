@@ -1,9 +1,12 @@
 // localStorage keys owned by the progress feature (same `hanzi:` prefix as the rest of the app).
-import { normalizeBest } from '../../domain/grading.ts';
-import type { BestGrades } from '../../domain/grading.ts';
-import { createStore } from '../../shared/lib/storage.ts';
-import { migrateBestGrades, normalizeProgress } from './progress.ts';
-import type { Progress } from './progress.ts';
+import { normalizeBest } from '@/domain/grading.ts';
+import type { BestGrades } from '@/domain/grading.ts';
+import { createStore } from '@/shared/lib/storage.ts';
+import {
+  migrateBestGrades,
+  normalizeProgress,
+} from '@/features/progress/progress.ts';
+import type { Progress } from '@/features/progress/progress.ts';
 
 type ProgressStorage = {
   progress: Progress;

@@ -1,8 +1,8 @@
-import { stars as starString, t } from '../shared/i18n/en.ts';
-import type { CharEntry } from '../domain/types.ts';
-import type { Grade } from '../domain/grading.ts';
-import { canSpeak, speakChinese } from '../shared/lib/speech.ts';
-import WriteIcon from '../shared/ui/WriteIcon.tsx';
+import { stars as starString, t } from '@/shared/i18n/en.ts';
+import type { CharEntry } from '@/domain/types.ts';
+import type { Grade } from '@/domain/grading.ts';
+import { canSpeak, speakChinese } from '@/shared/lib/speech.ts';
+import WriteIcon from '@/shared/ui/WriteIcon.tsx';
 
 export default function Header({
   item,

@@ -1,25 +1,25 @@
 // Lessons of the "Lessons" tab (separate from the themed topics): exercise cards and content.
-import { hskEntry } from './hsk.ts';
-import type { HskChar, HskWord } from '../domain/types.ts';
-import { lesson1 } from './lessons/lesson1.ts';
-import { lesson2 } from './lessons/lesson2.ts';
-import { lesson3 } from './lessons/lesson3.ts';
-import { lesson4 } from './lessons/lesson4.ts';
-import { lesson5 } from './lessons/lesson5.ts';
-import { lesson6 } from './lessons/lesson6.ts';
-import { lesson7 } from './lessons/lesson7.ts';
+import { hskEntry } from '@/data/hsk.ts';
+import type { HskChar, HskWord } from '@/domain/types.ts';
+import { lesson1 } from '@/data/lessons/lesson1.ts';
+import { lesson2 } from '@/data/lessons/lesson2.ts';
+import { lesson3 } from '@/data/lessons/lesson3.ts';
+import { lesson4 } from '@/data/lessons/lesson4.ts';
+import { lesson5 } from '@/data/lessons/lesson5.ts';
+import { lesson6 } from '@/data/lessons/lesson6.ts';
+import { lesson7 } from '@/data/lessons/lesson7.ts';
 import {
   isDialogueExercise,
   type CourseExercise,
   type DialogueExercise,
-} from './courseExercise.ts';
+} from '@/data/courseExercise.ts';
 
 export {
   exerciseNumber,
   isDialogueExercise,
   type CourseExercise,
   type DialogueExercise,
-} from './courseExercise.ts';
+} from '@/data/courseExercise.ts';
 
 // One piece of a dialogue line: a character with its pinyin, or text without a reading
 // (punctuation, Latin letters such as "AI").

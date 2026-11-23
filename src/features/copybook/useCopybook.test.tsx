@@ -2,14 +2,14 @@
 import { act, renderHook } from '@testing-library/react';
 import type { StrokeData } from 'hanzi-writer';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { STEPS } from './steps.ts';
-import { DEFAULT_SETTINGS } from '../settings/settings.ts';
-import { t } from '../../shared/i18n/en.ts';
+import { STEPS } from '@/features/copybook/steps.ts';
+import { DEFAULT_SETTINGS } from '@/features/settings/settings.ts';
+import { t } from '@/shared/i18n/en.ts';
 import {
   AFTER_ANIMATION_DELAY,
   NEXT_STEP_DELAY,
   useCopybook,
-} from './useCopybook.ts';
+} from '@/features/copybook/useCopybook.ts';
 
 const item = { c: '人', py: 'rén', en: 'person' };
 const data = { strokes: ['M0 0', 'M1 1'], medians: [[], []] };

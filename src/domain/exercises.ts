@@ -1,6 +1,6 @@
 // Lesson exercises: ids and question generators. Pure TypeScript, no React.
 // Randomness comes in as `rng` (Math.random by default) so tests can fix it.
-import type { HskChar, HskWord } from './types.ts';
+import type { HskChar, HskWord } from '@/domain/types.ts';
 
 export const EXERCISES = [
   'write',

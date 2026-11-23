@@ -1,12 +1,12 @@
 import { Navigate, useParams } from 'react-router';
-import { coursePart, courseWords } from '../../data/courseLessons.ts';
-import { buildQuiz, isExercise } from '../../domain/exercises.ts';
-import { courseLessonKey } from '../progress/progress.ts';
-import { useProgress } from '../progress/useProgress.ts';
-import { t } from '../../shared/i18n/en.ts';
-import { useCourseParams } from './lessonRoute.ts';
-import { courseLessonPath, levelLessonsPath } from '../../shared/paths.ts';
-import QuizPage from './QuizPage.tsx';
+import { coursePart, courseWords } from '@/data/courseLessons.ts';
+import { buildQuiz, isExercise } from '@/domain/exercises.ts';
+import { courseLessonKey } from '@/features/progress/progress.ts';
+import { useProgress } from '@/features/progress/useProgress.ts';
+import { t } from '@/shared/i18n/en.ts';
+import { useCourseParams } from '@/features/lesson/lessonRoute.ts';
+import { courseLessonPath, levelLessonsPath } from '@/shared/paths.ts';
+import QuizPage from '@/features/lesson/QuizPage.tsx';
 
 // A quiz exercise of a lesson in the Lessons tab (writing runs in the copybook instead).
 export default function CourseQuizPage() {

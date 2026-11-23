@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router';
-import WriteIcon from '../../shared/ui/WriteIcon.tsx';
-import { t } from '../../shared/i18n/en.ts';
-import './levelCard.css';
+import WriteIcon from '@/shared/ui/WriteIcon.tsx';
+import { t } from '@/shared/i18n/en.ts';
+import '@/features/lesson/levelCard.css';
 
 type LevelCardProps = {
   variant: 'lesson' | 'topic';

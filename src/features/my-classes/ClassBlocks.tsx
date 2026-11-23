@@ -1,9 +1,12 @@
 import type { ReactNode } from 'react';
-import { t } from '../../shared/i18n/en.ts';
-import { canSpeak, speakChinese } from '../../shared/lib/speech.ts';
-import WriteIcon from '../../shared/ui/WriteIcon.tsx';
-import type { ClassBlock, ClassTable } from './classLessons.ts';
-import ClassText from './ClassText.tsx';
+import { t } from '@/shared/i18n/en.ts';
+import { canSpeak, speakChinese } from '@/shared/lib/speech.ts';
+import WriteIcon from '@/shared/ui/WriteIcon.tsx';
+import type {
+  ClassBlock,
+  ClassTable,
+} from '@/features/my-classes/classLessons.ts';
+import ClassText from '@/features/my-classes/ClassText.tsx';
 
 const speechAvailable = canSpeak();
 // A cell that is a whole Chinese phrase in bold can be listened to.

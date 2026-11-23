@@ -1,5 +1,5 @@
 // Lesson 2 of the "Lessons" tab.
-import type { CourseLesson } from '../courseLessons.ts';
+import type { CourseLesson } from '@/data/courseLessons.ts';
 
 export const lesson2: CourseLesson = {
   id: 2,

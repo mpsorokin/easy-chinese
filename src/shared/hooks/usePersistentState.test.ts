@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { act, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { createStore } from '../lib/storage.ts';
-import { usePersistentState } from './usePersistentState.ts';
+import { createStore } from '@/shared/lib/storage.ts';
+import { usePersistentState } from '@/shared/hooks/usePersistentState.ts';
 
 type Schema = { n: number };
 const store = createStore<Schema>('test:');

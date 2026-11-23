@@ -3,8 +3,8 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { useState } from 'react';
 import { MemoryRouter } from 'react-router';
 import { afterEach, expect, it } from 'vitest';
-import { t } from '../../shared/i18n/en.ts';
-import DialogueReader from './DialogueReader.tsx';
+import { t } from '@/shared/i18n/en.ts';
+import DialogueReader from '@/features/lesson/DialogueReader.tsx';
 
 function Reader(
   props: Pick<Parameters<typeof DialogueReader>[0], 'lines' | 'variant'>,
