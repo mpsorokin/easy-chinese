@@ -23,6 +23,7 @@ import { useCourseParams, useOpenCopybook } from './lessonRoute.ts';
 import { t } from '../../shared/i18n/en.ts';
 import { courseExerciseArt, coursePracticeArt } from './courseExerciseArt.ts';
 import {
+  COURSE_LEVEL,
   courseExercisePath,
   courseQuizPath,
   courseRunPath,
@@ -60,7 +61,7 @@ export default function CourseLessonPage() {
   const steps = storySteps(lesson).length;
   const saved = stored && stored.step <= steps ? stored : undefined;
   const stories =
-    level.id === '1'
+    level.id === COURSE_LEVEL
       ? readingStories.filter(
           ({ lessons }) =>
             lessons && lesson.id >= lessons[0] && lesson.id <= lessons[1],

@@ -3,6 +3,7 @@ import {
   shuffle,
   type ChoiceQuestion,
 } from '../../domain/exercises.ts';
+import { HSK1_LEVEL } from '../../data/hsk.ts';
 import type { HskWord } from '../../domain/types.ts';
 import type { ClassLesson } from './classLessons.ts';
 import type { TranslationDirection } from './classRoutes.ts';
@@ -41,21 +42,35 @@ const english: Readonly<Record<string, string>> = {
   水: 'water',
 };
 
+const hskGloss = new Map(HSK1_LEVEL.words.map((word) => [word.w, word.en]));
+const BOLD_HAN = /^\*\*(\p{Script=Han}+)\*\*$/u;
+
+// The words of a lesson's vocabulary tables that have an English gloss: this file's own
+// (made to tell the words of a lesson apart) or else the HSK list's.
 export function classTranslationWords(lesson: ClassLesson): HskWord[] {
-  const vocabulary = lesson.sections.find(
-    ({ title }) => title === 'Основная лексика',
-  );
   const words = new Map<string, HskWord>();
-  for (const line of vocabulary?.body.split('\n') ?? []) {
-    const [, w, py] =
-      /^\|\s*\*\*([\p{Script=Han}]+)\*\*\s*\|\s*([^|]+?)\s*\|/u.exec(line) ??
-      [];
-    if (!w || !py || words.has(w)) continue;
-    const en = english[w];
-    if (en) words.set(w, { w, py, en });
+  for (const section of lesson.sections) {
+    if (section.kind !== 'vocabulary') continue;
+    for (const block of section.blocks) {
+      if (block.type !== 'table') continue;
+      const { columns, rows } = block.table;
+      const hanzi = columns.indexOf('hanzi');
+      const pinyin = columns.indexOf('pinyin');
+      if (hanzi < 0 || pinyin < 0) continue;
+      for (const row of rows) {
+        const w = BOLD_HAN.exec(row[hanzi] ?? '')?.[1];
+        const py = row[pinyin];
+        const en = w && (english[w] ?? hskGloss.get(w));
+        if (w && py && en && !words.has(w)) words.set(w, { w, py, en });
+      }
+    }
   }
   return [...words.values()];
 }
+
+// A round needs enough distinct meanings for the wrong options of every question.
+export const canPracticeClass = (words: readonly HskWord[]) =>
+  new Set(words.map(({ en }) => en)).size >= OPTIONS;
 
 export function classTranslationQuestions(
   words: readonly HskWord[],

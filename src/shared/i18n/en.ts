@@ -57,6 +57,12 @@ export const t = {
     'en-zh': 'English → Chinese',
   },
   classChooseTranslation: 'Choose the correct translation.',
+  classSections: 'Lesson sections',
+  classSectionsMenu: 'Sections',
+  classNeighbors: 'Other classes',
+  classAnswers: 'Answers',
+  classShowAnswers: 'Show answers',
+  classHideAnswers: 'Hide answers',
   levelMeta: (chars: number, words: number) =>
     `${count(chars, 'character')} · ${count(words, 'word')}`,
   topicsDone: (done: number, total: number) => `${done} of ${total} topics`,

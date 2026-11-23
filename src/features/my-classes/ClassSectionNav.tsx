@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { classText } from './ClassLessonContent.tsx';
+import { t } from '../../shared/i18n/en.ts';
 import type { ClassLesson } from './classLessons.ts';
+import ClassText from './ClassText.tsx';
 
 export default function ClassSectionNav({ lesson }: { lesson: ClassLesson }) {
   const nav = useRef<HTMLElement>(null);
@@ -33,14 +34,25 @@ export default function ClassSectionNav({ lesson }: { lesson: ClassLesson }) {
       setActive(current?.id ?? '');
     };
 
+    // Layout is read at most once a frame, however often scroll events fire.
+    let frame = 0;
+    const schedule = () => {
+      if (!frame)
+        frame = requestAnimationFrame(() => {
+          frame = 0;
+          update();
+        });
+    };
+
     update();
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    window.addEventListener('hashchange', update);
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    window.addEventListener('hashchange', schedule);
     return () => {
-      window.removeEventListener('scroll', update);
-      window.removeEventListener('resize', update);
-      window.removeEventListener('hashchange', update);
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+      window.removeEventListener('hashchange', schedule);
     };
   }, [lesson.sections]);
 
@@ -48,15 +60,14 @@ export default function ClassSectionNav({ lesson }: { lesson: ClassLesson }) {
 
   const current = lesson.sections.find(({ anchor }) => active === anchor);
   return (
-    <nav
-      ref={nav}
-      className="class-section-nav"
-      aria-label="Разделы урока"
-      lang="ru"
-    >
-      <span className="class-section-position">
+    <nav ref={nav} className="class-section-nav" aria-label={t.classSections}>
+      <span className="class-section-position" lang="ru">
         <strong>{lesson.label}</strong>
-        {current && <span>{classText(current.title)}</span>}
+        {current && (
+          <span>
+            <ClassText text={current.title} />
+          </span>
+        )}
       </span>
       <details
         ref={menu}
@@ -72,8 +83,8 @@ export default function ClassSectionNav({ lesson }: { lesson: ClassLesson }) {
           }
         }}
       >
-        <summary>Разделы</summary>
-        <ul role="list">
+        <summary>{t.classSectionsMenu}</summary>
+        <ul role="list" lang="ru">
           {lesson.sections.map(({ anchor, title }) => (
             <li key={anchor}>
               <a
@@ -83,7 +94,7 @@ export default function ClassSectionNav({ lesson }: { lesson: ClassLesson }) {
                   if (menu.current) menu.current.open = false;
                 }}
               >
-                {classText(title)}
+                <ClassText text={title} />
               </a>
             </li>
           ))}

@@ -22,6 +22,8 @@ export const selectionWritePath = (
   `/write/${level}?${new URLSearchParams({ set: chars.join(''), ...(mode ? { from: mode } : {}) }).toString()}`;
 export const levelLessonsPath = (level: string) =>
   `${levelPath(level)}?tab=lessons`;
+// The level whose Lessons tab has the course of src/data/lessons.
+export const COURSE_LEVEL = '1';
 export const courseLessonPath = (level: string, lesson: number) =>
   `/hsk/${level}/lessons/${lesson}`;
 export const courseExercisePath = (

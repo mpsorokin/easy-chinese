@@ -574,7 +574,7 @@
     border: 0;
   }
 
-  .class-table-phrases :is([data-column='Кто говорит'], [data-column='№']) {
+  .class-table-phrases :is([data-column='speaker'], [data-column='number']) {
     color: var(--class-muted);
     font-weight: 700;
   }
@@ -583,7 +583,7 @@
     font-size: 1.3rem;
   }
 
-  .class-table-phrases [data-column='Пример'] {
+  .class-table-phrases [data-column='example'] {
     margin-top: 5px;
     padding-inline-start: 10px;
     border-inline-start: 2px solid var(--line);

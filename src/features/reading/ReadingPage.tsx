@@ -91,7 +91,7 @@ function Story({ story }: { story: ReadingStory }) {
       backLabel={t.reading}
       shown={shown}
       onToggle={() => setShown((previous) => !previous)}
-      toggleAtTop
+      variant="story"
     />
   );
 }

@@ -30,7 +30,7 @@ export default function DialogueReader({
   onToggle,
   progress,
   footer,
-  toggleAtTop = false,
+  variant = 'exercise',
 }: {
   title: string;
   titleLang?: string;
@@ -42,7 +42,8 @@ export default function DialogueReader({
   onToggle: () => void;
   progress?: ReactNode;
   footer?: ReactNode;
-  toggleAtTop?: boolean;
+  // A story keeps its show/hide button at the top, sticky while reading.
+  variant?: 'exercise' | 'story';
 }) {
   const playable = canSpeak();
   const toggle = (
@@ -61,7 +62,7 @@ export default function DialogueReader({
   return (
     <main
       className={
-        toggleAtTop
+        variant === 'story'
           ? 'page-frame course-exercise course-story'
           : 'page-frame course-exercise'
       }
@@ -80,7 +81,7 @@ export default function DialogueReader({
         {subtitle && <p className="course-exercise-subtitle">{subtitle}</p>}
       </header>
 
-      {toggleAtTop && toggle}
+      {variant === 'story' && toggle}
       <div id="course-dialogue" className="course-dialogue" data-shown={shown}>
         {lines.map((line, index) => {
           const segmented = 'segments' in line;
@@ -131,7 +132,7 @@ export default function DialogueReader({
         })}
       </div>
 
-      {!toggleAtTop && toggle}
+      {variant === 'exercise' && toggle}
       {footer}
     </main>
   );

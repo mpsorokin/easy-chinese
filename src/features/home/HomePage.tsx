@@ -18,6 +18,7 @@ import {
 import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 import ThemeControl from '../settings/ThemeControl.tsx';
 import JourneyCard from '../journey/JourneyCard.tsx';
+import { classesPath } from '../my-classes/classRoutes.ts';
 import { readingPath } from '../reading/readingNav.ts';
 import mistyPavilion from './art/misty-pavilion.webp';
 import './home.css';
@@ -119,7 +120,7 @@ export default function HomePage() {
         );
       })}
 
-      <Link className="home-level home-panel" to="/my-classes">
+      <Link className="home-level home-panel" to={classesPath}>
         <span className="home-level-info">
           <b>{t.myClasses}</b>
           <span className="home-level-meta">{t.myClassesDescription}</span>

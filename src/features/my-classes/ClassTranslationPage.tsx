@@ -3,7 +3,7 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router';
 import { t } from '../../shared/i18n/en.ts';
 import QuizRunner from '../lesson/QuizRunner.tsx';
 import ThemeControl from '../settings/ThemeControl.tsx';
-import { classLessons, type ClassLesson } from './classLessons.ts';
+import { classLesson, type ClassLesson } from './classLessons.ts';
 import {
   classPath,
   classesPath,
@@ -11,6 +11,7 @@ import {
   type TranslationDirection,
 } from './classRoutes.ts';
 import {
+  canPracticeClass,
   classTranslationQuestions,
   classTranslationWords,
 } from './classTranslation.ts';
@@ -29,7 +30,7 @@ function ClassTranslationRound({
     id: 0,
     questions: classTranslationQuestions(words, direction),
   }));
-  if (!round.questions.length)
+  if (!canPracticeClass(words) || !round.questions.length)
     return <Navigate to={classPath(lesson.id)} replace />;
 
   return (
@@ -68,7 +69,7 @@ function ClassTranslationRound({
 
 export default function ClassTranslationPage() {
   const { lesson: id, direction } = useParams();
-  const lesson = classLessons.find((item) => String(item.id) === id);
+  const lesson = classLesson(id);
   if (!lesson) return <Navigate to={classesPath} replace />;
   if (!isTranslationDirection(direction))
     return <Navigate to={classPath(lesson.id)} replace />;

@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { Link, Navigate, useLocation, useParams } from 'react-router';
-import { OPTIONS } from '../../domain/exercises.ts';
 import { t } from '../../shared/i18n/en.ts';
 import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 import ThemeControl from '../settings/ThemeControl.tsx';
@@ -11,27 +10,39 @@ import grammar from '../lesson/art/level/function-words.webp';
 import speaking from '../lesson/art/level/speaking.webp';
 import writing from '../lesson/art/exercises/calligraphy.webp';
 import { readingPath } from '../reading/readingNav.ts';
-import ClassLessonContent, { classText } from './ClassLessonContent.tsx';
+import ClassBlocks from './ClassBlocks.tsx';
 import ClassSectionNav from './ClassSectionNav.tsx';
-import { classLessons, type ClassLesson } from './classLessons.ts';
+import ClassText from './ClassText.tsx';
+import {
+  classLesson,
+  classLessons,
+  type ClassLesson,
+  type SectionKind,
+} from './classLessons.ts';
 import {
   classPath,
   classesPath,
   classTranslationPath,
   translationDirections,
 } from './classRoutes.ts';
-import { classTranslationWords } from './classTranslation.ts';
+import { canPracticeClass, classTranslationWords } from './classTranslation.ts';
 import './myClasses.css';
 
 const covers = new Map([
   [1, greetings],
   [2, family],
 ]);
-const sectionArt = new Map([
-  ['Грамматика', grammar],
-  ['Диалоги', speaking],
-  ['Иероглифы и письмо', writing],
-]);
+const sectionArt: Partial<Record<SectionKind, string>> = {
+  grammar,
+  dialogues: speaking,
+  writing,
+};
+// Lessons whose vocabulary is enough for a translation round.
+const practicable = new Set(
+  classLessons
+    .filter((lesson) => canPracticeClass(classTranslationWords(lesson)))
+    .map(({ id }) => id),
+);
 
 function ClassCover({ lesson }: { lesson: ClassLesson }) {
   return (
@@ -45,8 +56,7 @@ function ClassCover({ lesson }: { lesson: ClassLesson }) {
 }
 
 function ClassCatalogCard({ lesson }: { lesson: ClassLesson }) {
-  const canPractice =
-    new Set(classTranslationWords(lesson).map(({ en }) => en)).size >= OPTIONS;
+  const canPractice = practicable.has(lesson.id);
   const titleId = `class-title-${lesson.id}`;
 
   return (
@@ -63,7 +73,9 @@ function ClassCatalogCard({ lesson }: { lesson: ClassLesson }) {
             {lesson.chineseTitle}
           </p>
         )}
-        <h2 id={titleId}>{classText(lesson.title)}</h2>
+        <h2 id={titleId}>
+          <ClassText text={lesson.title} />
+        </h2>
       </div>
       <nav
         className="class-card-actions"
@@ -145,18 +157,18 @@ function ClassLessonView({ lesson }: { lesson: ClassLesson }) {
                   {lesson.chineseTitle}
                 </span>
               )}
-              {classText(lesson.title)}
+              <ClassText text={lesson.title} />
             </h1>
           </div>
           <ClassCover lesson={lesson} />
         </div>
-        <ClassLessonContent body={lesson.intro.body} title={lesson.title} />
+        <ClassBlocks blocks={lesson.intro} />
       </header>
 
       <ClassSectionNav lesson={lesson} />
 
-      {lesson.sections.map(({ anchor, title, body }) => {
-        const art = sectionArt.get(title);
+      {lesson.sections.map(({ anchor, title, kind, blocks }) => {
+        const art = sectionArt[kind];
         return (
           <section
             key={anchor}
@@ -167,27 +179,25 @@ function ClassLessonView({ lesson }: { lesson: ClassLesson }) {
             aria-labelledby={`${anchor}-title`}
           >
             <header className="class-section-head">
-              <h2 id={`${anchor}-title`}>{classText(title)}</h2>
+              <h2 id={`${anchor}-title`}>
+                <ClassText text={title} />
+              </h2>
               {art && <img src={art} alt="" loading="lazy" decoding="async" />}
             </header>
-            <ClassLessonContent
-              body={body}
-              title={title}
-              grammar={title === 'Грамматика'}
-            />
+            <ClassBlocks blocks={blocks} />
           </section>
         );
       })}
 
       {(previous || next) && (
-        <nav className="class-neighbors" aria-label="Соседние уроки" lang="ru">
+        <nav className="class-neighbors" aria-label={t.classNeighbors}>
           {previous && (
-            <Link to={classPath(previous.id)}>
+            <Link to={classPath(previous.id)} lang="ru">
               {previous.label} · {previous.chineseTitle ?? previous.title}
             </Link>
           )}
           {next && (
-            <Link to={classPath(next.id)}>
+            <Link to={classPath(next.id)} lang="ru">
               {next.label} · {next.chineseTitle ?? next.title}
             </Link>
           )}
@@ -199,7 +209,7 @@ function ClassLessonView({ lesson }: { lesson: ClassLesson }) {
 
 export default function MyClassesPage() {
   const { lesson: id } = useParams();
-  const lesson = classLessons.find((item) => String(item.id) === id);
+  const lesson = classLesson(id);
   if (id && !lesson) return <Navigate to={classesPath} replace />;
 
   return (
