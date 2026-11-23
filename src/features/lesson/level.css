@@ -43,8 +43,11 @@ html:has(.hsk-level) {
   font-weight: 500;
 }
 
-.level-header .level-chevron {
-  transform: rotate(180deg);
+.level-header .hsk-back .write-icon {
+  --chevron: clamp(13px, 2.9cqi, 22px);
+  width: calc(var(--chevron) * 1.3);
+  height: calc(var(--chevron) * 1.3);
+  margin: calc(var(--chevron) * -0.15);
 }
 
 .hsk-level .hsk-title {

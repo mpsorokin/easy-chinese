@@ -61,8 +61,7 @@
   --art-veil: rgb(35 31 29 / 80%);
   --night-blossoms: url('../features/home/art/plum-blossom.webp');
   --night-pavilion: url('../features/home/art/misty-pavilion.webp');
-  --icon-filter: brightness(0) saturate(100%) invert(76%) sepia(29%)
-    saturate(729%) hue-rotate(315deg) brightness(102%);
+  --icon-dark: #ffb2a4; /* icons on dark pages */
 }
 * {
   box-sizing: border-box;
@@ -97,6 +96,44 @@ button {
   min-height: 52px;
   align-items: center;
   gap: 8px;
+}
+
+/* Icons of shared/ui/WriteIcon; pages size them where they need to. */
+.write-icon {
+  display: inline-block;
+  flex: none;
+  width: 1.16em;
+  height: 1.16em;
+}
+
+/* shared/ui/BackLink; pages adjust it with a class of their own. */
+.back-link {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 44px;
+  align-items: center;
+  gap: 7px;
+  color: var(--accent-strong);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.back-link .write-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.back-link .write-icon-chevron {
+  transform: scaleX(-1);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .theme-control {

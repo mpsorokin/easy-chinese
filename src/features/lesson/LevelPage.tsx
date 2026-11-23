@@ -1,8 +1,8 @@
-import { Link, Navigate, useSearchParams } from 'react-router';
+import { Navigate, useSearchParams } from 'react-router';
 import { lessonStore } from './lessonStore.ts';
 import HskChars from '../hsk/HskChars.tsx';
 import { useProgress } from '../progress/useProgress.ts';
-import ThemeControl from '../settings/ThemeControl.tsx';
+import PageToolbar from '../settings/PageToolbar.tsx';
 import { usePersistentState } from '../../shared/hooks/usePersistentState.ts';
 import Seg from '../../shared/ui/Seg.tsx';
 import { t } from '../../shared/i18n/en.ts';
@@ -122,13 +122,14 @@ export default function LevelPage() {
     <main className="app page-frame hsk-level">
       <div className="hsk-screen">
         <header className="level-header">
-          <div className="theme-toolbar">
-            <Link className="hsk-back" to="/">
-              <span className="level-chevron" aria-hidden="true" />
-              {t.homeLabel}
-            </Link>
-            <ThemeControl />
-          </div>
+          <PageToolbar
+            back={{
+              to: '/',
+              icon: 'chevron',
+              className: 'hsk-back',
+              children: t.homeLabel,
+            }}
+          />
           <div className="hsk-title">
             <h1>{t.levelTitle(level.id)}</h1>
             <span>

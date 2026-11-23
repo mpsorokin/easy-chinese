@@ -13,7 +13,6 @@
   --class-accent-wash: #30241e;
 }
 
-.classes-back,
 .class-neighbors a {
   display: inline-flex;
   min-height: 44px;
@@ -22,11 +21,6 @@
   color: var(--accent-strong);
   font-weight: 650;
   text-decoration: none;
-}
-
-.classes-back svg {
-  width: 18px;
-  height: 18px;
 }
 
 .classes-reading-link {

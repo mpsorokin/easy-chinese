@@ -1,10 +1,10 @@
+/* The chevron fills its box more than the icon grid allows, hence the 1.3 scale. */
 .level-chevron {
+  --chevron: clamp(13px, 2.9cqi, 22px);
   display: block;
-  flex: none;
-  width: clamp(13px, 2.9cqi, 22px);
-  aspect-ratio: 1;
-  background: currentColor;
-  mask: url('./icons/chevron.svg') center / 130% no-repeat;
+  width: calc(var(--chevron) * 1.3);
+  height: calc(var(--chevron) * 1.3);
+  margin: calc(var(--chevron) * -0.15);
 }
 
 .level-card {
@@ -340,7 +340,7 @@
 }
 
 .level-card--lesson .level-chevron {
-  width: 16px;
+  --chevron: 16px;
 }
 
 [data-theme='dark'] .level-card--lesson .level-card-art {

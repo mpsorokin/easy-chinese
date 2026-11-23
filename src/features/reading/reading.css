@@ -27,21 +27,6 @@
   opacity: 0.6;
 }
 
-.reading-back {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-  gap: 7px;
-  color: var(--accent-strong);
-  font-weight: 650;
-  text-decoration: none;
-}
-
-.reading-back svg {
-  width: 18px;
-  height: 18px;
-}
-
 .reading-header h1 {
   margin: 12px 0 6px;
   font-size: clamp(30px, 6vw, 44px);

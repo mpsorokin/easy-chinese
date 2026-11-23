@@ -457,23 +457,11 @@
   gap: 10px;
 }
 
+/* Its paper comes from writer/WritingCell.css. */
 .quiz-write .cell {
-  position: relative;
-  isolation: isolate;
   width: min(100%, 380px);
   aspect-ratio: 1;
-  overflow: hidden;
-  border: 2px solid #d3321d;
   border-radius: clamp(12px, 3.2vw, 19px);
-  outline: 3px solid #fffaf6;
-  background:
-    url('../home/art/plum-blossom.webp') no-repeat right bottom / 25% auto,
-    url('./art/dialogue-hills.webp') no-repeat center bottom / 100% auto,
-    #fff9f5;
-  box-shadow: 0 5px 15px rgb(118 56 35 / 23%);
-  touch-action: none;
-  user-select: none;
-  -webkit-user-select: none;
 }
 
 .quiz-page .btn.quiz-write-show {
@@ -484,17 +472,6 @@
   .quiz-speak.quiz-speak-big {
     animation: none;
   }
-}
-
-[data-theme='dark'] .quiz-write .cell {
-  border-color: var(--grid);
-  outline-color: var(--card);
-  background:
-    linear-gradient(rgb(28 25 23 / 88%), rgb(28 25 23 / 88%)),
-    url('../home/art/plum-blossom.webp') no-repeat right bottom / 25% auto,
-    url('./art/dialogue-hills.webp') no-repeat center bottom / 100% auto,
-    var(--surface-inset);
-  box-shadow: var(--shadow-card);
 }
 
 @media (hover: hover) {

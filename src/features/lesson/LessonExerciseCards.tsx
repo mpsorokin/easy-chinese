@@ -5,8 +5,12 @@ import { PASS_GRADE } from '../progress/progress.ts';
 import { stars, t } from '../../shared/i18n/en.ts';
 import CourseCardArt from './CourseCardArt.tsx';
 import './lesson.css';
+import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 
-const EXERCISE_ICONS: Record<ExerciseId, string> = {
+const EXERCISE_ICONS: Record<
+  ExerciseId,
+  'brush' | 'target' | 'volume' | 'book'
+> = {
   write: 'brush',
   wordWrite: 'brush',
   pick: 'target',
@@ -51,7 +55,7 @@ export default function LessonExerciseCards({
             >
               {art && <CourseCardArt key={art[ex]} src={art[ex]} />}
               <span className="lesson-ex-tile" aria-hidden="true">
-                <span className={`lesson-icon ${EXERCISE_ICONS[ex]}`} />
+                <WriteIcon name={EXERCISE_ICONS[ex]} className="lesson-icon" />
               </span>
               <span className="lesson-ex-copy">
                 <b>{t.exercises[ex].title}</b>

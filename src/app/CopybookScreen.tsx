@@ -17,7 +17,7 @@ import SetComplete from '../features/copybook/SetComplete.tsx';
 import WordContext from '../features/copybook/WordContext.tsx';
 import Controls from '../features/copybook/Controls.tsx';
 import SettingsPanel from '../features/settings/SettingsPanel.tsx';
-import ThemeControl from '../features/settings/ThemeControl.tsx';
+import PageToolbar from '../features/settings/PageToolbar.tsx';
 import { ALL, normalizeLastChar, wrapAt } from '../data/chars.ts';
 import {
   hskCharEntry,
@@ -315,12 +315,9 @@ function CopybookPage({ set }: { set: CopybookSet }) {
   return (
     <main className="page-frame write-page">
       <div className="write-context">
-        <div className="theme-toolbar">
-          <Link className="write-back" to={back.to}>
-            <WriteIcon name="back" /> {back.label}
-          </Link>
-          <ThemeControl />
-        </div>
+        <PageToolbar
+          back={{ to: back.to, className: 'write-back', children: back.label }}
+        />
         <div className="write-progress">
           {set.level && (
             <span className="write-level">{t.levelTitle(set.level)}</span>

@@ -1,16 +1,12 @@
 import type { CSSProperties, ReactNode } from 'react';
-import { Link } from 'react-router';
 import type { DialogueLine } from '../../data/courseLessons.ts';
 import type { ReadingLine } from '../../data/readingStories.ts';
 import { t } from '../../shared/i18n/en.ts';
 import { canSpeak, speakChinese } from '../../shared/lib/speech.ts';
-import ThemeControl from '../settings/ThemeControl.tsx';
+import PageToolbar from '../settings/PageToolbar.tsx';
+import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 import blossomsArt from './art/dialogue-blossoms.webp';
 import hillsArt from './art/dialogue-hills.webp';
-import chevronIcon from './icons/chevron.svg';
-import eyeIcon from './icons/eye.svg';
-import eyeOffIcon from './icons/eye-off.svg';
-import volumeIcon from './icons/volume.svg';
 import './courseExercise.css';
 
 const dialogueArt = {
@@ -54,7 +50,7 @@ export default function DialogueReader({
       aria-expanded={shown}
       onClick={onToggle}
     >
-      <img src={shown ? eyeOffIcon : eyeIcon} alt="" />
+      <WriteIcon name={shown ? 'eye-off' : 'eye'} />
       {shown ? t.hidePinyinEnglish : t.showPinyinEnglish}
     </button>
   );
@@ -69,13 +65,14 @@ export default function DialogueReader({
       style={dialogueArt}
     >
       <header className="course-exercise-header">
-        <div className="theme-toolbar">
-          <Link className="course-exercise-back" to={backTo}>
-            <img src={chevronIcon} alt="" />
-            {backLabel}
-          </Link>
-          <ThemeControl />
-        </div>
+        <PageToolbar
+          back={{
+            to: backTo,
+            icon: 'chevron',
+            className: 'course-exercise-back',
+            children: backLabel,
+          }}
+        />
         {progress}
         <h1 lang={titleLang}>{title}</h1>
         {subtitle && <p className="course-exercise-subtitle">{subtitle}</p>}
@@ -98,7 +95,7 @@ export default function DialogueReader({
                   aria-label={t.listenDialogueLine(index + 1)}
                   onClick={() => speakChinese(text)}
                 >
-                  <img src={volumeIcon} alt="" />
+                  <WriteIcon name="volume" />
                 </button>
               )}
               <div className="course-dialogue-copy">

@@ -1,15 +1,9 @@
-/* The writer and grid share the measured content box. */
-.write-page .cell {
+/* The paper of a writing cell, in the copybook and in quiz writing questions. */
+:is(.write-page, .quiz-write) .cell {
   position: relative;
   isolation: isolate;
-  width: calc(100% - 6px);
-  max-width: 502px;
-  aspect-ratio: 1.365;
-  min-height: 220px;
-  align-self: center;
   overflow: hidden;
   border: 2px solid #d3321d;
-  border-radius: clamp(12px, 3.2cqi, 19px);
   outline: 3px solid #fffaf6;
   background:
     url('../home/art/plum-blossom.webp') no-repeat right bottom / 25% auto,
@@ -19,6 +13,16 @@
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
+}
+
+/* The writer and grid share the measured content box. */
+.write-page .cell {
+  width: calc(100% - 6px);
+  max-width: 502px;
+  aspect-ratio: 1.365;
+  min-height: 220px;
+  align-self: center;
+  border-radius: clamp(12px, 3.2cqi, 19px);
 }
 
 .cell canvas.grid,
@@ -58,7 +62,7 @@
   }
 }
 
-[data-theme='dark'] .write-page .cell {
+[data-theme='dark'] :is(.write-page, .quiz-write) .cell {
   border-color: var(--grid);
   outline-color: var(--card);
   background:

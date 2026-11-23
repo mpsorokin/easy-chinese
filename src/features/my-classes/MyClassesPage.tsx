@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, Navigate, useLocation, useParams } from 'react-router';
 import { t } from '../../shared/i18n/en.ts';
 import WriteIcon from '../../shared/ui/WriteIcon.tsx';
-import ThemeControl from '../settings/ThemeControl.tsx';
+import PageToolbar from '../settings/PageToolbar.tsx';
 import family from '../lesson/art/level/family.webp';
 import greetings from '../lesson/art/level/introductions.webp';
 import hills from '../lesson/art/level/hills.webp';
@@ -214,18 +214,18 @@ export default function MyClassesPage() {
 
   return (
     <main className="app page-frame my-classes">
-      <div className="theme-toolbar">
-        <Link className="classes-back" to={lesson ? classesPath : '/'}>
-          <WriteIcon name="back" />
-          {lesson ? t.myClasses : t.homeLabel}
-        </Link>
+      <PageToolbar
+        back={{
+          to: lesson ? classesPath : '/',
+          children: lesson ? t.myClasses : t.homeLabel,
+        }}
+      >
         {!lesson && (
-          <Link className="classes-back classes-reading-link" to={readingPath}>
+          <Link className="back-link classes-reading-link" to={readingPath}>
             {t.reading} <span lang="zh-Hans">阅读</span>
           </Link>
         )}
-        <ThemeControl />
-      </div>
+      </PageToolbar>
       {lesson ? (
         <ClassLessonView key={lesson.id} lesson={lesson} />
       ) : (

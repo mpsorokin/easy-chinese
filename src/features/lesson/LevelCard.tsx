@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router';
+import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 import { t } from '../../shared/i18n/en.ts';
 import './levelCard.css';
 
@@ -69,7 +70,7 @@ export default function LevelCard({
             {t.exercisesDone(progress.done, progress.total)}
           </span>
         )}
-        <span className="level-chevron" aria-hidden="true" />
+        <WriteIcon name="chevron" className="level-chevron" />
       </span>
       {progress && (
         <span className="level-card-progress" aria-hidden="true">

@@ -5,7 +5,6 @@ import {
   type ReadingStory,
 } from '../../data/readingStories.ts';
 import { t } from '../../shared/i18n/en.ts';
-import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 import DialogueReader from '../lesson/DialogueReader.tsx';
 import classmates from '../lesson/art/lesson-3/classmates.webp';
 import family from '../lesson/art/level/family.webp';
@@ -13,7 +12,7 @@ import dinner from '../lesson/art/exercises/dinner.webp';
 import phone from '../lesson/art/exercises/smartphone.webp';
 import groceries from '../lesson/art/exercises/groceries.webp';
 import shopping from '../lesson/art/level/shopping.webp';
-import ThemeControl from '../settings/ThemeControl.tsx';
+import PageToolbar from '../settings/PageToolbar.tsx';
 import { readingPath, readingStoryPath } from './readingNav.ts';
 import './reading.css';
 
@@ -30,13 +29,7 @@ function ReadingLibrary() {
   return (
     <main className="app page-frame reading-library">
       <header className="reading-header">
-        <div className="theme-toolbar">
-          <Link className="reading-back" to="/">
-            <WriteIcon name="back" />
-            {t.homeLabel}
-          </Link>
-          <ThemeControl />
-        </div>
+        <PageToolbar back={{ to: '/', children: t.homeLabel }} />
         <h1>
           {t.reading} <span lang="zh-Hans">阅读</span>
         </h1>

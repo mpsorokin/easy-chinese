@@ -16,7 +16,8 @@ import {
 import { loadSessions } from '../progress/sessionStore.ts';
 import { useProgress } from '../progress/useProgress.ts';
 import { readingStoryPath } from '../reading/readingNav.ts';
-import ThemeControl from '../settings/ThemeControl.tsx';
+import PageToolbar from '../settings/PageToolbar.tsx';
+import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 import CourseCardArt from './CourseCardArt.tsx';
 import LessonExerciseCards from './LessonExerciseCards.tsx';
 import { useCourseParams, useOpenCopybook } from './lessonRoute.ts';
@@ -30,10 +31,6 @@ import {
   courseWritePath,
   levelLessonsPath,
 } from './lessonNav.ts';
-import bookIcon from './icons/book.svg';
-import chevronIcon from './icons/chevron.svg';
-import lockIcon from './icons/lock.svg';
-import volumeIcon from './icons/volume.svg';
 import './courseLesson.css';
 
 export default function CourseLessonPage() {
@@ -71,19 +68,20 @@ export default function CourseLessonPage() {
   return (
     <main className="page-frame course-lesson">
       <header className="course-lesson-header">
-        <div className="theme-toolbar">
-          <Link className="course-lesson-back" to={levelLessonsPath(level.id)}>
-            <img src={chevronIcon} alt="" />
-            {levelTitle}
-          </Link>
-          <ThemeControl />
-        </div>
+        <PageToolbar
+          back={{
+            to: levelLessonsPath(level.id),
+            icon: 'chevron',
+            className: 'course-lesson-back',
+            children: levelTitle,
+          }}
+        />
         <div className="course-lesson-hero">
           <h1>{t.lessonN(lesson.id)}</h1>
           {parts.length > 0 && (
             <a className="course-lesson-jump" href="#course-practice">
               {t.exercisesLabel}
-              <img src={chevronIcon} alt="" />
+              <WriteIcon name="chevron" />
             </a>
           )}
         </div>
@@ -121,10 +119,7 @@ export default function CourseLessonPage() {
               <>
                 <CourseCardArt key={art} src={art} />
                 <span className="course-lesson-tile" aria-hidden="true">
-                  <img
-                    src={exercise === 'words' ? bookIcon : volumeIcon}
-                    alt=""
-                  />
+                  <WriteIcon name={exercise === 'words' ? 'book' : 'volume'} />
                 </span>
                 <span className="course-lesson-copy">
                   <span className="course-lesson-card-title">
@@ -147,14 +142,14 @@ export default function CourseLessonPage() {
                   >
                     {content}
                     <span className="course-lesson-arrow" aria-hidden="true">
-                      <img src={chevronIcon} alt="" />
+                      <WriteIcon name="chevron" />
                     </span>
                   </Link>
                 ) : (
                   <div className={cardClass} aria-disabled="true">
                     {content}
                     <span className="course-lesson-soon">
-                      <img src={lockIcon} alt="" />
+                      <WriteIcon name="lock" />
                       {t.soon}
                     </span>
                   </div>
@@ -183,7 +178,7 @@ export default function CourseLessonPage() {
                   to={readingStoryPath(story.id)}
                 >
                   <span className="course-lesson-tile" aria-hidden="true">
-                    <img src={bookIcon} alt="" />
+                    <WriteIcon name="book" />
                   </span>
                   <span className="course-lesson-copy">
                     <span className="course-lesson-card-title" lang="zh-Hans">
@@ -194,7 +189,7 @@ export default function CourseLessonPage() {
                     </span>
                   </span>
                   <span className="course-lesson-arrow" aria-hidden="true">
-                    <img src={chevronIcon} alt="" />
+                    <WriteIcon name="chevron" />
                   </span>
                 </Link>
               </li>

@@ -7,7 +7,8 @@ import type { ExerciseId } from '../../domain/exercises.ts';
 import { lessonKey, lessonResults, PASS_GRADE } from '../progress/progress.ts';
 import { useProgress } from '../progress/useProgress.ts';
 import { t } from '../../shared/i18n/en.ts';
-import ThemeControl from '../settings/ThemeControl.tsx';
+import PageToolbar from '../settings/PageToolbar.tsx';
+import WriteIcon from '../../shared/ui/WriteIcon.tsx';
 import Meter from '../../shared/ui/Meter.tsx';
 import LessonExerciseCards from './LessonExerciseCards.tsx';
 import { useOpenCopybook, useTopicParams } from './lessonRoute.ts';
@@ -58,18 +59,19 @@ export default function LessonPage() {
   return (
     <main className="app page-frame lesson-page">
       <header className="lesson-head">
-        <div className="theme-toolbar">
-          <Link className="hsk-back lesson-back" to={levelPath(level.id)}>
-            <span className="lesson-icon chevron previous" aria-hidden="true" />
-            {t.levelTitle(level.id)}
-          </Link>
-          <ThemeControl />
-        </div>
+        <PageToolbar
+          back={{
+            to: levelPath(level.id),
+            icon: 'chevron',
+            className: 'hsk-back lesson-back',
+            children: t.levelTitle(level.id),
+          }}
+        />
         <p className="lesson-kicker">{t.lessonN(lesson.id)}</p>
         <h1>{lesson.title}</h1>
         <div className="lesson-overview">
           <span className="lesson-counts">
-            <span className="lesson-icon book" aria-hidden="true" />
+            <WriteIcon name="book" className="lesson-icon" />
             {t.levelMeta(chars.length, words.length)}
           </span>
           <div className="lesson-summary-progress">
@@ -132,7 +134,7 @@ export default function LessonPage() {
       <nav className="lesson-nav">
         {prev ? (
           <Link className="btn" to={lessonPath(level.id, prev.id)}>
-            <span className="lesson-icon chevron previous" aria-hidden="true" />
+            <WriteIcon name="chevron" className="lesson-icon previous" />
             {t.prev}
           </Link>
         ) : (
@@ -141,7 +143,7 @@ export default function LessonPage() {
         {next ? (
           <Link className="btn lesson-next" to={lessonPath(level.id, next.id)}>
             {t.next}
-            <span className="lesson-icon chevron" aria-hidden="true" />
+            <WriteIcon name="chevron" className="lesson-icon" />
           </Link>
         ) : (
           <span />

@@ -54,37 +54,18 @@
 }
 
 .lesson-icon {
-  display: inline-block;
-  flex: none;
   width: 1.3em;
-  aspect-ratio: 1;
-  background: currentColor;
-  mask: var(--lesson-icon) center / contain no-repeat;
+  height: 1.3em;
 }
 
-.lesson-icon.chevron {
-  --lesson-icon: url('./icons/chevron.svg');
+.lesson-icon.write-icon-chevron,
+.lesson-head .lesson-back .write-icon {
   width: 0.85em;
+  height: 0.85em;
 }
 
 .lesson-icon.previous {
   transform: rotate(180deg);
-}
-
-.lesson-icon.book {
-  --lesson-icon: url('./icons/book.svg');
-}
-
-.lesson-icon.brush {
-  --lesson-icon: url('./icons/brush.svg');
-}
-
-.lesson-icon.target {
-  --lesson-icon: url('./icons/target.svg');
-}
-
-.lesson-icon.volume {
-  --lesson-icon: url('./icons/volume.svg');
 }
 
 .lesson-head .lesson-back {
@@ -468,7 +449,8 @@
   }
 }
 
-[data-theme='dark'] .lesson-page {
+/* Also the course lesson page, which loads this file through LessonExerciseCards. */
+[data-theme='dark'] :is(.lesson-page, .course-lesson) {
   --lesson-ink: var(--ink);
   --lesson-brown: var(--muted);
   --lesson-red: var(--accent);

@@ -31,13 +31,6 @@
   content: '';
 }
 
-.write-icon {
-  width: 1.16em;
-  height: 1.16em;
-  display: inline-block;
-  flex: none;
-}
-
 .write-context {
   display: grid;
   align-content: start;
@@ -46,18 +39,14 @@
 }
 
 .write-back {
-  display: inline-flex;
-  align-items: center;
   gap: clamp(8px, 2.3cqi, 14px);
-  width: fit-content;
   min-height: 42px;
   color: inherit;
   font-size: clamp(15px, 3.1cqi, 18px);
   font-weight: 700;
-  text-decoration: none;
 }
 
-.write-back .write-icon {
+.back-link.write-back .write-icon {
   width: 1.35em;
   height: 1.35em;
 }
