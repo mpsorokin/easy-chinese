@@ -42,6 +42,10 @@ export const router = createBrowserRouter(
           index: true,
           lazy: page(() => import('../features/home/HomePage.tsx')),
         },
+        {
+          path: 'my-classes/:lesson?',
+          lazy: page(() => import('../features/my-classes/MyClassesPage.tsx')),
+        },
         { path: 'write/:level?', lazy: page(copybook) },
         { path: 'hsk', element: <Navigate to="/hsk/1" replace /> },
         {

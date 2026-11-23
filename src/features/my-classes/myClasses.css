@@ -1,0 +1,535 @@
+.my-classes {
+  --class-muted: #755544;
+  --class-art-surface: #f9ecdc;
+  --class-accent-wash: #fff3e6;
+  --class-pad: clamp(14px, 3.1vw, 26px);
+  gap: clamp(14px, 2.4vw, 20px);
+  padding-block: 8px 40px;
+}
+
+[data-theme='dark'] .my-classes {
+  --class-muted: #d3bbae;
+  --class-art-surface: #30241e;
+  --class-accent-wash: #30241e;
+}
+
+.classes-back,
+.class-neighbors a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 7px;
+  color: var(--accent-strong);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.classes-back svg {
+  width: 18px;
+  height: 18px;
+}
+
+.classes-banner,
+.class-card,
+.class-section {
+  overflow-wrap: anywhere;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.classes-banner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(22px, 5vw, 40px) var(--class-pad);
+  background: var(--class-art-surface);
+}
+
+.classes-banner::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 0 auto;
+  width: min(72%, 570px);
+  background:
+    url('../home/art/plum-blossom.webp') right -4px top -58px /
+      clamp(154px, 42%, 235px) auto no-repeat,
+    url('../home/art/misty-pavilion.webp') right center / cover no-repeat;
+  mask-image: linear-gradient(90deg, transparent, #000 62%);
+  opacity: 0.83;
+  content: '';
+}
+
+[data-theme='dark'] .classes-banner::before {
+  filter: var(--art-filter);
+  opacity: 0.43;
+}
+
+.classes-banner h1 {
+  margin: 0;
+  font-size: clamp(29px, 5.3vw, 44px);
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.classes-banner h1::after {
+  display: block;
+  width: 42px;
+  height: 4px;
+  margin-top: 10px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  content: '';
+}
+
+.classes-banner > p {
+  max-width: 62ch;
+  margin: 12px 0 0;
+  line-height: 1.55;
+}
+
+.class-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 285px), 1fr));
+  gap: clamp(12px, 2.4vw, 18px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.class-card {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+}
+
+.class-card:hover,
+.class-card:focus-visible {
+  border-color: var(--accent);
+}
+
+.class-card-scene {
+  display: grid;
+  height: clamp(116px, 20vw, 155px);
+  place-items: center;
+  overflow: hidden;
+  padding: 6px 12px 0;
+  border-bottom: 1px solid var(--line);
+  background:
+    url('../lesson/art/level/hills.webp') center bottom / 95% auto no-repeat,
+    linear-gradient(var(--class-art-surface), var(--class-accent-wash));
+}
+
+[data-theme='dark'] .class-card-scene {
+  background:
+    url('../lesson/art/level/hills.webp') center bottom / 95% auto no-repeat,
+    var(--class-art-surface);
+  background-blend-mode: soft-light;
+}
+
+.class-cover {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+
+.class-card-scene .class-cover {
+  max-width: 250px;
+}
+
+[data-theme='dark'] .class-cover,
+[data-theme='dark'] .class-section-head img {
+  filter: brightness(0.82) saturate(0.82);
+}
+
+.class-card-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--class-pad);
+}
+
+.class-label {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 10px;
+  margin: 0;
+  color: var(--class-muted);
+  font-size: 0.9375rem;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.class-topic {
+  display: block;
+  margin: 0;
+  font-family: KaiTi, STKaiti, 'Kaiti SC', 'Noto Serif SC', serif;
+  font-size: clamp(32px, 6vw, 46px);
+  font-weight: 650;
+  letter-spacing: normal;
+  line-height: 1.12;
+}
+
+.class-card h2,
+.class-intro h1 {
+  margin: 0;
+  font-size: clamp(19px, 3.5vw, 23px);
+  font-weight: 750;
+  letter-spacing: -0.012em;
+  line-height: 1.28;
+}
+
+.class-card-action {
+  width: fit-content;
+  margin-top: auto;
+  padding-top: 10px;
+  color: var(--accent-strong);
+  font-weight: 700;
+}
+
+.class-card:hover .class-card-action {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.class-intro {
+  padding-block: var(--class-pad);
+}
+
+.class-intro::before {
+  opacity: 0.28;
+}
+
+[data-theme='dark'] .class-intro::before {
+  opacity: 0.2;
+}
+
+.class-intro-title {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(70px, 27%, 190px);
+  align-items: center;
+  gap: 8px;
+}
+
+.class-intro-title .class-cover {
+  height: clamp(82px, 17vw, 138px);
+}
+
+.class-intro .class-topic {
+  margin: 6px 0;
+  font-size: clamp(37px, 7vw, 56px);
+}
+
+.class-section-nav {
+  position: sticky;
+  z-index: 3;
+  top: 0;
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px 6px var(--class-pad);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+}
+
+.class-section-position {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  font-size: 0.875rem;
+  line-height: 1.2;
+}
+
+.class-section-position > span {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--class-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.class-section-menu {
+  flex: none;
+}
+
+.class-section-menu summary,
+.class-answers summary {
+  display: flex;
+  min-height: 44px;
+  width: fit-content;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-weight: 700;
+  list-style: none;
+  cursor: pointer;
+}
+
+.class-section-menu summary::-webkit-details-marker,
+.class-answers summary::-webkit-details-marker {
+  display: none;
+}
+
+.class-section-menu summary::after,
+.class-answers summary::after {
+  width: 6px;
+  height: 6px;
+  margin: -3px 2px 0 0;
+  transform: rotate(45deg);
+  border: solid currentColor;
+  border-width: 0 1.5px 1.5px 0;
+  content: '';
+}
+
+.class-section-menu[open] summary::after,
+.class-answers[open] summary::after {
+  transform: translateY(3px) rotate(225deg);
+}
+
+.class-section-menu ul {
+  position: absolute;
+  inset: calc(100% + 6px) 0 auto auto;
+  width: min(100%, 340px);
+  max-height: min(420px, 65dvh);
+  overflow: auto;
+  margin: 0;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow-card);
+  list-style: none;
+}
+
+.class-section-menu a {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 9px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.class-section-menu a:hover,
+.class-section-menu a[aria-current] {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.class-section-menu a[aria-current] {
+  font-weight: 700;
+}
+
+.class-section {
+  min-width: 0;
+  padding: var(--class-pad);
+  scroll-margin-top: 84px;
+}
+
+.class-section-head {
+  position: relative;
+  display: flex;
+  min-height: 37px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--line);
+}
+
+.class-section-head h2 {
+  margin: 0;
+  font-size: clamp(20px, 4vw, 26px);
+  line-height: 1.25;
+}
+
+.class-section-head img {
+  width: clamp(56px, 15vw, 92px);
+  height: clamp(40px, 9.5vw, 54px);
+  flex: none;
+  object-fit: contain;
+}
+
+.class-section h3 {
+  margin: 24px 0 0;
+  font-size: clamp(17px, 3vw, 20px);
+  line-height: 1.4;
+}
+
+.class-section p {
+  margin: 12px 0 0;
+  line-height: 1.6;
+}
+
+.class-section a {
+  color: var(--accent-strong);
+  text-underline-offset: 3px;
+}
+
+.class-section li {
+  margin-block: 6px;
+  line-height: 1.55;
+}
+
+.class-rule {
+  padding: 9px 12px;
+  border-inline-start: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  background: var(--accent-soft);
+  font-weight: 750;
+}
+
+.class-table {
+  margin-top: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+
+.class-table table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  line-height: 1.45;
+}
+
+.class-table th,
+.class-table td {
+  padding: 8px 10px;
+  vertical-align: middle;
+}
+
+.class-table th {
+  background: var(--paper);
+}
+
+.class-table td {
+  border-top: 1px solid var(--line);
+}
+
+.class-phrase {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 1.125rem;
+}
+
+.class-audio {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.class-audio:hover {
+  border-color: currentColor;
+}
+
+.class-audio svg {
+  width: 21px;
+  height: 21px;
+}
+
+.class-example {
+  display: grid;
+  gap: 2px;
+}
+
+.class-table [lang='zh-Latn-pinyin'] {
+  color: var(--class-muted);
+}
+
+.class-answers {
+  margin: 12px 0 4px;
+}
+
+.class-answers:not([open]) .class-answers-hide,
+.class-answers[open] .class-answers-show {
+  display: none;
+}
+
+.class-neighbors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.class-neighbors a {
+  flex: 1 1 180px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+}
+
+@media (width < 620px) {
+  .class-table-phrases table,
+  .class-table-phrases tbody,
+  .class-table-phrases tr {
+    display: grid;
+  }
+
+  .class-table-phrases thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .class-table-phrases tr {
+    gap: 3px;
+    padding: 10px 12px;
+  }
+
+  .class-table-phrases tr + tr {
+    border-top: 1px solid var(--line);
+  }
+
+  .class-table-phrases td {
+    display: block;
+    padding: 0;
+    border: 0;
+  }
+
+  .class-table-phrases :is([data-column='Кто говорит'], [data-column='№']) {
+    color: var(--class-muted);
+    font-weight: 700;
+  }
+
+  .class-table-phrases .class-phrase {
+    font-size: 1.3rem;
+  }
+
+  .class-table-phrases [data-column='Пример'] {
+    margin-top: 5px;
+    padding-inline-start: 10px;
+    border-inline-start: 2px solid var(--line);
+  }
+}

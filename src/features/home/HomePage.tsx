@@ -118,6 +118,17 @@ export default function HomePage() {
         );
       })}
 
+      <Link className="home-level home-panel" to="/my-classes">
+        <span className="home-level-info">
+          <b>{t.myClasses}</b>
+          <span className="home-level-meta">{t.myClassesDescription}</span>
+        </span>
+        <span className="home-panel-action">
+          {t.viewClasses}
+          <span className="home-chevron" aria-hidden />
+        </span>
+      </Link>
+
       {upcoming.length > 0 && (
         <section
           className="home-upcoming"

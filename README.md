@@ -90,6 +90,14 @@ holds none.
 Create `src/features/<mode>/` with a hook like `useCopybook` (state machine over `QuizCallbacks`
 and `WriterHandle` from `features/writer/types.ts`) and its components, then add a route for it in `src/app/router.tsx`.
 
+## Add a teacher's lesson to My Classes
+
+Save a UTF-8 Markdown file as `private-lesson-content/lessonNN.md`. My Classes orders the
+files by number and uses the first heading (`# 汉字 · Pinyin · Урок N`) and first
+second-level heading for the lesson card. Other second-level headings become sections.
+Use paragraphs, lists and pipe tables for the material, and `### Ответы` to fold away
+the answer key. Static builds include these materials in the app.
+
 ## Add a lesson or an exercise
 
 A lesson is `src/data/lessons/lesson<N>.ts`, exporting a `CourseLesson`; list it in `COURSE_LESSONS`

@@ -41,6 +41,10 @@ export const t = {
   currentLesson: 'Current lesson',
   openLesson: 'Open lesson',
   viewCourse: 'View course',
+  myClasses: 'My Classes',
+  myClassesDescription: 'Materials from lessons with your teacher',
+  viewClasses: 'View classes',
+  noClasses: 'No class materials yet.',
   levelMeta: (chars: number, words: number) =>
     `${count(chars, 'character')} · ${count(words, 'word')}`,
   topicsDone: (done: number, total: number) => `${done} of ${total} topics`,
