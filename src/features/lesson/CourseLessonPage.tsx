@@ -5,7 +5,7 @@ import {
   isExerciseReady,
   storySteps,
 } from '@/data/courseLessons.ts';
-import { readingStories } from '@/data/readingStories.ts';
+import { storiesForLesson } from '@/data/readingStories.ts';
 import { availableExercises } from '@/domain/exercises.ts';
 import type { ExerciseId } from '@/domain/exercises.ts';
 import {
@@ -63,13 +63,7 @@ export default function CourseLessonPage() {
   const stored = loadSessions().story[journeyKey(level.id, lesson.id, 'story')];
   const steps = storySteps(lesson).length;
   const saved = stored && stored.step <= steps ? stored : undefined;
-  const stories =
-    level.id === COURSE_LEVEL
-      ? readingStories.filter(
-          ({ lessons }) =>
-            lessons && lesson.id >= lessons[0] && lesson.id <= lessons[1],
-        )
-      : [];
+  const stories = level.id === COURSE_LEVEL ? storiesForLesson(lesson.id) : [];
 
   return (
     <main className="page-frame course-lesson">
@@ -173,7 +167,7 @@ export default function CourseLessonPage() {
               className="course-lesson-section-title"
               id="course-reading-title"
             >
-              {t.reading} <span lang="zh-Hans">阅读</span>
+              {t.relatedStories}
             </h2>
           </div>
           <ul className="course-lesson-exercises" role="list">
@@ -181,7 +175,7 @@ export default function CourseLessonPage() {
               <li key={story.id}>
                 <Link
                   className="course-lesson-card is-ready"
-                  to={readingStoryPath(story.id)}
+                  to={readingStoryPath(story.id, lesson.id)}
                 >
                   <span className="course-lesson-tile" aria-hidden="true">
                     <WriteIcon name="book" />

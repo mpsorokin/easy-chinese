@@ -1,0 +1,16 @@
+.word-status-control {
+  max-width: 100%;
+  min-height: 44px;
+  padding: 5px 10px;
+  border: 1px solid var(--line);
+  border-inline-start: 3px solid var(--word-mark);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.875rem;
+}
+
+.course-dialogue-copy > .word-status-control {
+  margin-top: 6px;
+}

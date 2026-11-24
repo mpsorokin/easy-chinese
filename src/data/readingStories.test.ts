@@ -1,6 +1,7 @@
 import { expect, it } from 'vitest';
 import { COURSE_LESSONS } from '@/data/courseLessons.ts';
 import { readingStories } from '@/data/readingStories.ts';
+import { vocabularyEntry } from '@/data/vocabulary.ts';
 
 const HAN = /\p{Script=Han}/u;
 
@@ -30,5 +31,32 @@ it.each(readingStories.filter((story) => story.lessons))(
     expect(first).toBeLessThanOrEqual(last);
     expect(ids).toContain(first);
     expect(ids).toContain(last);
+  },
+);
+
+it.each(readingStories)('$id splits every line into its words', ({ lines }) => {
+  for (const line of lines) {
+    expect(line.tokens.join('')).toBe(line.zh);
+    expect(line.tokens).not.toContain('');
+  }
+});
+
+it.each(readingStories)(
+  '$id has a gloss for every Chinese word',
+  ({ lines }) => {
+    const missing = lines
+      .flatMap((line) => line.tokens)
+      .filter((token) => HAN.test(token) && !vocabularyEntry(token));
+    expect(missing).toEqual([]);
+  },
+);
+
+it.each(readingStories)(
+  '$id reads Latin text aloud only via `spoken`',
+  ({ lines }) => {
+    for (const line of lines) {
+      if (/[A-Za-z]/.test(line.zh)) expect(line.spoken).toMatch(HAN);
+      else expect(line.spoken).toBeUndefined();
+    }
   },
 );

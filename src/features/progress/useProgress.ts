@@ -4,6 +4,7 @@ import {
   XP,
   bestGrades,
   gainXp,
+  logActivity,
   recordAnswer,
   recordAttempt,
   recordJourney,
@@ -26,7 +27,13 @@ export function useProgress() {
   const best = useMemo(() => bestGrades(progress), [progress]);
   const record = useCallback(
     (r: AttemptResult) =>
-      updateProgress((p) => gainXp(recordAttempt(p, r), XP.char, r.at)),
+      updateProgress((p) =>
+        gainXp(
+          logActivity(recordAttempt(p, r), r.at, { chars: 1 }),
+          XP.char,
+          r.at,
+        ),
+      ),
     [],
   );
   const recordExercise = useCallback(
@@ -38,7 +45,11 @@ export function useProgress() {
   const answer = useCallback((item: string | undefined, right: boolean) => {
     const now = Date.now();
     updateProgress((p) => {
-      const next = item ? recordAnswer(p, item, right, now) : p;
+      const next = logActivity(
+        item ? recordAnswer(p, item, right, now) : p,
+        now,
+        { answers: 1 },
+      );
       return right ? gainXp(next, XP.answer, now) : next;
     });
   }, []);

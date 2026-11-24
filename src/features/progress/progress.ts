@@ -4,9 +4,9 @@ import { isGrade } from '@/domain/grading.ts';
 import type { BestGrades, Grade } from '@/domain/grading.ts';
 import { EXERCISES, isExercise } from '@/domain/exercises.ts';
 import type { ExerciseId } from '@/domain/exercises.ts';
-import { isSrsEntry, srsAnswer } from '@/domain/srs.ts';
+import { DAY_MS, isSrsEntry, srsAnswer } from '@/domain/srs.ts';
 import type { SrsEntry } from '@/domain/srs.ts';
-import { addXp, isDaily } from '@/domain/daily.ts';
+import { addXp, dayKey, isDaily } from '@/domain/daily.ts';
 import type { Daily } from '@/domain/daily.ts';
 
 // One finished exercise on a character, reported by an exercise mode.
@@ -38,7 +38,19 @@ export type Progress = {
   journey?: Record<string, ExerciseProgress>; // by journeyKey
   srs?: Record<string, SrsEntry>; // by character or word
   daily?: Daily;
+  history?: Record<string, DayActivity>; // by dayKey, the last HISTORY_DAYS days
 };
+
+// What was done on one day, for the statistics calendar.
+export type DayActivity = {
+  xp: number;
+  chars: number; // characters finished in the copybook
+  answers: number; // quiz answers, right or wrong
+};
+
+// A year of whole weeks; older days are dropped on the next write.
+export const HISTORY_DAYS = 371;
+const DAY_KEY = /^\d{4}-\d{2}-\d{2}$/;
 
 export const emptyProgress = (): Progress => ({
   version: 2,
@@ -130,6 +142,7 @@ export function normalizeProgress(raw: unknown): Progress | undefined {
   // fromEntries defines own properties, so no key can touch the prototype.
   const journey = normalizeJourney(r.journey);
   const srs = normalizeSrs(r.srs);
+  const history = normalizeHistory(r.history);
   return {
     version: 2,
     chars: Object.fromEntries(entries),
@@ -137,6 +150,7 @@ export function normalizeProgress(raw: unknown): Progress | undefined {
     ...(journey ? { journey } : {}),
     ...(srs ? { srs } : {}),
     ...(isDaily(r.daily) ? { daily: r.daily } : {}),
+    ...(history ? { history } : {}),
   };
 }
 
@@ -151,6 +165,23 @@ function normalizeJourney(
     if (!isGrade(r.best)) continue;
     const at = typeof r.at === 'number' && r.at >= 0 ? r.at : 0;
     entries.push([k, { best: r.best, at }]);
+  }
+  return entries.length ? Object.fromEntries(entries) : undefined;
+}
+
+function normalizeHistory(
+  raw: unknown,
+): Record<string, DayActivity> | undefined {
+  if (raw === null || typeof raw !== 'object') return undefined;
+  const entries: [string, DayActivity][] = [];
+  for (const [day, v] of Object.entries(raw)) {
+    if (!DAY_KEY.test(day) || v === null || typeof v !== 'object') continue;
+    const r = v as Record<string, unknown>;
+    const count = (x: unknown) => (isCount(x) ? x : 0);
+    entries.push([
+      day,
+      { xp: count(r.xp), chars: count(r.chars), answers: count(r.answers) },
+    ]);
   }
   return entries.length ? Object.fromEntries(entries) : undefined;
 }
@@ -237,7 +268,27 @@ export function recordAnswer(
 
 // XP for today, which also keeps the streak of days in a row.
 export const gainXp = (p: Progress, xp: number, at: number): Progress =>
-  xp > 0 ? { ...p, daily: addXp(p.daily, xp, at) } : p;
+  xp > 0 ? logActivity({ ...p, daily: addXp(p.daily, xp, at) }, at, { xp }) : p;
+
+// Adds to the activity of the day of `at` and drops days older than HISTORY_DAYS.
+export function logActivity(
+  p: Progress,
+  at: number,
+  add: Partial<DayActivity>,
+): Progress {
+  const day = dayKey(at);
+  const oldest = dayKey(at - (HISTORY_DAYS - 1) * DAY_MS);
+  const prev = p.history?.[day] ?? { xp: 0, chars: 0, answers: 0 };
+  const history = Object.fromEntries(
+    Object.entries(p.history ?? {}).filter(([d]) => d >= oldest),
+  );
+  history[day] = {
+    xp: prev.xp + (add.xp ?? 0),
+    chars: prev.chars + (add.chars ?? 0),
+    answers: prev.answers + (add.answers ?? 0),
+  };
+  return { ...p, history };
+}
 
 // XP rewards.
 export const XP = {

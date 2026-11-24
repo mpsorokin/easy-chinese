@@ -66,3 +66,40 @@ export function migratePrefix(from: string, to: string): void {
     /* ignore */
   }
 }
+
+// One in-memory copy of a store key per tab, shared by every reader (for
+// useSyncExternalStore): a write reaches all subscribers at once, and a write from another
+// tab reloads it. The copy is dropped when the last subscriber leaves, because the
+// other-tab listener stops with it and the copy could go stale.
+export function sharedValue<
+  Schema extends Record<string, unknown>,
+  K extends keyof Schema & string,
+>(store: Store<Schema>, key: K, normalize: Normalizer<Schema[K]>) {
+  let cache: Schema[K] | undefined;
+  const listeners = new Set<() => void>();
+  const get = (): Schema[K] => (cache ??= store.get(key, normalize));
+  return {
+    get,
+    set: (value: Schema[K]) => {
+      cache = value;
+      store.set(key, value);
+      for (const notify of listeners) notify();
+    },
+    subscribe: (onChange: () => void) => {
+      listeners.add(onChange);
+      const unsubscribe = store.subscribe(key, () => {
+        cache = undefined;
+        onChange();
+      });
+      return () => {
+        listeners.delete(onChange);
+        unsubscribe();
+        if (listeners.size === 0) cache = undefined;
+      };
+    },
+    // Tests only: forget the in-memory copy.
+    reset: () => {
+      cache = undefined;
+    },
+  };
+}

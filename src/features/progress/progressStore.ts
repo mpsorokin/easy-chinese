@@ -1,7 +1,7 @@
 // localStorage keys owned by the progress feature (same `hanzi:` prefix as the rest of the app).
 import { normalizeBest } from '@/domain/grading.ts';
 import type { BestGrades } from '@/domain/grading.ts';
-import { createStore } from '@/shared/lib/storage.ts';
+import { createStore, sharedValue } from '@/shared/lib/storage.ts';
 import {
   migrateBestGrades,
   normalizeProgress,
@@ -20,33 +20,12 @@ export const loadProgress = (raw: unknown): Progress =>
   normalizeProgress(raw) ??
   migrateBestGrades(progressStore.get('best', normalizeBest));
 
-// One in-memory copy per tab, shared by every useProgress() caller: a write from one
-// component reaches all others at once, and a write from another tab reloads it.
-let cache: Progress | undefined;
-const listeners = new Set<() => void>();
+// One copy per tab, shared by every useProgress() caller (see sharedValue).
+const progress = sharedValue(progressStore, 'progress', loadProgress);
 
-export const getProgress = (): Progress =>
-  (cache ??= progressStore.get('progress', loadProgress));
-
-export function updateProgress(update: (p: Progress) => Progress): void {
-  cache = update(getProgress());
-  progressStore.set('progress', cache);
-  for (const l of listeners) l();
-}
-
-export function subscribeProgress(onChange: () => void): () => void {
-  listeners.add(onChange);
-  const unsubscribe = progressStore.subscribe('progress', () => {
-    cache = undefined;
-    onChange();
-  });
-  return () => {
-    listeners.delete(onChange);
-    unsubscribe();
-  };
-}
-
+export const getProgress = progress.get;
+export const subscribeProgress = progress.subscribe;
+export const updateProgress = (update: (p: Progress) => Progress): void =>
+  progress.set(update(progress.get()));
 // Tests only: forget the in-memory copy.
-export const _resetProgressCache = () => {
-  cache = undefined;
-};
+export const _resetProgressCache = progress.reset;

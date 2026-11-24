@@ -65,7 +65,10 @@ export const exercisePath = (level: string, lesson: number, ex: ExerciseId) =>
 
 // Reading: short stories.
 export const readingPath = '/reading';
-export const readingStoryPath = (story: string) => `${readingPath}/${story}`;
+export const readingStoryPath = (story: string, lesson?: number) =>
+  `${readingPath}/${story}${lesson === undefined ? '' : `?lesson=${lesson}`}`;
+export const vocabularyPath = '/vocabulary';
+export const statsPath = '/stats';
 
 // My Classes: notes from classes with a teacher, and translation rounds over their words.
 export const classesPath = '/my-classes';

@@ -9,7 +9,11 @@ const paths = {
   volume: 'M15 8a5 5 0 0 1 0 8m2.7-11a9 9 0 0 1 0 14M5 9v6h4l5 4V5L9 9z',
   layers: 'm12 3 9 5-9 5-9-5 9-5m-9 9 9 5 9-5M3 16l9 5 9-5',
   info: 'M12 11v5m0-8h.01M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0',
+  search: 'M4 10a6 6 0 1 0 12 0 6 6 0 1 0-12 0m10.5 4.5L20 20',
   play: 'M8 5v14l11-7z',
+  pause: 'M9 5v14m6-14v14',
+  'skip-back': 'M6 5v14m12-14v14L8 12z',
+  'skip-next': 'M18 5v14M6 5v14l10-7z',
   hint: 'M9 18h6m-5 3h4M9 15a6 6 0 1 1 6 0',
   restart: 'M20 4v5h-5m5 4a8 8 0 1 1-2.3-6.7L20 9',
   settings:

@@ -283,3 +283,43 @@ a.btn {
   color: inherit;
   text-decoration: none;
 }
+
+/* Word status colors (My Vocabulary, story underlines and legend). */
+[data-word-status='new'] {
+  --word-mark: #9c610e;
+}
+
+[data-word-status='learning'] {
+  --word-mark: #784daf;
+}
+
+[data-word-status='known'] {
+  --word-mark: var(--good);
+}
+
+[data-theme='dark'] [data-word-status='new'] {
+  --word-mark: #e8b764;
+}
+
+[data-theme='dark'] [data-word-status='learning'] {
+  --word-mark: #c2a1f2;
+}
+
+/* A link in the page toolbar, next to the back link. */
+.toolbar-link {
+  color: var(--accent-strong);
+  font-size: 0.875rem;
+  font-weight: 650;
+  text-underline-offset: 3px;
+}
+
+/* Heading of a simple page: title and one line of description. */
+.page-header h1 {
+  margin: 12px 0 6px;
+  font-size: clamp(28px, 6vw, 42px);
+}
+
+.page-header p {
+  margin: 0;
+  line-height: 1.45;
+}

@@ -135,6 +135,19 @@ Pinyin conventions used across the course: 一 and 不 carry their sandhi tone (
 `parts` (the characters practised in writing and quizzes, 8–10 per part) is optional; without it the
 lesson practises the characters of its `words` as one part, or has no practice if it has no words. Card art is optional too: `src/features/lesson/courseExerciseArt.ts`.
 
+## Add a Reading story
+
+In `src/data/readingStories.ts`, separate words and punctuation with `|` and give each
+sentence its pinyin and English translation. Use `spoken` if text needs a separate
+reading for the speech (for example, pinyin written inside the Chinese). The `lessons` range
+links the story to the course. Add entries to `src/data/vocabulary.ts` for words outside the
+HSK and course lists.
+
+Stories have no audio files. The player reads each sentence aloud with the browser's
+speech synthesis (`speechSynthesis`, `src/shared/lib/speech.ts`), and the speed menu sets the
+speech rate. The voice depends on the browser and the system: without a Chinese voice it
+may sound wrong, and without speech synthesis the player is disabled.
+
 ## Add characters
 
 1. Append to a deck in `src/data/decks/`: `{ "c": "水", "py": "shuǐ", "en": "water" }` (or add a new group).

@@ -3,6 +3,9 @@ import { Link } from 'react-router';
 import { hskSelectionKey, hskStore } from '@/features/hsk/hskStore.ts';
 import { lessonStore } from '@/features/lesson/lessonStore.ts';
 import { HSK_LEVELS, HSK1_LEVEL } from '@/data/hsk.ts';
+import { vocabulary } from '@/data/vocabulary.ts';
+import { currentStreak } from '@/domain/daily.ts';
+import { useWordStatuses } from '@/features/vocabulary/vocabularyStore.ts';
 import { useProgress } from '@/features/progress/useProgress.ts';
 import { usePersistentState } from '@/shared/hooks/usePersistentState.ts';
 import Meter from '@/shared/ui/Meter.tsx';
@@ -13,6 +16,8 @@ import {
   levelCharsPath,
   levelPath,
   readingPath,
+  statsPath,
+  vocabularyPath,
 } from '@/shared/paths.ts';
 import {
   continueIndex,
@@ -38,6 +43,8 @@ export default function HomePage() {
     levelPicker.current?.showModal();
   };
   const { progress } = useProgress();
+  const statuses = useWordStatuses();
+  const [now] = useState(() => Date.now());
   const [lastLesson] = usePersistentState(
     lessonStore,
     'lastLesson',
@@ -142,6 +149,34 @@ export default function HomePage() {
         </span>
         <span className="home-panel-action">
           {t.viewStories}
+          <span className="home-chevron" aria-hidden />
+        </span>
+      </Link>
+
+      <Link className="home-level home-panel" to={vocabularyPath}>
+        <span className="home-level-info">
+          <b>{t.vocabulary}</b>
+          <span className="home-level-meta">{t.vocabularyDescription}</span>
+        </span>
+        <span className="home-panel-action">
+          {t.vocabularyAll}
+          <span className="home-chevron" aria-hidden />
+        </span>
+      </Link>
+
+      <Link className="home-level home-panel" to={statsPath}>
+        <span className="home-level-info">
+          <b>{t.stats.title}</b>
+          <span className="home-level-meta">
+            {t.stats.homeMeta(
+              currentStreak(progress.daily, now),
+              vocabulary.filter(({ w }) => statuses[w] === 'known').length,
+              Object.keys(progress.chars).length,
+            )}
+          </span>
+        </span>
+        <span className="home-panel-action">
+          {t.stats.view}
           <span className="home-chevron" aria-hidden />
         </span>
       </Link>

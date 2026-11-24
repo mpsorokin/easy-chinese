@@ -8,7 +8,7 @@ export type SrsEntry = {
 export const DAY_MS = 86_400_000;
 // Days until the next review for each box.
 export const SRS_DAYS = [0, 1, 3, 7, 14, 30] as const;
-const TOP_BOX = SRS_DAYS.length - 1;
+export const TOP_BOX = SRS_DAYS.length - 1;
 
 // A wrong answer sends an item back to box 0, due at once. A right answer moves it up one
 // box, but only when it was due: answering the same item twice in a session counts once.

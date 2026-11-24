@@ -57,6 +57,14 @@ export const router = createBrowserRouter(
           lazy: page(() => import('@/features/reading/ReadingPage.tsx')),
         },
         {
+          path: 'vocabulary',
+          lazy: page(() => import('@/features/vocabulary/VocabularyPage.tsx')),
+        },
+        {
+          path: 'stats',
+          lazy: page(() => import('@/features/stats/StatsPage.tsx')),
+        },
+        {
           path: 'my-classes/:lesson/practice/:direction',
           lazy: page(
             () => import('@/features/my-classes/ClassTranslationPage.tsx'),
