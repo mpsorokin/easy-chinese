@@ -123,4 +123,16 @@ describe('classLessons', () => {
     const ids = classLessons.map(({ id }) => id);
     expect(ids).toEqual([...new Set(ids)].sort((a, b) => a - b));
   });
+
+  it('keeps lesson 3 answers with each exercise list', () => {
+    const lesson = classLessons.find(({ id }) => id === 3)!;
+    const exercises = lesson.sections.find(
+      ({ title }) => title === 'Упражнения',
+    )!;
+    const lists = exercises.blocks.filter((block) => block.type === 'numbered');
+
+    expect(lists.map(({ answers }) => answers?.rows.length)).toEqual([
+      4, 6, 4, 5,
+    ]);
+  });
 });

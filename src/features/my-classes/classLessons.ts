@@ -43,6 +43,7 @@ const COLUMN_KINDS = new Map<string, ColumnKind>([
 const ANSWERS_HEADING = /^### Ответы[ \t]*$/m;
 const ANSWER_KEY_HEADERS = 'Задание|№|汉字|Pinyin';
 const ANSWER_LISTS = new Map([
+  ['Закончи ответ', 'Закончи ответ'],
   ['С русского', 'Переведи на китайский'],
   ['Порядок слов', 'Собери фразы'],
   ['С английского', 'Переведи с английского на китайский'],

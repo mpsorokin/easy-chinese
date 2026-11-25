@@ -80,3 +80,18 @@ it('every class lesson with vocabulary can be practised', () => {
     if (lesson.sections.some(({ kind }) => kind === 'vocabulary'))
       expect(canPracticeClass(classTranslationWords(lesson))).toBe(true);
 });
+
+it('includes the pronouns, professions, countries and nationalities from lesson 3', () => {
+  const lesson = classLessons.find(({ id }) => id === 3)!;
+  const words = classTranslationWords(lesson);
+
+  expect(words).toEqual(
+    expect.arrayContaining([
+      { w: '您', py: 'nín', en: 'you (polite singular)' },
+      { w: '律师', py: 'lǜshī', en: 'lawyer' },
+      { w: '乌克兰', py: 'Wūkèlán', en: 'Ukraine' },
+      { w: '乌克兰人', py: 'Wūkèlán rén', en: 'person from Ukraine' },
+    ]),
+  );
+  expect(new Set(words.map(({ en }) => en)).size).toBe(words.length);
+});
