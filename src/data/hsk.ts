@@ -62,9 +62,26 @@ export const EXTRA_CHARS: HskChar[] = extraChars;
 const extraByChar = new Map(EXTRA_CHARS.map((e) => [e.c, e]));
 export const extraEntry = (c: string) => extraByChar.get(c);
 
+// Lookups derived from a level's lists, built once per level.
+type LevelIndex = {
+  byChar: Map<string, HskChar>;
+  lessonOf: Map<string, number>; // character -> 0-based lesson
+};
+const levelIndexes = new WeakMap<LevelData, LevelIndex>();
+function levelIndex(level: LevelData): LevelIndex {
+  let index = levelIndexes.get(level);
+  if (!index) {
+    const lessonOf = new Map<string, number>();
+    level.lessons.forEach((l, i) => l.chars.forEach((c) => lessonOf.set(c, i)));
+    index = { byChar: new Map(level.chars.map((e) => [e.c, e])), lessonOf };
+    levelIndexes.set(level, index);
+  }
+  return index;
+}
+
 // Entry a character can be selected with on a level's page: the level's own, else an extra.
 export const selectableEntry = (c: string, level: LevelData) =>
-  level.chars.find((e) => e.c === c) ?? extraByChar.get(c);
+  levelIndex(level).byChar.get(c) ?? extraByChar.get(c);
 
 // Copybook entry for an HSK character: same fields as a deck entry.
 export const hskCharEntry = (e: HskChar): CharEntry => ({
@@ -81,8 +98,7 @@ export const wordsWith = (c: string, level = HSK1_LEVEL): string[] =>
 // at least one of its characters and otherwise only characters of earlier lessons.
 // Words with characters outside the level's list (饺子, 饭店) are left out of the lessons.
 export function lessonWords(level: LevelData, idx: number): HskWord[] {
-  const lessonOf = new Map<string, number>();
-  level.lessons.forEach((l, i) => l.chars.forEach((c) => lessonOf.set(c, i)));
+  const { lessonOf } = levelIndex(level);
   return level.words.filter((w) => {
     let last = -1;
     for (const c of w.w) {
@@ -95,8 +111,8 @@ export function lessonWords(level: LevelData, idx: number): HskWord[] {
 }
 
 export const lessonChars = (level: LevelData, idx: number): HskChar[] => {
-  const map = new Map(level.chars.map((e) => [e.c, e]));
-  return (level.lessons[idx]?.chars ?? []).flatMap((c) => map.get(c) ?? []);
+  const { byChar } = levelIndex(level);
+  return (level.lessons[idx]?.chars ?? []).flatMap((c) => byChar.get(c) ?? []);
 };
 
 // Pinyin without tone marks, lower case: "nǚ" -> "nu".

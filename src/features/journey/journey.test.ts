@@ -5,7 +5,7 @@ import {
   coursePart,
 } from '@/data/courseLessons.ts';
 import { HSK1_LEVEL } from '@/data/hsk.ts';
-import type { Question } from '@/domain/exercises.ts';
+import type { Question } from '@/domain/exercises/index.ts';
 import { DAY_MS } from '@/domain/srs.ts';
 import {
   courseLessonKey,

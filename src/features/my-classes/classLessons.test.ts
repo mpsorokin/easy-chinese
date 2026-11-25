@@ -124,15 +124,28 @@ describe('classLessons', () => {
     expect(ids).toEqual([...new Set(ids)].sort((a, b) => a - b));
   });
 
-  it('keeps lesson 3 answers with each exercise list', () => {
-    const lesson = classLessons.find(({ id }) => id === 3)!;
-    const exercises = lesson.sections.find(
-      ({ title }) => title === 'Упражнения',
-    )!;
-    const lists = exercises.blocks.filter((block) => block.type === 'numbered');
+  it('keeps each answer with its exercise list', () => {
+    const blocks = parseClassContent(`### Переведи на китайский
 
-    expect(lists.map(({ answers }) => answers?.rows.length)).toEqual([
-      4, 6, 4, 5,
-    ]);
+1. Привет!
+2. Как дела?
+
+### Собери фразы
+
+1. 好 / 你
+2. 吗 / 好 / 你
+
+### Ответы
+
+| Задание | № | 汉字 | Pinyin |
+| --- | --- | --- | --- |
+| С русского | 1 | 你好！ | Nǐ hǎo! |
+| С русского | 2 | 你好吗？ | Nǐ hǎo ma? |
+| Порядок слов | 1 | 你好 | Nǐ hǎo |
+| Порядок слов | 2 | 你好吗 | Nǐ hǎo ma |
+`);
+    const lists = blocks.filter((block) => block.type === 'numbered');
+
+    expect(lists.map(({ answers }) => answers?.rows.length)).toEqual([2, 2]);
   });
 });

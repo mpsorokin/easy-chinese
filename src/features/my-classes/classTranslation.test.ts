@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { OPTIONS } from '@/domain/exercises.ts';
+import { OPTIONS } from '@/domain/exercises/index.ts';
 import {
   classLessons,
   parseClassLesson,
@@ -73,12 +73,41 @@ describe('classTranslationQuestions', () => {
     expect(canPracticeClass(words)).toBe(true);
     expect(canPracticeClass(words.slice(0, OPTIONS - 1))).toBe(false);
   });
+
+  it('uses four distinct English options and groups identical readings', () => {
+    const firstClass = classLessons.find(({ id }) => id === 1)!;
+    const questions = classTranslationQuestions(
+      classTranslationWords(firstClass),
+      'listen-en',
+    );
+
+    expect(questions.length).toBeGreaterThan(0);
+    for (const q of questions) {
+      expect(q.mode).toBe('listenOnly');
+      expect(q.optionLang).toBeUndefined();
+      expect(q.audio?.afterAnswer).toBe(false);
+      expect(q.options).toHaveLength(OPTIONS);
+      expect(new Set(q.options).size).toBe(OPTIONS);
+      expect(q.reveal.endsWith(q.options[q.answer]!)).toBe(true);
+    }
+    expect(questions.filter(({ hint }) => hint === 'tā')).toEqual([
+      expect.objectContaining({ prompt: '他、她、它' }),
+    ]);
+    const they = questions.filter(({ hint }) => hint === 'tāmen');
+    expect(they).toEqual([
+      expect.objectContaining({ prompt: '他们、她们、它们' }),
+    ]);
+    expect(they[0]?.options[they[0].answer]).toBe('they');
+  });
 });
 
 it('every class lesson with vocabulary can be practised', () => {
-  for (const lesson of classLessons)
-    if (lesson.sections.some(({ kind }) => kind === 'vocabulary'))
-      expect(canPracticeClass(classTranslationWords(lesson))).toBe(true);
+  for (const lesson of classLessons) {
+    if (!lesson.sections.some(({ kind }) => kind === 'vocabulary')) continue;
+    const words = classTranslationWords(lesson);
+    expect(canPracticeClass(words)).toBe(true);
+    expect(canPracticeClass(words, 'listen-en')).toBe(true);
+  }
 });
 
 it('includes the pronouns, professions, countries and nationalities from lesson 3', () => {

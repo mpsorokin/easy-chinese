@@ -16,8 +16,8 @@ import {
   sentenceQuiz,
   shuffle,
   wordWriteQuiz,
-} from '@/domain/exercises.ts';
-import type { Question, Rng, SentenceLine } from '@/domain/exercises.ts';
+} from '@/domain/exercises/index.ts';
+import type { Question, Rng, SentenceLine } from '@/domain/exercises/index.ts';
 import type { HskWord } from '@/domain/types.ts';
 
 export const PRACTICE_SIZE = 14;

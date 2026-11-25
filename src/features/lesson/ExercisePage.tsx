@@ -1,6 +1,6 @@
 import { Navigate, useParams } from 'react-router';
 import { lessonChars, lessonWords } from '@/data/hsk.ts';
-import { buildQuiz, isExercise } from '@/domain/exercises.ts';
+import { buildQuiz, isExercise } from '@/domain/exercises/index.ts';
 import { lessonKey } from '@/features/progress/progress.ts';
 import { useProgress } from '@/features/progress/useProgress.ts';
 import { t } from '@/shared/i18n/en.ts';

@@ -3,6 +3,7 @@
 const paths = {
   back: 'M5 12h14M5 12l7 7m-7-7 7-7',
   chevron: 'M9 6l6 6-6 6',
+  check: 'M5 12l4 4L19 6',
   pencil: 'M4 20l1-4L16 5l3 3L8 19zM14 7l3 3',
   printer:
     'M7 9V4h10v5M5 9h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2zM7 14h10v6H7z',

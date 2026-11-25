@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router';
-import type { Question } from '@/domain/exercises.ts';
+import type { Question } from '@/domain/exercises/index.ts';
 import type { Grade } from '@/domain/grading.ts';
 import { t } from '@/shared/i18n/en.ts';
 import ThemeControl from '@/features/settings/ThemeControl.tsx';
@@ -12,7 +12,7 @@ import {
   saveQuiz,
 } from '@/features/progress/sessionStore.ts';
 import type { QuizAnswer } from '@/features/progress/sessionStore.ts';
-import QuizRunner from '@/features/lesson/QuizRunner.tsx';
+import QuizRunner from '@/features/lesson/quiz/QuizRunner.tsx';
 
 // The page around a quiz: close link, title and the runner. Pages that use it must give it
 // a `key` that changes with the exercise, so new route params build new questions.

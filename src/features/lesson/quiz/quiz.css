@@ -27,9 +27,9 @@
 
 .quiz-page::before {
   background:
-    url('../home/art/plum-blossom.webp') right -8px top -24px /
+    url('../../home/art/plum-blossom.webp') right -8px top -24px /
       clamp(125px, 36vw, 300px) auto no-repeat,
-    url('../home/art/misty-pavilion.webp') right -5vw bottom -6px /
+    url('../../home/art/misty-pavilion.webp') right -5vw bottom -6px /
       clamp(310px, 88vw, 760px) auto no-repeat;
   opacity: 0.65;
 }
@@ -38,7 +38,7 @@
   inset: auto auto 0 0;
   width: clamp(132px, calc(49vw - 23px), 287px);
   height: clamp(120px, 38vw, 240px);
-  background: url('./art/reference-bamboo.webp') left -23px bottom -4px /
+  background: url('../art/reference-bamboo.webp') left -23px bottom -4px /
     clamp(155px, 49vw, 310px) auto no-repeat;
   mask-image: linear-gradient(transparent, #000 18%);
   opacity: 0.8;
@@ -126,7 +126,7 @@
   padding: 20px max(53px, 12%);
   border-radius: clamp(18px, 4.6vw, 30px);
   background:
-    url('./art/level/hills.webp') left bottom 10% / 35% auto no-repeat,
+    url('../art/level/hills.webp') left bottom 10% / 35% auto no-repeat,
     var(--quiz-surface);
   text-align: center;
 }
@@ -516,7 +516,7 @@
   background:
     var(--night-blossoms) right -8px top -24px / clamp(125px, 36vw, 300px) auto
       no-repeat,
-    url('./art/dialogue-hills.webp') right bottom / min(100%, 760px) auto
+    url('../art/dialogue-hills.webp') right bottom / min(100%, 760px) auto
       no-repeat;
   filter: var(--art-filter);
   opacity: 0.32;
@@ -537,7 +537,7 @@
 [data-theme='dark'] .quiz-prompt {
   background:
     linear-gradient(270deg, transparent, var(--art-veil) 52%),
-    url('./art/level/hills.webp') left bottom 10% / 35% auto no-repeat,
+    url('../art/level/hills.webp') left bottom 10% / 35% auto no-repeat,
     var(--quiz-surface);
 }
 

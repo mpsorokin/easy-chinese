@@ -15,7 +15,7 @@ import { NEXT_STEP_DELAY } from '@/features/copybook/useCopybook.ts';
 import type { AttemptComplete } from '@/features/writer/types.ts';
 import { _resetProgressCache } from '@/features/progress/progressStore.ts';
 import { t } from '@/shared/i18n/en.ts';
-import { CourseCopybookScreen } from '@/app/CopybookScreen.tsx';
+import { CourseCopybookScreen } from '@/features/copybook/CopybookScreen.tsx';
 
 // The writing cell is replaced by a button that reports a clean attempt.
 vi.mock('@/features/writer/WritingCell.tsx', () => ({

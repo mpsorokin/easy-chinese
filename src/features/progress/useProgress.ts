@@ -11,7 +11,7 @@ import {
   recordLesson,
 } from '@/features/progress/progress.ts';
 import type { AttemptResult } from '@/features/progress/progress.ts';
-import type { ExerciseId } from '@/domain/exercises.ts';
+import type { ExerciseId } from '@/domain/exercises/index.ts';
 import type { Grade } from '@/domain/grading.ts';
 import {
   getProgress,

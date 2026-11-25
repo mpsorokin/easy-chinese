@@ -25,8 +25,8 @@
   z-index: -1;
   inset: 0 0 auto;
   height: clamp(83px, 23cqi, 125px);
-  background: url('../features/lesson/art/level/hero.webp') no-repeat right
-    top / 66% auto;
+  background: url('../lesson/art/level/hero.webp') no-repeat right top / 66%
+    auto;
   pointer-events: none;
   content: '';
 }
@@ -135,10 +135,8 @@
   border: 1px solid var(--line);
   border-radius: clamp(13px, 3.4cqi, 20px);
   background:
-    url('../features/lesson/art/reference-bamboo.webp') no-repeat right top /
-      auto 108%,
-    url('../features/lesson/art/dialogue-hills.webp') no-repeat right bottom /
-      60% auto,
+    url('../lesson/art/reference-bamboo.webp') no-repeat right top / auto 108%,
+    url('../lesson/art/dialogue-hills.webp') no-repeat right bottom / 60% auto,
     var(--write-surface);
   box-shadow: var(--write-shadow);
 }
@@ -308,8 +306,7 @@
 [data-theme='dark'] .write-character {
   background:
     linear-gradient(90deg, var(--card) 38%, var(--art-veil)),
-    url('../features/lesson/art/dialogue-hills.webp') no-repeat right bottom /
-      65% auto,
+    url('../lesson/art/dialogue-hills.webp') no-repeat right bottom / 65% auto,
     var(--write-surface);
 }
 

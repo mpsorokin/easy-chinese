@@ -15,12 +15,12 @@ import {
   EXERCISES,
   availableExercises,
   buildQuiz,
-} from '@/domain/exercises.ts';
+} from '@/domain/exercises/index.ts';
 import type {
   BuildQuestion,
   ChoiceQuestion,
   QuizId,
-} from '@/domain/exercises.ts';
+} from '@/domain/exercises/index.ts';
 import { HSK1_LEVEL, lessonChars, lessonWords } from '@/data/hsk.ts';
 
 // Deterministic generator (mulberry32) so runs can be compared.

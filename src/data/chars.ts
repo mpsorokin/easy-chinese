@@ -22,6 +22,12 @@ export const ALL: CharListItem[] = CHAR_GROUPS.flatMap((group, g) =>
 
 if (ALL.length === 0) throw new Error('src/data/decks has no characters');
 
+// Index of each character in ALL (the first one if a character repeats).
+const indexByChar = new Map<string, number>();
+ALL.forEach((x, i) => {
+  if (!indexByChar.has(x.c)) indexByChar.set(x.c, i);
+});
+
 // Entry at index i of a non-empty list, wrapping around both ends
 // (so prev/next navigation never falls off).
 export function wrapAt<T>(list: readonly T[], i: number): T {
@@ -36,14 +42,10 @@ const DEFAULT_CHAR = '人';
 // unknown values fall back to DEFAULT_CHAR.
 export const normalizeLastChar = (raw: unknown): string =>
   typeof raw === 'string' &&
-  (ALL.some((x) => x.c === raw) ||
+  (indexByChar.has(raw) ||
     hskEntry(raw) !== undefined ||
     extraEntry(raw) !== undefined)
     ? raw
     : DEFAULT_CHAR;
 
-export const indexOfChar = (c: string) =>
-  Math.max(
-    0,
-    ALL.findIndex((x) => x.c === c),
-  );
+export const indexOfChar = (c: string) => indexByChar.get(c) ?? 0;

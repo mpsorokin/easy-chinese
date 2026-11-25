@@ -6,8 +6,8 @@ import {
   storySteps,
 } from '@/data/courseLessons.ts';
 import { storiesForLesson } from '@/data/readingStories.ts';
-import { availableExercises } from '@/domain/exercises.ts';
-import type { ExerciseId } from '@/domain/exercises.ts';
+import { availableExercises } from '@/domain/exercises/index.ts';
+import type { ExerciseId } from '@/domain/exercises/index.ts';
 import {
   courseLessonKey,
   journeyKey,

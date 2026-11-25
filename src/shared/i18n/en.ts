@@ -32,6 +32,11 @@ export const t = {
   characterOf: (i: number, n: number) => `Character ${i} of ${n}`,
   practiceExit: 'Exit set',
   homeLabel: 'Home',
+  // A page that failed to load
+  errorTitle: 'Something went wrong',
+  errorText:
+    'This page could not be loaded. The app may have just been updated, or the connection dropped.',
+  reload: 'Reload',
 
   // Home
   appTitle: 'Copybook',
@@ -162,6 +167,7 @@ export const t = {
   classTranslation: {
     'zh-en': 'Chinese → English',
     'en-zh': 'English → Chinese',
+    'listen-en': 'Audio → English',
   },
   classChooseTranslation: 'Choose the correct translation.',
   classSections: 'Lesson sections',
@@ -277,6 +283,10 @@ export const t = {
   quizUndo: '⌫',
   quizUndoLabel: 'Undo',
   quizListen: 'Listen',
+  quizPlayAudio: 'Play audio',
+  quizPlayingAudio: 'Playing…',
+  quizReplayAudio: 'Replay',
+  quizChooseEnglish: 'Choose the English meaning',
   quizDone: (grade: Grade) =>
     grade === 3 ? 'Excellent!' : grade === 2 ? 'Good job!' : 'Worth repeating',
   quizScore: (right: number, total: number) =>

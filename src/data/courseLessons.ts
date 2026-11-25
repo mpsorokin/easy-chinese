@@ -88,14 +88,24 @@ export const courseLesson = (id: string | undefined) =>
 const hskChars = (chars: Iterable<string>): HskChar[] =>
   [...new Set(chars)].flatMap((c) => hskEntry(c) ?? []);
 
+// Lesson data never changes, so derived lists are computed once per lesson.
+function cached<V>(compute: (lesson: CourseLesson) => V) {
+  const cache = new WeakMap<CourseLesson, V>();
+  return (lesson: CourseLesson): V => {
+    let v = cache.get(lesson);
+    if (v === undefined) cache.set(lesson, (v = compute(lesson)));
+    return v;
+  };
+}
+
 // The lesson's practice parts: its own list, or else one part with every distinct
 // character of its vocabulary; none if it has neither. Each part has its HSK readings
 // and meanings.
-export function courseParts(lesson: CourseLesson): HskChar[][] {
+export const courseParts = cached((lesson): HskChar[][] => {
   if (lesson.parts) return lesson.parts.map((part) => hskChars(part));
   const chars = hskChars((lesson.words ?? []).flatMap((w) => [...w.zh]));
   return chars.length > 0 ? [chars] : [];
-}
+});
 
 // One part (1-based) of the lesson's practice characters.
 export const coursePart = (
@@ -104,12 +114,12 @@ export const coursePart = (
 ): HskChar[] | undefined => courseParts(lesson)[part - 1];
 
 // Characters practised in the lessons before this one (they count as known).
-function knownBefore(lesson: CourseLesson): string[] {
+const knownBefore = cached((lesson): string[] => {
   const at = COURSE_LESSONS.indexOf(lesson);
   return COURSE_LESSONS.slice(0, Math.max(0, at)).flatMap((l) =>
     courseParts(l).flatMap((p) => p.map((e) => e.c)),
   );
-}
+});
 
 // Multi-character vocabulary entries for a part's word quizzes: each word of the lesson
 // goes to the first part by which all its characters are known (from this lesson's parts

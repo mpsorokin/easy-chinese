@@ -38,12 +38,33 @@ export default defineConfig({
         background_color: PAPER,
       },
       workbox: {
-        // Everything is precached, so the whole app works offline right after install:
-        // app shell, all pages, art, every stroke-data file (public/hanzi/*.json) and the
-        // worksheet PDF code (pdf-lib, ~420 KB), so printing works offline too.
+        // Precached on install, so the app works offline right away: app shell, all pages
+        // and every stroke-data file (public/hanzi/*.json) the copybook needs.
         // No `webmanifest` here: the plugin adds manifest.webmanifest itself, and a second entry
         // with another revision makes Workbox throw while the SW loads, so nothing is cached.
-        globPatterns: ['**/*.{js,css,html,svg,png,webp,ico,json}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,json}'],
+        // The art (~2.3 MB) and the worksheet PDF code (pdf-lib, ~420 KB) would triple the
+        // install; they are cached the first time they are used instead (runtimeCaching).
+        globIgnores: ['**/*.webp', '**/worksheetPdf-*.js'],
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.pathname.endsWith('.webp'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'art',
+              expiration: { maxEntries: 150 },
+            },
+          },
+          {
+            urlPattern: ({ url }) =>
+              /\/worksheetPdf-[^/]+\.js$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'pdf',
+              expiration: { maxEntries: 4 },
+            },
+          },
+        ],
       },
     }),
   ],

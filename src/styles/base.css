@@ -323,3 +323,17 @@ a.btn {
   margin: 0;
   line-height: 1.45;
 }
+
+/* The router's error page (src/app/RouteError.tsx). */
+.route-error {
+  padding-block: 48px;
+}
+.route-error-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.route-error-actions .btn {
+  padding: 12px 22px;
+  text-decoration: none;
+}

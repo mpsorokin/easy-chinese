@@ -7,7 +7,7 @@ import {
   useParams,
   useSearchParams,
 } from 'react-router';
-import Header from '@/app/Header.tsx';
+import Header from '@/features/copybook/Header.tsx';
 import StrokeOrder from '@/features/stroke-order/StrokeOrder.tsx';
 import CopybookSteps from '@/features/copybook/CopybookSteps.tsx';
 import WritingCell from '@/features/writer/WritingCell.tsx';
@@ -48,7 +48,7 @@ import {
   levelLessonsPath,
   levelPath,
 } from '@/shared/paths.ts';
-import '@/app/write.css';
+import '@/features/copybook/write.css';
 
 // The stroke-order strip is shown unless the user hid it.
 const normalizeShown = (raw: unknown): boolean => raw !== false;

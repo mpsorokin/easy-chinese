@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router';
 import { lessonStore } from '@/features/lesson/lessonStore.ts';
 import { lessonChars, lessonWords } from '@/data/hsk.ts';
-import { availableExercises } from '@/domain/exercises.ts';
-import type { ExerciseId } from '@/domain/exercises.ts';
+import { availableExercises } from '@/domain/exercises/index.ts';
+import type { ExerciseId } from '@/domain/exercises/index.ts';
 import {
   lessonKey,
   lessonResults,

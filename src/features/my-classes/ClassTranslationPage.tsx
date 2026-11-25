@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router';
 import { t } from '@/shared/i18n/en.ts';
-import QuizRunner from '@/features/lesson/QuizRunner.tsx';
+import WriteIcon from '@/shared/ui/WriteIcon.tsx';
+import QuizRunner from '@/features/lesson/quiz/QuizRunner.tsx';
 import ThemeControl from '@/features/settings/ThemeControl.tsx';
 import {
   classLesson,
@@ -14,7 +15,6 @@ import {
   type TranslationDirection,
 } from '@/shared/paths.ts';
 import {
-  canPracticeClass,
   classTranslationQuestions,
   classTranslationWords,
 } from '@/features/my-classes/classTranslation.ts';
@@ -28,19 +28,25 @@ function ClassTranslationRound({
   direction: TranslationDirection;
 }) {
   const navigate = useNavigate();
+  const listening = direction === 'listen-en';
   const [words] = useState(() => classTranslationWords(lesson));
   const [round, setRound] = useState(() => ({
     id: 0,
     questions: classTranslationQuestions(words, direction),
   }));
-  if (!canPracticeClass(words) || !round.questions.length)
+  if (!round.questions.length)
     return <Navigate to={classPath(lesson.id)} replace />;
 
   return (
-    <main className="app page-frame quiz-page class-translation-page">
+    <main
+      className={
+        'app page-frame quiz-page class-translation-page' +
+        (listening ? ' class-listening-page' : '')
+      }
+    >
       <header className="quiz-head">
         <Link className="quiz-close" to={classesPath} aria-label={t.myClasses}>
-          {t.quizExit}
+          {listening ? <WriteIcon name="back" /> : t.quizExit}
         </Link>
         <div>
           <p className="class-translation-lesson" lang="ru">
@@ -50,9 +56,11 @@ function ClassTranslationRound({
         </div>
         <ThemeControl />
       </header>
-      <p className="class-translation-instruction">
-        {t.classChooseTranslation}
-      </p>
+      {!listening && (
+        <p className="class-translation-instruction">
+          {t.classChooseTranslation}
+        </p>
+      )}
       <QuizRunner
         key={round.id}
         questions={round.questions}

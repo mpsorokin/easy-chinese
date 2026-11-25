@@ -1,4 +1,8 @@
-import { OPTIONS, shuffle, type ChoiceQuestion } from '@/domain/exercises.ts';
+import {
+  OPTIONS,
+  shuffle,
+  type ChoiceQuestion,
+} from '@/domain/exercises/index.ts';
 import { HSK1_LEVEL } from '@/data/hsk.ts';
 import type { HskWord } from '@/domain/types.ts';
 import type { ClassLesson } from '@/features/my-classes/classLessons.ts';
@@ -104,19 +108,69 @@ export function classTranslationWords(lesson: ClassLesson): HskWord[] {
   return [...words.values()];
 }
 
+type PracticeWord = HskWord & { variants?: string };
+
+// Homophones make one audible prompt and share a single answer option.
+function listeningWords(words: readonly HskWord[]): PracticeWord[] {
+  const groups = new Map<string, [HskWord, ...HskWord[]]>();
+  for (const word of words) {
+    const pronunciation = word.py
+      .toLowerCase()
+      .normalize()
+      .replace(/[\s'’]+/gu, '');
+    const group = groups.get(pronunciation);
+    if (group) group.push(word);
+    else groups.set(pronunciation, [word]);
+  }
+  const entries = [...groups.values()].map((group) => {
+    const glosses = [...new Set(group.map(({ en }) => en))];
+    const en = glosses.join(' / ');
+    return {
+      ...group[0],
+      variants: group.map(({ w }) => w).join('、'),
+      en,
+      shortGloss:
+        group.length > 1
+          ? [
+              ...new Set(
+                glosses.map((gloss) => gloss.replace(/ \([^()]*\)$/u, '')),
+              ),
+            ].join(' / ')
+          : en,
+    };
+  });
+  const used = new Set(entries.map(({ en }) => en));
+  return entries.map(({ shortGloss, ...entry }) => {
+    if (!shortGloss || used.has(shortGloss)) return entry;
+    used.add(shortGloss);
+    return { ...entry, en: shortGloss };
+  });
+}
+
 // A round needs enough distinct meanings for the wrong options of every question.
-export const canPracticeClass = (words: readonly HskWord[]) =>
-  new Set(words.map(({ en }) => en)).size >= OPTIONS;
+export const canPracticeClass = (
+  words: readonly HskWord[],
+  direction?: TranslationDirection,
+) =>
+  new Set(
+    (direction === 'listen-en' ? listeningWords(words) : words).map(
+      ({ en }) => en,
+    ),
+  ).size >= OPTIONS;
 
 export function classTranslationQuestions(
   words: readonly HskWord[],
   direction: TranslationDirection,
 ): ChoiceQuestion[] {
   const toChinese = direction === 'en-zh';
-  return shuffle(words).flatMap((word): ChoiceQuestion[] => {
+  const listening = direction === 'listen-en';
+  const entries: readonly PracticeWord[] = listening
+    ? listeningWords(words)
+    : words;
+  return shuffle(entries).flatMap((word): ChoiceQuestion[] => {
     const right = toChinese ? word.w : word.en;
     const wrong = new Set(
-      words
+      entries
         .filter((other) => other.w !== word.w && other.en !== word.en)
         .map((other) => (toChinese ? other.w : other.en)),
     );
@@ -130,10 +184,11 @@ export function classTranslationQuestions(
       {
         kind: 'choice',
         ...(toChinese ? { mode: 'toWord', optionLang: 'zh' } : {}),
-        prompt: toChinese ? word.en : word.w,
+        ...(listening ? { mode: 'listenOnly', hint: word.py } : {}),
+        prompt: toChinese ? word.en : (word.variants ?? word.w),
         options,
         answer: options.indexOf(right),
-        reveal: `${word.w} · ${word.py} — ${word.en}`,
+        reveal: `${word.variants ?? word.w} · ${word.py} — ${word.en}`,
         audio: { text: word.w, afterAnswer: toChinese },
       },
     ];

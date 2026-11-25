@@ -40,11 +40,16 @@ const sectionArt: Partial<Record<SectionKind, string>> = {
   dialogues: speaking,
   writing,
 };
-// Lessons whose vocabulary is enough for a translation round.
-const practicable = new Set(
-  classLessons
-    .filter((lesson) => canPracticeClass(classTranslationWords(lesson)))
-    .map(({ id }) => id),
+const practiceModes = new Map(
+  classLessons.map((lesson) => {
+    const words = classTranslationWords(lesson);
+    return [
+      lesson.id,
+      translationDirections.filter((direction) =>
+        canPracticeClass(words, direction),
+      ),
+    ];
+  }),
 );
 
 function ClassCover({ lesson }: { lesson: ClassLesson }) {
@@ -59,7 +64,6 @@ function ClassCover({ lesson }: { lesson: ClassLesson }) {
 }
 
 function ClassCatalogCard({ lesson }: { lesson: ClassLesson }) {
-  const canPractice = practicable.has(lesson.id);
   const titleId = `class-title-${lesson.id}`;
 
   return (
@@ -91,16 +95,16 @@ function ClassCatalogCard({ lesson }: { lesson: ClassLesson }) {
           <WriteIcon name="layers" />
           {t.classLessonMaterial}
         </Link>
-        {canPractice &&
-          translationDirections.map((direction) => (
-            <Link
-              className="class-action"
-              to={classTranslationPath(lesson.id, direction)}
-              key={direction}
-            >
-              {t.classTranslation[direction]}
-            </Link>
-          ))}
+        {practiceModes.get(lesson.id)?.map((direction) => (
+          <Link
+            className="class-action"
+            to={classTranslationPath(lesson.id, direction)}
+            key={direction}
+          >
+            {direction === 'listen-en' && <WriteIcon name="volume" />}
+            {t.classTranslation[direction]}
+          </Link>
+        ))}
       </nav>
     </article>
   );

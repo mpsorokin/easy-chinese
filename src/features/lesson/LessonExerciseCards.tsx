@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { ExerciseId } from '@/domain/exercises.ts';
+import type { ExerciseId } from '@/domain/exercises/index.ts';
 import type { LessonProgress } from '@/features/progress/progress.ts';
 import { PASS_GRADE } from '@/features/progress/progress.ts';
 import { stars, t } from '@/shared/i18n/en.ts';

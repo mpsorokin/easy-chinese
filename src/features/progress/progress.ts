@@ -2,8 +2,8 @@
 // no React or storage.
 import { isGrade } from '@/domain/grading.ts';
 import type { BestGrades, Grade } from '@/domain/grading.ts';
-import { EXERCISES, isExercise } from '@/domain/exercises.ts';
-import type { ExerciseId } from '@/domain/exercises.ts';
+import { EXERCISES, isExercise } from '@/domain/exercises/index.ts';
+import type { ExerciseId } from '@/domain/exercises/index.ts';
 import { DAY_MS, isSrsEntry, srsAnswer } from '@/domain/srs.ts';
 import type { SrsEntry } from '@/domain/srs.ts';
 import { addXp, dayKey, isDaily } from '@/domain/daily.ts';

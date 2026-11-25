@@ -2,6 +2,7 @@ import type { ComponentType } from 'react';
 import { Navigate, createBrowserRouter } from 'react-router';
 import { COURSE_LEVEL, levelPath } from '@/shared/paths.ts';
 import RootLayout from '@/app/RootLayout.tsx';
+import RouteError from '@/app/RouteError.tsx';
 import {
   JourneyTab,
   LessonsTab,
@@ -30,7 +31,7 @@ const page =
     Component: (await load())[name] as ComponentType,
   });
 
-const copybook = () => import('@/app/CopybookScreen.tsx');
+const copybook = () => import('@/features/copybook/CopybookScreen.tsx');
 const journey = () => import('@/features/journey/JourneyQuizPages.tsx');
 // '/' home; '/write[/<level>]' the copybook; '/hsk/<level>' a level ('/hsk' alone opens
 // HSK 1) with the tabs Lessons, Topics and All characters;
@@ -43,6 +44,7 @@ export const router = createBrowserRouter(
   [
     {
       element: <RootLayout />,
+      errorElement: <RouteError />,
       children: [
         {
           index: true,

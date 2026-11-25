@@ -1,7 +1,7 @@
 // Every URL of the app, as plain functions with no other dependencies, so any module (even
 // the router in the entry chunk) can build links without loading data or progress code.
 import type { CourseExercise } from '@/data/courseLessons.ts';
-import type { ExerciseId } from '@/domain/exercises.ts';
+import type { ExerciseId } from '@/domain/exercises/index.ts';
 
 export const levelPath = (level: string) => `/hsk/${level}`;
 export const levelCharsPath = (level: string, mode?: 'write') =>
@@ -74,7 +74,7 @@ export const statsPath = '/stats';
 export const classesPath = '/my-classes';
 export const classPath = (lesson: number) => `${classesPath}/${lesson}`;
 
-export const translationDirections = ['zh-en', 'en-zh'] as const;
+export const translationDirections = ['zh-en', 'en-zh', 'listen-en'] as const;
 export type TranslationDirection = (typeof translationDirections)[number];
 
 export const isTranslationDirection = (
