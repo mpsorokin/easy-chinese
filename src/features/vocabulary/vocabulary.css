@@ -1,11 +1,67 @@
 .vocabulary-page {
-  gap: 14px;
+  gap: clamp(12px, 2.4vw, 18px);
   padding-block: 8px 36px;
+}
+
+.vocabulary-page .page-header {
+  display: grid;
+  gap: 12px;
+}
+
+.vocabulary-hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: clamp(116px, 19vw, 144px);
+  align-content: center;
+  gap: 5px;
+  overflow: hidden;
+  padding: clamp(16px, 3.2vw, 25px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(110deg, var(--card) 35%, var(--accent-soft));
+}
+
+.vocabulary-hero::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 0 auto;
+  width: min(58%, 380px);
+  background:
+    url('../lesson/art/exercises/calligraphy.webp') right 35% bottom / auto 88%
+      no-repeat,
+    url('../home/art/plum-blossom.webp') right -4px top -28px / 56% auto
+      no-repeat;
+  mask-image: linear-gradient(to right, transparent, #000 32%);
+  opacity: 0.85;
+  pointer-events: none;
+  content: '';
+}
+
+[data-theme='dark'] .vocabulary-hero {
+  background: linear-gradient(110deg, var(--surface-raised) 35%, #583629);
+}
+
+[data-theme='dark'] .vocabulary-hero::before {
+  filter: var(--art-filter);
+}
+
+.vocabulary-hero h1 {
+  margin: 0;
+  font-size: clamp(1.75rem, 5.8vw, 2.6rem);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.vocabulary-hero p {
+  max-inline-size: 64%;
+  font-size: clamp(0.875rem, 2.1vw, 1rem);
+  text-wrap: pretty;
 }
 
 .vocabulary-controls {
   display: grid;
-  gap: 8px;
+  gap: clamp(6px, 1.2vw, 9px);
 }
 
 .vocabulary-search {
@@ -24,20 +80,15 @@
 }
 
 .vocabulary-search input {
-  min-height: 44px;
-  padding: 5px 10px;
+  width: 100%;
+  min-height: 48px;
+  padding: 8px 12px 8px 39px;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--card);
   color: var(--ink);
   font: inherit;
-  font-size: 0.875rem;
-}
-
-.vocabulary-search input {
-  width: 100%;
-  min-height: 48px;
-  padding-inline-start: 39px;
+  font-size: 1rem;
 }
 
 .vocabulary-search input::placeholder {
@@ -62,7 +113,7 @@
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--card);
-  font-size: 0.8125rem;
+  font-size: clamp(0.75rem, 2.15vw, 0.875rem);
   font-weight: 650;
 }
 
@@ -76,24 +127,21 @@
 }
 
 .vocabulary-filter-count {
-  color: color-mix(in srgb, var(--ink) 45%, var(--filter-color));
-  font-size: 0.75rem;
+  color: color-mix(in srgb, var(--filter-color) 85%, var(--ink));
   font-variant-numeric: tabular-nums;
 }
 
 .vocabulary-result-count {
-  margin: 2px 2px 0;
+  margin: 3px 2px 0;
   color: color-mix(in srgb, var(--ink) 70%, var(--page-background));
   font-size: 0.8125rem;
 }
 
 .vocabulary-list {
+  display: grid;
+  gap: 8px;
   margin: 0;
-  padding: 0 clamp(10px, 2.8vw, 16px);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--card);
-  box-shadow: var(--shadow-card);
+  padding: 0;
   list-style: none;
 }
 
@@ -101,57 +149,117 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  padding-block: 7px;
-}
-
-.vocabulary-list li + li {
-  border-top: 1px solid var(--line);
+  gap: clamp(8px, 2vw, 16px);
+  padding: clamp(10px, 2.2vw, 16px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--card);
 }
 
 .vocabulary-entry {
   display: grid;
   min-width: 0;
-  gap: 2px;
+  grid-template-areas: 'hanzi pinyin' 'hanzi meaning' 'hanzi practice';
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  align-content: center;
+  column-gap: clamp(8px, 2.2vw, 15px);
   overflow-wrap: anywhere;
 }
 
-.vocabulary-word {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 0 8px;
-}
-
-.vocabulary-entry b {
-  font-size: 1.5rem;
+.vocabulary-hanzi {
+  display: grid;
+  min-height: clamp(52px, 10vw, 67px);
+  max-width: clamp(68px, 22vw, 160px);
+  grid-area: hanzi;
+  place-items: center;
+  padding: 5px 7px;
+  border: 1px solid color-mix(in srgb, var(--grid) 75%, var(--line));
+  border-radius: 6px;
+  background-color: var(--accent-soft);
+  font-size: clamp(1.3rem, 3.5vw, 1.65rem);
   line-height: 1.25;
+  text-align: center;
 }
 
-.vocabulary-entry [lang='zh-Latn-pinyin'] {
+.vocabulary-hanzi[data-single] {
+  --guide: color-mix(in srgb, var(--grid) 42%, transparent);
+  width: clamp(52px, 10vw, 67px);
+  aspect-ratio: 1;
+  background-image:
+    linear-gradient(var(--guide), var(--guide)),
+    linear-gradient(var(--guide), var(--guide)),
+    linear-gradient(
+      45deg,
+      transparent calc(50% - 0.5px),
+      var(--guide) 50%,
+      transparent calc(50% + 0.5px)
+    ),
+    linear-gradient(
+      -45deg,
+      transparent calc(50% - 0.5px),
+      var(--guide) 50%,
+      transparent calc(50% + 0.5px)
+    );
+  background-position: center;
+  background-size:
+    1px 100%,
+    100% 1px,
+    100% 100%,
+    100% 100%;
+  background-repeat: no-repeat;
+  font-size: clamp(1.9rem, 5.4vw, 2.65rem);
+}
+
+.vocabulary-pinyin {
+  grid-area: pinyin;
   color: var(--accent-strong);
   font-size: 0.875rem;
+  font-weight: 650;
 }
 
 .vocabulary-meaning {
+  grid-area: meaning;
   font-size: 0.875rem;
   line-height: 1.4;
 }
 
-.vocabulary-list .word-status-control {
-  width: 104px;
+.vocabulary-status {
+  position: relative;
   flex: none;
+  color: color-mix(in srgb, var(--ink) 60%, var(--word-mark));
+}
+
+.vocabulary-status .word-status-control {
+  display: block;
+  width: clamp(94px, 15vw, 111px);
+  padding-inline: 10px 24px;
   border: 1px solid color-mix(in srgb, var(--word-mark) 55%, var(--line));
   border-radius: var(--radius-pill);
   background: color-mix(in srgb, var(--word-mark) 11%, var(--card));
-  color: color-mix(in srgb, var(--ink) 60%, var(--word-mark));
+  color: inherit;
   font-size: 0.8125rem;
   font-weight: 650;
+  appearance: none;
 }
 
-.vocabulary-list .word-status-control option {
+.vocabulary-status .word-status-control:hover {
+  border-color: var(--word-mark);
+}
+
+.vocabulary-status .word-status-control option {
   background: var(--card);
   color: var(--ink);
+}
+
+.vocabulary-status .write-icon {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: 8px;
+  width: 16px;
+  height: 16px;
+  transform: translateY(-50%) rotate(90deg);
+  pointer-events: none;
 }
 
 .vocabulary-empty {
@@ -191,9 +299,38 @@
 }
 
 @media (width <= 460px) {
-  .vocabulary-filters button {
+  .vocabulary-hero::before {
+    width: 55%;
+    background-position:
+      right 6px bottom 5px,
+      right -14px top -8px;
+    background-size:
+      auto 72%,
+      84% auto;
+    mask-image: linear-gradient(to right, transparent, #000 65%);
+  }
+
+  .vocabulary-filters button[data-word-status] {
     flex-direction: column;
-    gap: 1px;
+    gap: 0;
+    line-height: 1.25;
+  }
+
+  .vocabulary-practice-filters {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (width <= 360px) {
+  .vocabulary-entry:has(.vocabulary-hanzi:not([data-single])) {
+    grid-template-areas: 'hanzi' 'pinyin' 'meaning' 'practice';
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 2px;
+  }
+
+  .vocabulary-hanzi:not([data-single]) {
+    max-width: 100%;
+    justify-self: start;
   }
 }
 
@@ -203,12 +340,19 @@
 
 .vocabulary-practice {
   display: flex;
+  grid-area: practice;
   align-items: center;
   flex-wrap: wrap;
   gap: 4px 12px;
   margin-top: 2px;
   color: var(--muted);
   font-size: 0.75rem;
+}
+
+.vocabulary-writing-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .vocabulary-written[data-written] {

@@ -31,8 +31,8 @@ function PracticeBadges({ written, box }: WordPractice) {
         data-written={written ? 'true' : undefined}
         title={written ? t.wordWritten(written) : t.wordNotWritten}
       >
-        <span aria-hidden>
-          ✍{' '}
+        <span className="vocabulary-writing-mark" aria-hidden>
+          <WriteIcon name="pencil" />
           {written ? (
             <>
               {'★'.repeat(written)}
@@ -120,8 +120,10 @@ export default function VocabularyPage() {
             {t.reading}
           </Link>
         </PageToolbar>
-        <h1>{t.vocabulary}</h1>
-        <p>{t.vocabularyDescription}</p>
+        <div className="vocabulary-hero">
+          <h1>{t.vocabulary}</h1>
+          <p>{t.vocabularyDescription}</p>
+        </div>
       </header>
       <div className="vocabulary-controls">
         <div className="vocabulary-search" role="search">
@@ -218,18 +220,30 @@ export default function VocabularyPage() {
           {results.map(({ w, py, en }) => (
             <li key={w}>
               <span className="vocabulary-entry">
-                <span className="vocabulary-word">
-                  <b lang="zh-Hans">{w}</b>
-                  <span lang="zh-Latn-pinyin">{py}</span>
+                <b
+                  className="vocabulary-hanzi"
+                  lang="zh-Hans"
+                  data-single={[...w].length === 1 ? '' : undefined}
+                >
+                  {w}
+                </b>
+                <span className="vocabulary-pinyin" lang="zh-Latn-pinyin">
+                  {py}
                 </span>
                 <span className="vocabulary-meaning">{en}</span>
                 <PracticeBadges {...wordPractice(progress, w)} />
               </span>
-              <WordStatusControl
-                word={w}
-                status={statuses[w]}
-                beforeChange={moveFocusBeforeRemovingWord}
-              />
+              <span
+                className="vocabulary-status"
+                data-word-status={statuses[w] ?? 'new'}
+              >
+                <WordStatusControl
+                  word={w}
+                  status={statuses[w]}
+                  beforeChange={moveFocusBeforeRemovingWord}
+                />
+                <WriteIcon name="chevron" />
+              </span>
             </li>
           ))}
         </ul>

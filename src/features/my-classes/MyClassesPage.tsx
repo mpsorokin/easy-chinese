@@ -7,6 +7,7 @@ import family from '@/features/lesson/art/level/family.webp';
 import greetings from '@/features/lesson/art/level/introductions.webp';
 import hills from '@/features/lesson/art/level/hills.webp';
 import grammar from '@/features/lesson/art/level/function-words.webp';
+import people from '@/features/lesson/art/level/people.webp';
 import speaking from '@/features/lesson/art/level/speaking.webp';
 import writing from '@/features/lesson/art/exercises/calligraphy.webp';
 import {
@@ -34,6 +35,7 @@ import '@/features/my-classes/myClasses.css';
 const covers = new Map([
   [1, greetings],
   [2, family],
+  [3, people],
 ]);
 const sectionArt: Partial<Record<SectionKind, string>> = {
   grammar,
